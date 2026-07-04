@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SM SMP — Where Progress Is Earned, Not Bought</title>
+  <meta name="description" content="Spear Mace SMP — a brand-new Minecraft server where ranks are earned through gameplay. Play. Grind. Dominate.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://mc-heads.net data:; connect-src 'self' https://mc-heads.net; base-uri 'self'; form-action 'self';">
+  <meta name="theme-color" content="#6d28d9">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="SM SMP — Where Progress Is Earned, Not Bought">
+  <meta property="og:description" content="Spear Mace SMP — earn ranks through gameplay. Play. Grind. Dominate.">
+  <meta property="og:image" content="assets/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="assets/favicon.ico" sizes="32x32">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="assets/og-image.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Russo+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <div id="page-shell">
+    <header class="hero">
+      <div class="hero-bg" aria-hidden="true">
+        <div class="hero-bg-glow"></div>
+        <div class="hero-bg-fade"></div>
+      </div>
+
+      <nav class="top-nav">
+        <button type="button" class="nav-link active" data-view="home">Homepage</button>
+        <button type="button" class="nav-link" data-view="store">Store</button>
+        <button type="button" class="nav-link soon-trigger" data-soon="Staff">Staff</button>
+        <a href="https://discord.gg/93D5Jt8jEr" class="nav-link" target="_blank" rel="noopener noreferrer">Support</a>
+      </nav>
+
+      <div class="hero-stage">
+        <button type="button" class="info-card soon-trigger" data-soon="Server IP">
+          <span class="card-badge badge-soon">Soon</span>
+          <div class="card-body">
+            <strong>Coming Soon</strong>
+            <span>Click to Copy</span>
+          </div>
+          <span class="card-icon">🎮</span>
+        </button>
+
+        <div class="hero-brand">
+          <div class="hero-brand-ring" aria-hidden="true"></div>
+          <img src="assets/spearmace.webp" alt="" class="hero-emblem" aria-hidden="true">
+          <img src="assets/logo.webp" alt="SM SMP — Spear Mace" class="hero-logo-img">
+          <p class="hero-tagline">Play. Grind. Dominate.</p>
+        </div>
+
+        <a href="https://discord.gg/qUWUjSndMW" class="info-card discord-card" target="_blank" rel="noopener noreferrer">
+          <span class="card-badge badge-live">Join Us</span>
+          <div class="card-body">
+            <strong>Discord</strong>
+            <span>Click to join</span>
+          </div>
+          <span class="card-icon">💬</span>
+        </a>
+      </div>
+    </header>
+
+    <div class="store-bar">
+      <div class="store-bar-left">
+        <img src="assets/store.webp" alt="" class="store-icon">
+        <div>
+          <strong>SM SMP Store</strong>
+          <span class="store-promo">Earn ranks free — paid ranks are optional shortcuts</span>
+        </div>
+      </div>
+
+      <div class="store-bar-right">
+        <button type="button" class="cart-toggle" id="cart-toggle" aria-label="Open cart" aria-expanded="false" aria-controls="cart-panel">
+          <span class="cart-icon">🛒</span>
+          <span class="cart-count" id="cart-count">0</span>
+        </button>
+
+        <div class="login-area" id="login-area">
+          <img src="https://mc-heads.net/avatar/Steve/32" alt="" class="skin-head" id="skin-preview">
+          <div class="login-text">
+            <strong id="welcome-label">Welcome</strong>
+            <span id="welcome-sub">Please log in</span>
+          </div>
+          <button type="button" class="btn btn-primary btn-sm" id="login-open" aria-haspopup="dialog">Login</button>
+        </div>
+      </div>
+    </div>
+
+    <main>
+      <section id="view-home" class="view active">
+        <div class="container">
+          <div class="home-hero-copy">
+            <h1>SM SMP — Where Progress Is Earned, Not Bought.</h1>
+            <p class="lead">
+              A brand-new Spear Mace server where ranks are earned free through grinding money and kills.
+              No wallet required to reach the top — paid ranks are optional shortcuts, not a requirement.
+            </p>
+          </div>
+
+          <div class="server-stats" aria-label="Server info">
+            <div class="stat">
+              <span class="stat-label">IP</span>
+              <span class="stat-value">Coming Soon</span>
+            </div>
+            <span class="stat-sep" aria-hidden="true"></span>
+            <div class="stat">
+              <span class="stat-label">Version</span>
+              <span class="stat-value">1.21.11+</span>
+            </div>
+            <span class="stat-sep" aria-hidden="true"></span>
+            <div class="stat">
+              <span class="stat-label">Players Online</span>
+              <span class="stat-value soon-text">Soon</span>
+            </div>
+          </div>
+
+          <div class="advancement-list" id="feature-grid"></div>
+
+          <div class="home-pitch">
+            <div class="rank-teaser">
+              <img src="assets/paidranks.webp" alt="" class="rank-teaser-art">
+              <div class="rank-teaser-copy">
+                <h3>Sentinel → Immortal</h3>
+                <p>Five paid rank tiers, each stacking more homes, auction slots, commands, and streak rewards. Paid ranks are shortcuts — not a requirement.</p>
+              </div>
+              <button type="button" class="btn btn-outline rank-teaser-btn" data-view="store">Browse Ranks</button>
+            </div>
+
+            <blockquote class="manifesto">
+              <p class="manifesto-lead">Progress is earned — not bought.</p>
+              <p class="manifesto-body">Grind money and kills to climb the ladder for free. Build your fortune in a player-driven economy. Drop into The Pit and prove you belong. Paid ranks exist if you want a shortcut — they never gate the top.</p>
+            </blockquote>
+          </div>
+
+          <div class="cta-block">
+            <p class="cta-eyebrow">Pre-launch</p>
+            <h2>Play. Grind. Dominate.</h2>
+            <p>The server isn't live yet — join Discord for launch updates, early info, and community access.</p>
+            <div class="cta-actions">
+              <a href="https://discord.gg/qUWUjSndMW" class="btn btn-primary btn-lg discord-link" target="_blank" rel="noopener noreferrer">Join Discord</a>
+              <button type="button" class="btn btn-outline btn-lg" data-view="store">View Store</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-store" class="view">
+        <div class="container store-layout">
+          <aside class="store-sidebar">
+            <nav class="sidebar-nav">
+              <button type="button" class="sidebar-item" data-view="home">
+                <span class="sidebar-icon home-icon">🏠</span>
+                <span>Home</span>
+              </button>
+              <button type="button" class="sidebar-item active" data-store-section="ranks">
+                <img src="assets/paidranks.webp" alt="" class="sidebar-icon-img">
+                <span>Ranks</span>
+              </button>
+              <button type="button" class="sidebar-item placeholder-trigger" data-placeholder="Keys">
+                <span class="sidebar-icon">🔑</span>
+                <span>Keys</span>
+                <span class="placeholder-badge">{Placeholder}</span>
+              </button>
+              <button type="button" class="sidebar-item placeholder-trigger" data-placeholder="Bundles">
+                <span class="sidebar-icon">📦</span>
+                <span>Bundles</span>
+                <span class="placeholder-badge">{Placeholder}</span>
+              </button>
+            </nav>
+
+            <div class="sidebar-panel soon-panel">
+              <span class="panel-tag">Recent Payments</span>
+              <p class="soon-label">Soon</p>
+            </div>
+          </aside>
+
+          <div class="store-main">
+            <p class="store-intro">Here you can buy all the ranks for SM SMP. Each tier stacks more perks — value increases with every rank.</p>
+
+            <div class="rank-cards" id="rank-cards"></div>
+
+            <div class="table-section">
+              <div class="table-tabs" role="tablist" aria-label="Rank details">
+                <button type="button" class="table-tab active" role="tab" aria-selected="true" aria-controls="table-overview" id="tab-overview" data-table-tab="overview">Overview</button>
+                <button type="button" class="table-tab" role="tab" aria-selected="false" aria-controls="table-commands" id="tab-commands" data-table-tab="commands">Commands</button>
+              </div>
+
+              <div class="table-panel active" id="table-overview" role="tabpanel" aria-labelledby="tab-overview">
+                <div class="table-scroll">
+                  <table class="comparison-table" id="comparison-table">
+                    <thead></thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="table-panel" id="table-commands" role="tabpanel" aria-labelledby="tab-commands" hidden>
+                <div class="table-scroll">
+                  <table class="comparison-table kit-table" id="kit-table">
+                    <thead></thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="footer-brand">
+          <img src="assets/logo.webp" alt="SM SMP">
+          <p class="footer-tagline">Where Progress Is Earned, Not Bought.</p>
+        </div>
+
+        <div class="footer-center">
+          <p class="footer-disclaimer">WE DO NOT HAVE AFFILIATION WITH ANY REAL WORLD BRANDS.</p>
+          <p class="footer-copy">&copy; 2026 SM SMP. All Rights Reserved.</p>
+        </div>
+
+        <div class="footer-social">
+          <a href="https://discord.gg/qUWUjSndMW" class="social-btn discord-link" target="_blank" rel="noopener noreferrer" aria-label="Discord">💬</a>
+          <a href="https://www.youtube.com/@SpearMaceSMP" class="social-btn" target="_blank" rel="noopener noreferrer" aria-label="YouTube">▶</a>
+          <button type="button" class="social-btn soon-trigger" data-soon="TikTok" aria-label="TikTok">♪</button>
+        </div>
+      </div>
+
+      <div class="footer-legal">
+        <p>This is a pre-launch demo store — checkout is not live yet.</p>
+        <div class="legal-links">
+          <button type="button" class="soon-trigger" data-soon="Terms">Terms &amp; Conditions</button>
+          <button type="button" class="soon-trigger" data-soon="Privacy">Privacy Policy</button>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <div class="login-modal hidden" id="login-modal" role="dialog" aria-modal="true" aria-labelledby="login-title">
+    <div class="login-modal-backdrop" id="login-backdrop"></div>
+    <div class="login-panel">
+      <button type="button" class="modal-close" id="login-close" aria-label="Close">&times;</button>
+      <h2 id="login-title">Welcome</h2>
+      <p>Please log in to continue</p>
+      <form id="login-form" novalidate>
+        <div class="input-group" id="username-group">
+          <img src="https://mc-heads.net/avatar/Steve/32" alt="" class="skin-head" id="login-skin-preview">
+          <input type="text" id="username-input" placeholder="Steve.." maxlength="16" autocomplete="username" aria-describedby="username-error">
+        </div>
+        <p class="field-error hidden" id="username-error" role="alert">Enter a valid Minecraft username (3–16 letters, numbers, or underscores).</p>
+        <div class="bedrock-row">
+          <span>Are you a Bedrock user?</span>
+          <label class="toggle">
+            <input type="checkbox" id="bedrock-toggle">
+            <span class="toggle-slider"></span>
+          </label>
+          <span class="edition-label" id="edition-label">Java Edition</span>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <aside class="cart-panel hidden" id="cart-panel" aria-label="Shopping cart" aria-modal="true" role="dialog">
+    <div class="cart-header">
+      <h3>Your Cart</h3>
+      <button type="button" class="modal-close" id="cart-close" aria-label="Close">&times;</button>
+    </div>
+    <ul class="cart-items" id="cart-items"></ul>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <span>Total</span>
+        <strong id="cart-total">$0.00</strong>
+      </div>
+      <button type="button" class="btn btn-primary btn-block soon-trigger" data-soon="Checkout">Proceed to Purchase</button>
+    </div>
+  </aside>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
