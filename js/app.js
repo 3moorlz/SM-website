@@ -1,22 +1,26 @@
-// Login and checkout are cosmetic; cart lives in memory until page refresh.
-
 (function () {
   'use strict';
 
   const state = {
     view: 'home',
+    storeCategory: 'ranks',
     cart: [],
     user: null,
     bedrock: false,
     activeTableTab: 'overview',
+    pendingPurchase: null,
   };
 
   let lastFocus = null;
   let openOverlay = null;
-  let skinPreviewTimer = null;
 
   const $ = (sel) => document.querySelector(sel);
   const $$ = (sel) => document.querySelectorAll(sel);
+  const DEFAULT_STEVE_HEAD = 'https://mc-heads.net/avatar/MHF_Steve/32';
+
+  function getRank(id) {
+    return RANKS.find((r) => r.id === id);
+  }
 
   function formatPrice(amount) {
     return '$' + amount.toFixed(2);
@@ -43,14 +47,41 @@
     showToast(feature + ' — Coming Soon');
   }
 
-  function switchView(view) {
+  function setNavActive(view) {
+    $$('.top-nav .nav-link[data-view], .mobile-nav .nav-link[data-view]').forEach((link) => {
+      const isStore = view === 'store' && link.dataset.view === 'store';
+      link.classList.toggle('active', link.dataset.view === view || isStore);
+    });
+  }
+
+  function switchView(view, storeCat) {
     state.view = view;
     $$('.view').forEach((el) => el.classList.remove('active'));
-    $('#view-' + view).classList.add('active');
-    $$('.top-nav .nav-link[data-view]').forEach((link) => {
-      link.classList.toggle('active', link.dataset.view === view);
-    });
+    const panel = $('#view-' + view);
+    if (panel) panel.classList.add('active');
+    setNavActive(view);
+    if (view === 'store') {
+      switchStoreCategory(storeCat || state.storeCategory || 'ranks');
+    }
+    $('#mobile-nav').classList.add('hidden');
+    $('#nav-hamburger').setAttribute('aria-expanded', 'false');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function switchStoreCategory(cat) {
+    state.storeCategory = cat;
+    if (cat === 'bundles') showPlaceholder('Bundles');
+    $$('.wheel-item').forEach((btn) => {
+      btn.classList.toggle('active', btn.dataset.storeCat === cat);
+    });
+    $('#store-ranks').hidden = cat !== 'ranks';
+    $('#store-ranks').classList.toggle('active', cat === 'ranks');
+    $('#store-keys').hidden = cat !== 'keys';
+    $('#store-keys').classList.toggle('active', cat === 'keys');
+    $('#store-bundles').hidden = cat !== 'bundles';
+    $('#store-bundles').classList.toggle('active', cat === 'bundles');
+    const activeWheel = $('.wheel-item.active');
+    if (activeWheel) activeWheel.scrollIntoView({ block: 'center', behavior: 'smooth' });
   }
 
   function getFocusable(container) {
@@ -84,16 +115,12 @@
     $('#page-shell').removeAttribute('aria-hidden');
     document.body.classList.remove('scroll-lock');
     openOverlay = null;
-    if (lastFocus && typeof lastFocus.focus === 'function') {
-      lastFocus.focus();
-    }
+    if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
     lastFocus = null;
   }
 
   function openOverlayPanel(id, panel, triggerEl) {
-    if (openOverlay && openOverlay !== id) {
-      closeOverlay(openOverlay);
-    }
+    if (openOverlay && openOverlay !== id) closeOverlay(openOverlay);
     panel.classList.remove('hidden');
     lockPage(triggerEl);
     openOverlay = id;
@@ -108,6 +135,11 @@
     } else if (id === 'cart') {
       $('#cart-panel').classList.add('hidden');
       $('#cart-toggle').setAttribute('aria-expanded', 'false');
+    } else if (id === 'perks') {
+      $('#perks-modal').classList.add('hidden');
+    } else if (id === 'confirm') {
+      $('#confirm-modal').classList.add('hidden');
+      state.pendingPurchase = null;
     }
     if (openOverlay === id) unlockPage();
   }
@@ -119,9 +151,7 @@
           '<span class="mc-slot" aria-hidden="true"><span class="mc-slot-icon">' + f.icon + '</span></span>' +
           '<span class="advancement-title">' + f.title + '</span>' +
         '</button>' +
-        '<div class="advancement-detail" id="adv-' + i + '">' +
-          '<p>' + f.text + '</p>' +
-        '</div>' +
+        '<div class="advancement-detail" id="adv-' + i + '"><p>' + f.text + '</p></div>' +
       '</div>'
     ).join('');
   }
@@ -132,17 +162,38 @@
     btn.closest('.advancement-item').classList.toggle('is-open', !open);
   }
 
+  function rankPricingHtml(rank) {
+    let html = '<div class="rank-pricing">';
+    html +=
+      '<div class="rank-price">' + formatPrice(rank.lifetimePrice) +
+        ' <span class="rank-price-tier">Lifetime</span>' +
+      '</div>';
+    if (rank.monthlyPrice) {
+      html +=
+        '<div class="rank-price rank-price-monthly">' + formatPrice(rank.monthlyPrice) +
+          ' <span class="rank-price-tier">Monthly</span>' +
+          (rank.bestDeal ? ' <span class="rank-best-deal">Best Deal</span>' : '') +
+        '</div>';
+      if (rank.monthlyNote) {
+        html += '<p class="rank-price-note">' + rank.monthlyNote + '</p>';
+      }
+    }
+    html += '</div>';
+    return html;
+  }
+
   function renderRankCards() {
-    $('#rank-cards').innerHTML = RANKS.map((rank) => {
-      const inCart = state.cart.some((item) => item.id === rank.id);
+    $('#rank-cards').innerHTML = RANKS.map(function (rank) {
+      const inCart = state.cart.some(function (item) { return item.id === rank.id; });
       const featured = rank.id === 'immortal';
       return (
         '<article class="rank-card' + (featured ? ' rank-featured' : '') + '" style="--rank-accent:' + rank.accent + ';--rank-glow:' + rank.accentGlow + '">' +
           (featured ? '<span class="rank-tier-badge">Top Tier</span>' : '') +
-          '<img src="' + rank.badge + '" alt="' + rank.name + ' rank badge" class="rank-badge">' +
-          '<h3>' + rank.name + '</h3>' +
-          '<div class="rank-price">' + formatPrice(rank.price) + '</div>' +
-          '<ul class="rank-perks">' + rank.perks.map((p) => '<li>' + p + '</li>').join('') + '</ul>' +
+          '<div class="rank-card-header">' +
+            '<img src="' + rank.badge + '" alt="' + rank.name + ' rank badge" class="rank-badge">' +
+            '<h3>' + rank.name + '</h3>' +
+            rankPricingHtml(rank) +
+          '</div>' +
           '<button type="button" class="add-cart-btn' + (inCart ? ' in-cart' : '') + '" data-rank-id="' + rank.id + '">' +
             (inCart ? '✓ In Cart' : '🛒 Add to Cart') +
           '</button>' +
@@ -151,62 +202,115 @@
     }).join('');
   }
 
+  function renderKeys() {
+    let html = '';
+    for (let i = 1; i <= CRATE_SLOTS; i++) {
+      html +=
+        '<article class="key-card">' +
+          '<img src="assets/key.webp" alt="" class="key-card-icon">' +
+          '<h3>{Placeholder}</h3>' +
+          '<p class="key-card-slot">Crate ' + i + '</p>' +
+        '</article>';
+    }
+    $('#keys-grid').innerHTML = html;
+  }
+
   function renderComparisonTable() {
     const table = $('#comparison-table');
     table.querySelector('thead').innerHTML =
-      '<tr><th>Feature</th>' + RANKS.map((r, i) =>
-        '<th class="' + (i === RANKS.length - 1 ? 'col-immortal' : '') + '">' + r.name + '</th>'
-      ).join('') + '</tr>';
+      '<tr><th>Feature</th>' + RANKS.map(function (r, i) {
+        return '<th class="' + (i === RANKS.length - 1 ? 'col-immortal' : '') + '">' + r.name + '</th>';
+      }).join('') + '</tr>';
 
-    table.querySelector('tbody').innerHTML = COMPARISON_ROWS.map((row) =>
-      '<tr><td>' + row.label + '</td>' + row.values.map((val, i) =>
-        '<td class="' + (i === RANKS.length - 1 ? 'col-immortal' : '') + '">' + val + '</td>'
-      ).join('') + '</tr>'
-    ).join('');
+    table.querySelector('tbody').innerHTML = COMPARISON_ROWS.map(function (row) {
+      return '<tr><td>' + row.label + '</td>' + row.values.map(function (val, i) {
+        return '<td class="' + (i === RANKS.length - 1 ? 'col-immortal' : '') + '">' + val + '</td>';
+      }).join('') + '</tr>';
+    }).join('');
   }
 
   function renderKitTable() {
     const table = $('#kit-table');
     table.querySelector('thead').innerHTML =
-      '<tr><th>Command / Feature</th>' + RANKS.map((r, i) =>
-        '<th class="' + (i === RANKS.length - 1 ? 'col-immortal' : '') + '">' + r.name + '</th>'
-      ).join('') + '</tr>';
+      '<tr><th>Command / Feature</th>' + RANKS.map(function (r, i) {
+        return '<th class="' + (i === RANKS.length - 1 ? 'col-immortal' : '') + '">' + r.name + '</th>';
+      }).join('') + '</tr>';
 
-    table.querySelector('tbody').innerHTML = KIT_PERKS.map((row) =>
-      '<tr><td>' + row.label + '</td>' + row.values.map((val, i) =>
-        '<td class="' + (i === RANKS.length - 1 ? 'col-immortal' : '') + '">' +
+    table.querySelector('tbody').innerHTML = KIT_PERKS.map(function (row) {
+      return '<tr><td>' + row.label + '</td>' + row.values.map(function (val, i) {
+        return '<td class="' + (i === RANKS.length - 1 ? 'col-immortal' : '') + '">' +
           '<span class="' + (val ? 'check-yes' : 'check-no') + '">' + (val ? '✓' : '—') + '</span>' +
-        '</td>'
-      ).join('') + '</tr>'
-    ).join('');
+        '</td>';
+      }).join('') + '</tr>';
+    }).join('');
   }
 
-  function switchTableTab(tab) {
-    state.activeTableTab = tab;
-    $$('.table-tab').forEach((btn) => {
-      const active = btn.dataset.tableTab === tab;
-      btn.classList.toggle('active', active);
-      btn.setAttribute('aria-selected', active ? 'true' : 'false');
+  function openConfirmModal(rankId) {
+    const rank = getRank(rankId);
+    if (!rank) return;
+    const defaultTier = rank.monthlyPrice ? 'monthly' : 'lifetime';
+    const defaultPrice = defaultTier === 'monthly' ? rank.monthlyPrice : rank.lifetimePrice;
+    const defaultLabel = defaultTier === 'monthly' ? 'Monthly' : 'Lifetime';
+    state.pendingPurchase = {
+      id: rank.id,
+      name: rank.name,
+      price: defaultPrice,
+      tier: defaultTier,
+      label: rank.name + ' (' + defaultLabel + ')',
+    };
+
+    let tierPicker = '';
+    if (rank.monthlyPrice) {
+      tierPicker =
+        '<div class="tier-picker" role="group" aria-label="Choose purchase type">' +
+          '<button type="button" class="tier-option" data-tier="lifetime">' +
+            'Lifetime · ' + formatPrice(rank.lifetimePrice) +
+          '</button>' +
+          '<button type="button" class="tier-option active" data-tier="monthly">' +
+            'Monthly · ' + formatPrice(rank.monthlyPrice) +
+            (rank.bestDeal ? ' · Best Deal' : '') +
+          '</button>' +
+          (rank.monthlyNote ? '<p class="tier-note">' + rank.monthlyNote + '</p>' : '') +
+        '</div>';
+    }
+
+    $('#confirm-modal-content').innerHTML =
+      '<div class="embed-header" style="border-left-color:' + rank.accent + '">' +
+        '<img src="' + rank.badge + '" alt=""><div><h3>' + rank.name + '</h3>' +
+        '<p class="confirm-tier-label">' + defaultLabel + ' · ' + formatPrice(defaultPrice) + '</p></div>' +
+      '</div>' +
+      tierPicker +
+      '<ul class="embed-perk-list">' + rank.perks.map(function (p) { return '<li>' + p + '</li>'; }).join('') + '</ul>';
+    openOverlayPanel('confirm', $('#confirm-modal'));
+  }
+
+  function setConfirmTier(tierBtn) {
+    const rank = getRank(state.pendingPurchase && state.pendingPurchase.id);
+    if (!rank) return;
+    const tier = tierBtn.dataset.tier;
+    const price = tier === 'monthly' ? rank.monthlyPrice : rank.lifetimePrice;
+    const tierLabel = tier === 'monthly' ? 'Monthly' : 'Lifetime';
+    state.pendingPurchase.price = price;
+    state.pendingPurchase.tier = tier;
+    state.pendingPurchase.label = rank.name + ' (' + tierLabel + ')';
+    $$('.tier-option').forEach(function (btn) {
+      btn.classList.toggle('active', btn.dataset.tier === tier);
     });
-    $('#table-overview').classList.toggle('active', tab === 'overview');
-    $('#table-overview').hidden = tab !== 'overview';
-    $('#table-commands').classList.toggle('active', tab === 'commands');
-    $('#table-commands').hidden = tab !== 'commands';
+    const label = $('.confirm-tier-label');
+    if (label) label.textContent = tierLabel + ' · ' + formatPrice(price);
   }
 
   function updateCartUI() {
-    const count = state.cart.length;
-    $('#cart-count').textContent = count;
+    $('#cart-count').textContent = state.cart.length;
     $('#cart-total').textContent = formatPrice(state.cart.reduce((sum, item) => sum + item.price, 0));
-
     const list = $('#cart-items');
-    if (count === 0) {
+    if (state.cart.length === 0) {
       list.innerHTML = '<li class="cart-empty">Your cart is empty</li>';
     } else {
       list.innerHTML = state.cart.map((item, index) =>
         '<li class="cart-item">' +
-          '<div class="cart-item-info"><strong>' + item.name + '</strong><span>' + formatPrice(item.price) + '</span></div>' +
-          '<button type="button" class="cart-remove" data-index="' + index + '" aria-label="Remove ' + item.name + '">&times;</button>' +
+          '<div class="cart-item-info"><strong>' + item.label + '</strong><span>' + formatPrice(item.price) + '</span></div>' +
+          '<button type="button" class="cart-remove" data-index="' + index + '" aria-label="Remove">&times;</button>' +
         '</li>'
       ).join('');
     }
@@ -214,14 +318,20 @@
   }
 
   function addToCart(rankId) {
-    const rank = RANKS.find((r) => r.id === rankId);
-    if (!rank) return;
-    if (state.cart.some((item) => item.id === rankId)) {
-      showToast(rank.name + ' is already in your cart.', 'success');
+    openConfirmModal(rankId);
+  }
+
+  function addPendingToCart() {
+    const item = state.pendingPurchase;
+    if (!item) return;
+    const key = item.id + '-' + item.tier;
+    if (state.cart.some((c) => c.key === key)) {
+      showToast(item.label + ' is already in your cart.', 'success');
     } else {
-      state.cart.push({ id: rank.id, name: rank.name, price: rank.price });
-      showToast(rank.name + ' added to cart!', 'success');
+      state.cart.push({ key: key, id: item.id, name: item.name, price: item.price, tier: item.tier, label: item.label });
+      showToast(item.label + ' added to cart!', 'success');
     }
+    closeOverlay('confirm');
     updateCartUI();
     openCart($('#cart-toggle'));
   }
@@ -242,6 +352,7 @@
 
   function openLogin(triggerEl) {
     openOverlayPanel('login', $('#login-modal'), triggerEl);
+    updateLoginSkinPreview($('#username-input').value);
   }
 
   function closeLogin() {
@@ -258,31 +369,20 @@
     $('#username-group').classList.add('input-invalid');
   }
 
-  function validateUsername(raw) {
-    return MC_USERNAME_RE.test(raw.trim());
-  }
-
-  function updateSkinPreview(username) {
-    const name = username.trim();
-    if (!name || !MC_USERNAME_RE.test(name)) {
-      $('#login-skin-preview').src = 'https://mc-heads.net/avatar/Steve/32';
+  function updateLoginSkinPreview(raw) {
+    const preview = $('#login-skin-preview');
+    if (!preview) return;
+    const name = raw.trim();
+    if (!name || !/^[A-Za-z0-9_]+$/.test(name)) {
+      preview.src = DEFAULT_STEVE_HEAD;
       return;
     }
-    $('#login-skin-preview').src = 'https://mc-heads.net/avatar/' + encodeURIComponent(name) + '/32';
-  }
-
-  function debouncedSkinPreview(username) {
-    clearTimeout(skinPreviewTimer);
-    skinPreviewTimer = setTimeout(() => updateSkinPreview(username), 280);
+    preview.src = 'https://mc-heads.net/avatar/' + encodeURIComponent(name) + '/32';
   }
 
   function handleLogin(username) {
     const name = username.trim();
-    if (!name) {
-      showUsernameError();
-      return;
-    }
-    if (!validateUsername(name)) {
+    if (!name || !MC_USERNAME_RE.test(name)) {
       showUsernameError();
       return;
     }
@@ -291,14 +391,11 @@
     const skinUrl = 'https://mc-heads.net/avatar/' + encodeURIComponent(name) + '/32';
     const img = new Image();
     img.onload = () => applyLogin(name, skinUrl);
-    img.onerror = () => applyLogin(name, 'https://mc-heads.net/avatar/Steve/32');
+    img.onerror = () => applyLogin(name, DEFAULT_STEVE_HEAD);
     img.src = skinUrl;
   }
 
   function applyLogin(name, skinUrl) {
-    $('#skin-preview').src = skinUrl;
-    $('#welcome-label').textContent = 'Welcome, ' + name;
-    $('#welcome-sub').textContent = state.bedrock ? 'Bedrock Edition' : 'Java Edition';
     closeLogin();
     showToast('Welcome, ' + name + '!', 'success');
   }
@@ -313,31 +410,53 @@
 
       const viewBtn = e.target.closest('[data-view]');
       if (viewBtn && viewBtn.dataset.view) {
-        switchView(viewBtn.dataset.view);
+        const cat = viewBtn.dataset.storeCat;
+        switchView(viewBtn.dataset.view, cat);
         return;
       }
 
-      const tableTab = e.target.closest('[data-table-tab]');
-      if (tableTab) {
-        switchTableTab(tableTab.dataset.tableTab);
-        return;
-      }
-
-      const placeholderBtn = e.target.closest('.placeholder-trigger');
-      if (placeholderBtn) {
-        showPlaceholder(placeholderBtn.dataset.placeholder || 'This section');
-        return;
-      }
-
-      const soonBtn = e.target.closest('.soon-trigger');
-      if (soonBtn) {
-        showSoon(soonBtn.dataset.soon || 'This feature');
+      const wheelItem = e.target.closest('.wheel-item');
+      if (wheelItem) {
+        switchStoreCategory(wheelItem.dataset.storeCat);
         return;
       }
 
       const addBtn = e.target.closest('.add-cart-btn');
       if (addBtn) {
         addToCart(addBtn.dataset.rankId);
+        return;
+      }
+
+      const tierBtn = e.target.closest('.tier-option');
+      if (tierBtn) {
+        setConfirmTier(tierBtn);
+        return;
+      }
+
+      const closeModal = e.target.closest('[data-close-modal]');
+      if (closeModal) {
+        const id = closeModal.dataset.closeModal;
+        if (id === 'perks-modal') closeOverlay('perks');
+        if (id === 'confirm-modal') closeOverlay('confirm');
+        return;
+      }
+
+      if (e.target.closest('#confirm-add-cart')) {
+        addPendingToCart();
+        return;
+      }
+
+      if (e.target.closest('#ip-copy-btn')) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(IP_PLACEHOLDER).catch(function () {});
+        }
+        showToast('IP copied');
+        return;
+      }
+
+      const soonBtn = e.target.closest('.soon-trigger');
+      if (soonBtn) {
+        showSoon(soonBtn.dataset.soon || 'This feature');
         return;
       }
 
@@ -365,6 +484,14 @@
 
       if (e.target.closest('#login-close') || e.target.closest('#login-backdrop')) {
         closeLogin();
+        return;
+      }
+
+      if (e.target.closest('#nav-hamburger')) {
+        const nav = $('#mobile-nav');
+        const open = !nav.classList.contains('hidden');
+        nav.classList.toggle('hidden', open);
+        $('#nav-hamburger').setAttribute('aria-expanded', open ? 'false' : 'true');
       }
     });
 
@@ -375,7 +502,11 @@
 
     $('#username-input').addEventListener('input', (e) => {
       clearUsernameError();
-      debouncedSkinPreview(e.target.value);
+      updateLoginSkinPreview(e.target.value);
+    });
+
+    $('#login-skin-preview').addEventListener('error', function () {
+      this.src = DEFAULT_STEVE_HEAD;
     });
 
     $('#bedrock-toggle').addEventListener('change', (e) => {
@@ -386,22 +517,38 @@
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         if (openOverlay === 'login') closeLogin();
-        if (openOverlay === 'cart') closeCart();
+        else if (openOverlay === 'cart') closeCart();
+        else if (openOverlay === 'perks') closeOverlay('perks');
+        else if (openOverlay === 'confirm') closeOverlay('confirm');
         return;
       }
       if (openOverlay === 'login') trapFocus(e, $('#login-modal'));
       if (openOverlay === 'cart') trapFocus(e, $('#cart-panel'));
+      if (openOverlay === 'perks') trapFocus(e, $('#perks-modal .modal-panel'));
+      if (openOverlay === 'confirm') trapFocus(e, $('#confirm-modal .modal-panel'));
     });
   }
 
   function init() {
     renderFeatures();
     renderRankCards();
+    renderKeys();
     renderComparisonTable();
     renderKitTable();
-    switchTableTab('overview');
     updateCartUI();
     bindEvents();
+    initCategoryWheel();
+  }
+
+  function initCategoryWheel() {
+    const wheel = $('#category-wheel');
+    if (!wheel) return;
+    const items = wheel.querySelectorAll('.wheel-item');
+    items.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        btn.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      });
+    });
   }
 
   if (document.readyState === 'loading') {
