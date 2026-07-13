@@ -2194,6 +2194,13 @@ a.support-card:hover {
     text-align: center;
   }
 
+  .footer-banner-img {
+    width: 100%;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .footer-links {
     align-items: center;
   }
@@ -2232,7 +2239,10 @@ a.support-card:hover {
 
 @media (max-width: 600px) {
   .footer-banner-img {
-    width: min(300px, 85vw);
+    width: 100%;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .store-tiles-row {
