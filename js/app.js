@@ -78,11 +78,16 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  function switchStoreCategory(cat, opts) {
-    opts = opts || {};
+  function switchStoreCategory(cat) {
     state.storeCategory = cat;
     $$('.wheel-item').forEach((btn) => {
-      btn.classList.toggle('active', btn.dataset.storeCat === cat);
+      const isActive = btn.dataset.storeCat === cat;
+      btn.classList.toggle('active', isActive);
+      btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      if (isActive) {
+        const label = $('#category-toggle-label');
+        if (label) label.textContent = btn.textContent;
+      }
     });
     $('#store-ranks').hidden = cat !== 'ranks';
     $('#store-ranks').classList.toggle('active', cat === 'ranks');
@@ -90,13 +95,34 @@
     $('#store-keys').classList.toggle('active', cat === 'keys');
     $('#store-bundles').hidden = cat !== 'bundles';
     $('#store-bundles').classList.toggle('active', cat === 'bundles');
-    if (!opts.fromWheel) {
-      const activeWheel = $('.wheel-item.active');
-      if (activeWheel) activeWheel.scrollIntoView({ block: 'center', behavior: 'smooth' });
-    }
-    if (opts.vibrate && navigator.vibrate) {
-      try { navigator.vibrate(12); } catch (err) {}
-    }
+    closeCategoryDropdown();
+  }
+
+  function openCategoryDropdown() {
+    const dropdown = $('#category-dropdown');
+    const wheel = $('#category-wheel');
+    const toggle = $('#category-toggle');
+    if (!dropdown || !wheel || !toggle) return;
+    dropdown.classList.add('open');
+    wheel.hidden = false;
+    toggle.setAttribute('aria-expanded', 'true');
+  }
+
+  function closeCategoryDropdown() {
+    const dropdown = $('#category-dropdown');
+    const wheel = $('#category-wheel');
+    const toggle = $('#category-toggle');
+    if (!dropdown || !wheel || !toggle) return;
+    dropdown.classList.remove('open');
+    wheel.hidden = true;
+    toggle.setAttribute('aria-expanded', 'false');
+  }
+
+  function toggleCategoryDropdown() {
+    const wheel = $('#category-wheel');
+    if (!wheel) return;
+    if (wheel.hidden) openCategoryDropdown();
+    else closeCategoryDropdown();
   }
 
   function getFocusable(container) {
@@ -443,10 +469,20 @@
         return;
       }
 
+      const categoryToggle = e.target.closest('#category-toggle');
+      if (categoryToggle) {
+        toggleCategoryDropdown();
+        return;
+      }
+
       const wheelItem = e.target.closest('.wheel-item');
       if (wheelItem) {
         switchStoreCategory(wheelItem.dataset.storeCat);
         return;
+      }
+
+      if (!e.target.closest('#category-dropdown')) {
+        closeCategoryDropdown();
       }
 
       const addBtn = e.target.closest('.add-cart-btn');
@@ -548,6 +584,7 @@
         else if (openOverlay === 'cart') closeCart();
         else if (openOverlay === 'perks') closeOverlay('perks');
         else if (openOverlay === 'confirm') closeOverlay('confirm');
+        else closeCategoryDropdown();
         return;
       }
       if (openOverlay === 'login') trapFocus(e, $('#login-modal'));
@@ -566,62 +603,6 @@
     renderKitTable();
     updateCartUI();
     bindEvents();
-    initCategoryWheel();
-  }
-
-  function getCenteredWheelItem(wheel) {
-    const items = wheel.querySelectorAll('.wheel-item');
-    if (!items.length) return null;
-    const center = wheel.scrollTop + wheel.clientHeight / 2;
-    let closest = items[0];
-    let closestDist = Infinity;
-    items.forEach(function (btn) {
-      const mid = btn.offsetTop + btn.offsetHeight / 2;
-      const dist = Math.abs(mid - center);
-      if (dist < closestDist) {
-        closestDist = dist;
-        closest = btn;
-      }
-    });
-    return closest;
-  }
-
-  function syncWheelCategoryFromScroll(wheel, vibrate) {
-    const centered = getCenteredWheelItem(wheel);
-    if (!centered || !centered.dataset.storeCat) return;
-    if (centered.dataset.storeCat !== state.storeCategory) {
-      switchStoreCategory(centered.dataset.storeCat, { fromWheel: true, vibrate: vibrate });
-    }
-  }
-
-  function initCategoryWheel() {
-    const wheel = $('#category-wheel');
-    if (!wheel) return;
-    let wheelScrollTimer = null;
-    let wheelScrollEndTimer = null;
-
-    function onWheelScroll() {
-      clearTimeout(wheelScrollTimer);
-      wheelScrollTimer = setTimeout(function () {
-        syncWheelCategoryFromScroll(wheel, false);
-      }, 80);
-    }
-
-    function onWheelScrollEnd() {
-      clearTimeout(wheelScrollEndTimer);
-      wheelScrollEndTimer = setTimeout(function () {
-        syncWheelCategoryFromScroll(wheel, true);
-      }, 120);
-    }
-
-    wheel.addEventListener('scroll', onWheelScroll, { passive: true });
-    if ('onscrollend' in wheel) {
-      wheel.addEventListener('scrollend', function () {
-        syncWheelCategoryFromScroll(wheel, true);
-      });
-    } else {
-      wheel.addEventListener('scroll', onWheelScrollEnd, { passive: true });
-    }
   }
 
   if (document.readyState === 'loading') {

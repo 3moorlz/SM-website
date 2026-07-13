@@ -140,17 +140,25 @@
       <section id="view-store" class="view">
         <div class="container store-page">
           <aside class="store-sidebar">
-            <div class="recent-payments">
+            <div class="sidebar-col sidebar-col-categories">
+              <p class="category-label">Categories</p>
+              <div class="category-dropdown" id="category-dropdown">
+                <button type="button" class="category-toggle" id="category-toggle" aria-haspopup="listbox" aria-expanded="false" aria-controls="category-wheel">
+                  <span id="category-toggle-label">Ranks</span>
+                  <span class="category-toggle-arrow" aria-hidden="true">▾</span>
+                </button>
+                <div class="category-wheel" id="category-wheel" role="listbox" hidden>
+                  <button type="button" class="wheel-item active" data-store-cat="ranks" role="option" aria-selected="true">Ranks</button>
+                  <button type="button" class="wheel-item" data-store-cat="keys" role="option" aria-selected="false">Keys</button>
+                  <button type="button" class="wheel-item" data-store-cat="bundles" role="option" aria-selected="false">Bundles</button>
+                </div>
+              </div>
+            </div>
+            <div class="sidebar-col sidebar-col-payments">
               <p class="recent-payments-title">Recent Payments</p>
               <ul class="recent-payments-list" id="recent-payments-list">
                 <li class="recent-empty">No payments yet</li>
               </ul>
-            </div>
-            <p class="category-label">Categories</p>
-            <div class="category-wheel" id="category-wheel">
-              <button type="button" class="wheel-item active" data-store-cat="ranks">Ranks</button>
-              <button type="button" class="wheel-item" data-store-cat="keys">Keys</button>
-              <button type="button" class="wheel-item" data-store-cat="bundles">Bundles</button>
             </div>
           </aside>
 
