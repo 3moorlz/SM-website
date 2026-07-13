@@ -2228,7 +2228,7 @@ a.support-card:hover {
 
 @media (max-width: 600px) {
   .footer-banner-img {
-    width: min(140px, 55vw);
+    width: min(260px, 80vw);
   }
 
   .store-tiles-row {
