@@ -1561,11 +1561,15 @@ a.support-card:hover {
 }
 
 .footer-banner-img {
-  width: min(180px, 100%);
+  width: min(220px, 100%);
   height: auto;
   display: block;
   margin-bottom: 0.5rem;
   border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  padding: 4px;
+  box-sizing: border-box;
 }
 
 .footer-email {
@@ -2228,7 +2232,7 @@ a.support-card:hover {
 
 @media (max-width: 600px) {
   .footer-banner-img {
-    width: min(260px, 80vw);
+    width: min(300px, 85vw);
   }
 
   .store-tiles-row {
