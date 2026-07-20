@@ -392,34 +392,20 @@
     openCart($('#cart-toggle'));
   }
 
-  function buildCheckoutUrl(items) {
-    var params = [];
-    items.forEach(function (item) {
-      var rank = getRank(item.id);
-      if (rank) {
-        var pkgId = item.tier === 'monthly' ? rank.monthlyPackageId : rank.lifetimePackageId;
-        if (pkgId) {
-          params.push('packages[' + encodeURIComponent(pkgId) + ']=1');
-        }
-      }
-    });
-
-    if (state.user) {
-      params.push('username=' + encodeURIComponent(state.user));
-    }
-
-    if (params.length === 0) return null;
-
-    return 'https://spearmacesmp.craftingstore.net/checkout?' + params.join('&');
-  }
-
   function buyNowFromModal() {
     var pending = state.pendingPurchase;
     if (!pending) return;
     
-    var url = buildCheckoutUrl([pending]);
-    if (url) {
-      window.open(url, '_blank', 'noopener,noreferrer');
+    var rank = getRank(pending.id);
+    if (rank) {
+      var pkgId = pending.tier === 'monthly' ? rank.monthlyPackageId : rank.lifetimePackageId;
+      if (pkgId) {
+        var url = 'https://spearmacesmp.craftingstore.net/package/' + pkgId;
+        if (state.user) {
+          url += '?ign=' + encodeURIComponent(state.user);
+        }
+        window.open(url, '_blank', 'noopener,noreferrer');
+      }
     }
     closeOverlay('confirm');
   }
@@ -427,10 +413,10 @@
   function checkoutCart() {
     if (state.cart.length === 0) return;
     
-    var url = buildCheckoutUrl(state.cart);
-    if (url) {
-      window.open(url, '_blank', 'noopener,noreferrer');
-    }
+    var hasLifetime = state.cart.some(function (item) { return item.tier === 'lifetime'; });
+    var hasMonthly = state.cart.some(function (item) { return item.tier === 'monthly'; });
+    if (hasLifetime) window.open(CHECKOUT_LIFETIME_URL, '_blank', 'noopener,noreferrer');
+    if (hasMonthly) window.open(CHECKOUT_MONTHLY_URL, '_blank', 'noopener,noreferrer');
   }
 
   function removeFromCart(index) {
