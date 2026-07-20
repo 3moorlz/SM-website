@@ -546,6 +546,41 @@ a {
 .btn-lg { padding: 0.85rem 2rem; font-size: 1.05rem; }
 .btn-block { width: 100%; }
 
+.btn-accent {
+  background: linear-gradient(135deg, #0ea5e9, #22d3ee);
+  color: #fff;
+  border: 1px solid transparent;
+}
+
+.btn-accent:hover {
+  box-shadow: 0 0 20px rgba(14, 165, 233, 0.35);
+}
+
+.btn:disabled,
+.btn[disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn:disabled:hover,
+.btn[disabled]:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.cart-handoff-note {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+}
+
+#confirm-buy-now {
+  margin-top: 0.5rem;
+}
+
 .login-modal {
   position: fixed;
   inset: 0;

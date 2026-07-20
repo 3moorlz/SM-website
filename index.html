@@ -290,6 +290,7 @@
       <button type="button" class="modal-close" data-close-modal="confirm-modal" aria-label="Close">&times;</button>
       <div id="confirm-modal-content"></div>
       <button type="button" class="btn btn-primary btn-block" id="confirm-add-cart">Add to Cart</button>
+      <button type="button" class="btn btn-accent btn-block" id="confirm-buy-now">Buy Now ↗</button>
     </div>
   </div>
 
@@ -304,7 +305,8 @@
         <span>Total</span>
         <strong id="cart-total">$0.00</strong>
       </div>
-      <button type="button" class="btn btn-primary btn-block soon-trigger" data-soon="Checkout">Proceed to Purchase</button>
+      <p class="cart-handoff-note">You'll pick your items and pay on the SpearMace store.</p>
+      <button type="button" class="btn btn-primary btn-block" id="cart-checkout-btn" disabled>Proceed to Purchase</button>
     </div>
   </aside>
 

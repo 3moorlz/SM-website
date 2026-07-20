@@ -369,6 +369,8 @@
       ).join('');
     }
     renderRankCards();
+    var checkoutBtn = $('#cart-checkout-btn');
+    if (checkoutBtn) checkoutBtn.disabled = state.cart.length === 0;
   }
 
   function addToCart(rankId) {
@@ -388,6 +390,22 @@
     closeOverlay('confirm');
     updateCartUI();
     openCart($('#cart-toggle'));
+  }
+
+  function buyNowFromModal() {
+    var pending = state.pendingPurchase;
+    if (!pending) return;
+    var url = pending.tier === 'monthly' ? CHECKOUT_MONTHLY_URL : CHECKOUT_LIFETIME_URL;
+    window.open(url, '_blank', 'noopener,noreferrer');
+    closeOverlay('confirm');
+  }
+
+  function checkoutCart() {
+    if (state.cart.length === 0) return;
+    var hasLifetime = state.cart.some(function (item) { return item.tier === 'lifetime'; });
+    var hasMonthly = state.cart.some(function (item) { return item.tier === 'monthly'; });
+    if (hasLifetime) window.open(CHECKOUT_LIFETIME_URL, '_blank', 'noopener,noreferrer');
+    if (hasMonthly) window.open(CHECKOUT_MONTHLY_URL, '_blank', 'noopener,noreferrer');
   }
 
   function removeFromCart(index) {
@@ -507,6 +525,16 @@
 
       if (e.target.closest('#confirm-add-cart')) {
         addPendingToCart();
+        return;
+      }
+
+      if (e.target.closest('#confirm-buy-now')) {
+        buyNowFromModal();
+        return;
+      }
+
+      if (e.target.closest('#cart-checkout-btn')) {
+        checkoutCart();
         return;
       }
 
