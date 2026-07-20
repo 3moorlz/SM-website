@@ -200,6 +200,23 @@ a {
   box-shadow: var(--glow);
 }
 
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.65rem;
+}
+
+.user-profile-head {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+}
+
+.user-profile-name {
+  font-weight: 500;
+}
+
 .hero-bg {
   position: absolute;
   inset: 0;

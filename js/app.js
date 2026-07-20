@@ -392,20 +392,45 @@
     openCart($('#cart-toggle'));
   }
 
+  function buildCheckoutUrl(items) {
+    var params = [];
+    items.forEach(function (item) {
+      var rank = getRank(item.id);
+      if (rank) {
+        var pkgId = item.tier === 'monthly' ? rank.monthlyPackageId : rank.lifetimePackageId;
+        if (pkgId) {
+          params.push('packages[' + encodeURIComponent(pkgId) + ']=1');
+        }
+      }
+    });
+
+    if (state.user) {
+      params.push('username=' + encodeURIComponent(state.user));
+    }
+
+    if (params.length === 0) return null;
+
+    return 'https://spearmacesmp.craftingstore.net/checkout?' + params.join('&');
+  }
+
   function buyNowFromModal() {
     var pending = state.pendingPurchase;
     if (!pending) return;
-    var url = pending.tier === 'monthly' ? CHECKOUT_MONTHLY_URL : CHECKOUT_LIFETIME_URL;
-    window.open(url, '_blank', 'noopener,noreferrer');
+    
+    var url = buildCheckoutUrl([pending]);
+    if (url) {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
     closeOverlay('confirm');
   }
 
   function checkoutCart() {
     if (state.cart.length === 0) return;
-    var hasLifetime = state.cart.some(function (item) { return item.tier === 'lifetime'; });
-    var hasMonthly = state.cart.some(function (item) { return item.tier === 'monthly'; });
-    if (hasLifetime) window.open(CHECKOUT_LIFETIME_URL, '_blank', 'noopener,noreferrer');
-    if (hasMonthly) window.open(CHECKOUT_MONTHLY_URL, '_blank', 'noopener,noreferrer');
+    
+    var url = buildCheckoutUrl(state.cart);
+    if (url) {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
   }
 
   function removeFromCart(index) {
@@ -470,6 +495,18 @@
   function applyLogin(name, skinUrl) {
     closeLogin();
     showToast('Welcome, ' + name + '!', 'success');
+    
+    var loginBtn = $('#login-open');
+    var userProfile = $('#user-profile');
+    var userProfileHead = $('#user-profile-head');
+    var userProfileName = $('#user-profile-name');
+    
+    if (loginBtn && userProfile && userProfileHead && userProfileName) {
+      loginBtn.classList.add('hidden');
+      userProfileHead.src = skinUrl;
+      userProfileName.textContent = name;
+      userProfile.classList.remove('hidden');
+    }
   }
 
   function bindEvents() {

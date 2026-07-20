@@ -17,6 +17,8 @@ const RANKS = [
     accentGlow: 'rgba(34, 211, 238, 0.4)',
     lifetimePrice: 19.99,
     monthlyPrice: 3.99,
+    lifetimePackageId: '1569782',
+    monthlyPackageId: '1569983',
     monthlyNote: '$5.99 after first month',
     bestDeal: true,
     perks: [
@@ -47,6 +49,8 @@ const RANKS = [
     accentGlow: 'rgba(147, 51, 234, 0.35)',
     lifetimePrice: 13.99,
     monthlyPrice: 4.99,
+    lifetimePackageId: '1569779',
+    monthlyPackageId: '1569980',
     monthlyNote: null,
     bestDeal: false,
     perks: [
@@ -77,6 +81,8 @@ const RANKS = [
     accentGlow: 'rgba(240, 192, 64, 0.35)',
     lifetimePrice: 9.99,
     monthlyPrice: 3.99,
+    lifetimePackageId: '1569776',
+    monthlyPackageId: '1569977',
     monthlyNote: null,
     bestDeal: false,
     perks: [
@@ -107,6 +113,7 @@ const RANKS = [
     accentGlow: 'rgba(62, 207, 110, 0.35)',
     lifetimePrice: 5.99,
     monthlyPrice: null,
+    lifetimePackageId: '1569773',
     monthlyNote: null,
     bestDeal: false,
     perks: [
@@ -135,6 +142,7 @@ const RANKS = [
     accentGlow: 'rgba(168, 178, 192, 0.35)',
     lifetimePrice: 2.99,
     monthlyPrice: null,
+    lifetimePackageId: '1569767',
     monthlyNote: null,
     bestDeal: false,
     perks: [
