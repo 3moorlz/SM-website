@@ -400,7 +400,7 @@
     if (rank) {
       var pkgId = pending.tier === 'monthly' ? rank.monthlyPackageId : rank.lifetimePackageId;
       if (pkgId) {
-        var url = 'https://spearmacesmp.craftingstore.net/package/' + pkgId;
+        var url = 'https://store.smsmp.net/package/' + pkgId;
         if (state.user) {
           url += '?ign=' + encodeURIComponent(state.user);
         }
@@ -415,8 +415,17 @@
     
     var hasLifetime = state.cart.some(function (item) { return item.tier === 'lifetime'; });
     var hasMonthly = state.cart.some(function (item) { return item.tier === 'monthly'; });
-    if (hasLifetime) window.open(CHECKOUT_LIFETIME_URL, '_blank', 'noopener,noreferrer');
-    if (hasMonthly) window.open(CHECKOUT_MONTHLY_URL, '_blank', 'noopener,noreferrer');
+    
+    var lifetimeUrl = CHECKOUT_LIFETIME_URL;
+    var monthlyUrl = CHECKOUT_MONTHLY_URL;
+    
+    if (state.user) {
+      lifetimeUrl += '?ign=' + encodeURIComponent(state.user);
+      monthlyUrl += '?ign=' + encodeURIComponent(state.user);
+    }
+    
+    if (hasLifetime) window.open(lifetimeUrl, '_blank', 'noopener,noreferrer');
+    if (hasMonthly) window.open(monthlyUrl, '_blank', 'noopener,noreferrer');
   }
 
   function removeFromCart(index) {

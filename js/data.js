@@ -1,12 +1,12 @@
-const DISCORD_URL = 'https://discord.gg/qUWUjSndMW';
+const DISCORD_URL = 'https://discord.smsmp.net/';
 const SUPPORT_DISCORD_URL = 'https://discord.gg/93D5Jt8jEr';
 const CONTACT_EMAIL = 'SpearMaceSMP@gmail.com';
-const IP_PLACEHOLDER = '{Placeholder}';
+const IP_PLACEHOLDER = 'play.smsmp.net';
 
-const CHECKOUT_LIFETIME_URL = 'https://spearmacesmp.craftingstore.net/category/549647';
-const CHECKOUT_MONTHLY_URL = 'https://spearmacesmp.craftingstore.net/category/549710';
-const CHECKOUT_KEYS_URL_NOT_LIVE_YET = 'https://spearmacesmp.craftingstore.net/category/549929';
-const CHECKOUT_BUNDLES_URL_NOT_LIVE_YET = 'https://spearmacesmp.craftingstore.net/category/549932';
+const CHECKOUT_LIFETIME_URL = 'https://store.smsmp.net/category/549647';
+const CHECKOUT_MONTHLY_URL = 'https://store.smsmp.net/category/549710';
+const CHECKOUT_KEYS_URL_NOT_LIVE_YET = 'https://store.smsmp.net/category/549929';
+const CHECKOUT_BUNDLES_URL_NOT_LIVE_YET = 'https://store.smsmp.net/category/549932';
 
 const RANKS = [
   {
