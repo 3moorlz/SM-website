@@ -19,7 +19,20 @@
   const DEFAULT_STEVE_HEAD = 'https://mc-heads.net/avatar/MHF_Steve/32';
 
   function getRank(id) {
-    return RANKS.find((r) => r.id === id);
+    return RANKS.find(function (r) { return r.id === id; });
+  }
+
+  function getPackageId(item) {
+    var rank = getRank(item.id);
+    if (rank) return item.tier === 'monthly' ? rank.monthlyPackageId : rank.lifetimePackageId;
+    
+    var key = KEYS.find(function(k) { return k.id === item.id; });
+    if (key) return item.tier === 'pack' ? key.packId : key.singleId;
+    
+    var bundle = BUNDLES.find(function(b) { return b.id === item.id; });
+    if (bundle) return bundle.packageId;
+    
+    return null;
   }
 
   function rankColClass(rank) {
@@ -244,28 +257,33 @@
   }
 
   function renderKeys() {
-    let html = '';
-    for (let i = 1; i <= CRATE_SLOTS; i++) {
-      html +=
+    let html = KEYS.map(function(key) {
+      return (
         '<article class="key-card">' +
-          '<img src="assets/key.webp" alt="" class="key-card-icon">' +
-          '<h3>{Placeholder}</h3>' +
-          '<p class="key-card-slot">Crate ' + i + '</p>' +
-        '</article>';
-    }
+          '<img src="' + key.image + '" alt="" class="key-card-icon" onerror="this.src=\'assets/key.webp\'">' +
+          '<h3>' + key.name + '</h3>' +
+          '<div class="key-prices" style="display:flex; gap:0.5rem; margin-top:auto; flex-direction:column;">' +
+            '<button type="button" class="btn btn-primary btn-sm btn-buy-key" data-id="' + key.id + '" data-pack="single">1x - $' + key.singlePrice.toFixed(2) + '</button>' +
+            '<button type="button" class="btn btn-secondary btn-sm btn-buy-key" data-id="' + key.id + '" data-pack="pack">5x - $' + key.packPrice.toFixed(2) + ' <small>(' + key.saveText + ')</small></button>' +
+          '</div>' +
+        '</article>'
+      );
+    }).join('');
     $('#keys-grid').innerHTML = html;
   }
 
   function renderBundles() {
-    let html = '';
-    for (let i = 1; i <= BUNDLE_SLOTS; i++) {
-      html +=
+    let html = BUNDLES.map(function(bundle) {
+      return (
         '<article class="key-card">' +
-          '<img src="assets/money.webp" alt="" class="key-card-icon">' +
-          '<h3>{Placeholder}</h3>' +
-          '<p class="key-card-slot">Bundle ' + i + '</p>' +
-        '</article>';
-    }
+          '<img src="' + bundle.image + '" alt="" class="key-card-icon" onerror="this.src=\'assets/money.webp\'">' +
+          '<h3>' + bundle.name + '</h3>' +
+          '<p class="key-card-slot">' + bundle.value + '</p>' +
+          '<ul class="bundle-items">' + bundle.items.map(function(i) { return '<li>' + i + '</li>'; }).join('') + '</ul>' +
+          '<button type="button" class="btn btn-primary btn-sm btn-buy-bundle" style="margin-top:auto;" data-id="' + bundle.id + '">Buy - $' + bundle.price.toFixed(2) + '</button>' +
+        '</article>'
+      );
+    }).join('');
     $('#bundles-grid').innerHTML = html;
   }
 
@@ -338,6 +356,38 @@
     openOverlayPanel('confirm', $('#confirm-modal'));
   }
 
+  function openConfirmKey(keyId, packType) {
+    const key = KEYS.find(function(k) { return k.id === keyId; });
+    if (!key) return;
+    const isPack = packType === 'pack';
+    const price = isPack ? key.packPrice : key.singlePrice;
+    const label = key.name + (isPack ? ' (5x)' : '');
+    
+    state.pendingPurchase = { id: key.id, name: key.name, price: price, tier: packType, label: label };
+    
+    $('#confirm-modal-content').innerHTML =
+      '<div class="embed-header" style="border-left-color:#6d28d9">' +
+        '<img src="' + key.image + '" alt="" onerror="this.src=\'assets/key.webp\'"><div><h3>' + key.name + '</h3>' +
+        '<p class="confirm-tier-label">' + label + ' · ' + formatPrice(price) + '</p></div>' +
+      '</div>';
+    openOverlayPanel('confirm', $('#confirm-modal'));
+  }
+
+  function openConfirmBundle(bundleId) {
+    const bundle = BUNDLES.find(function(b) { return b.id === bundleId; });
+    if (!bundle) return;
+    
+    state.pendingPurchase = { id: bundle.id, name: bundle.name, price: bundle.price, tier: 'bundle', label: bundle.name };
+    
+    $('#confirm-modal-content').innerHTML =
+      '<div class="embed-header" style="border-left-color:#6d28d9">' +
+        '<img src="' + bundle.image + '" alt="" onerror="this.src=\'assets/money.webp\'"><div><h3>' + bundle.name + '</h3>' +
+        '<p class="confirm-tier-label">Bundle · ' + formatPrice(bundle.price) + '</p></div>' +
+      '</div>' +
+      '<ul class="embed-perk-list">' + bundle.items.map(function(i){return '<li>'+i+'</li>';}).join('') + '</ul>';
+    openOverlayPanel('confirm', $('#confirm-modal'));
+  }
+
   function setConfirmTier(tierBtn) {
     const rank = getRank(state.pendingPurchase && state.pendingPurchase.id);
     if (!rank) return;
@@ -392,40 +442,110 @@
     openCart($('#cart-toggle'));
   }
 
-  function buyNowFromModal() {
+  async function buyNowFromModal() {
     var pending = state.pendingPurchase;
     if (!pending) return;
-    
-    var rank = getRank(pending.id);
-    if (rank) {
-      var pkgId = pending.tier === 'monthly' ? rank.monthlyPackageId : rank.lifetimePackageId;
-      if (pkgId) {
-        var url = 'https://store.smsmp.net/package/' + pkgId;
-        if (state.user) {
-          url += '?ign=' + encodeURIComponent(state.user);
-        }
-        window.open(url, '_blank', 'noopener,noreferrer');
+
+    var pkgId = getPackageId(pending);
+    if (!pkgId || pkgId === '{PENDING_ID}') return;
+
+    var btn = document.querySelector('#confirm-buy-now');
+    var originalText = btn ? btn.innerText : '';
+    if (btn) btn.innerText = 'Creating Session...';
+
+    try {
+      var response = await fetch(WORKER_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          items: [{ packageId: pkgId, quantity: 1 }],
+          customer: {
+            playerUsername: state.user || 'Guest'
+          },
+          successUrl: window.location.href,
+          cancelUrl: window.location.href
+        })
+      });
+
+      var data = await response.json();
+      
+      if (data.success && data.data && data.data.url) {
+        window.location.href = data.data.url;
+      } else {
+        throw new Error(data.message || 'No redirect URL provided by API.');
       }
+    } catch (err) {
+      console.error('FluxStore API Error:', err);
+      alert('Store Configuration Error: ' + err.message + '\n\nPlease check your FluxStore Dashboard settings.');
+      // Fallback
+      var url = 'https://smsmp.fluxstore.net/package/' + pkgId;
+      if (state.user) {
+        url += '?ign=' + encodeURIComponent(state.user);
+      }
+      window.open(url, '_blank', 'noopener,noreferrer');
+    } finally {
+      if (btn) btn.innerText = originalText;
+      closeOverlay('confirm');
     }
-    closeOverlay('confirm');
   }
 
-  function checkoutCart() {
+  // We will route this through a free Cloudflare Worker to fix the CORS error and secure the API Key
+  const WORKER_URL = 'https://fluxstore-api.spearmacesmp.workers.dev';
+
+  async function checkoutCart() {
     if (state.cart.length === 0) return;
     
-    var hasLifetime = state.cart.some(function (item) { return item.tier === 'lifetime'; });
-    var hasMonthly = state.cart.some(function (item) { return item.tier === 'monthly'; });
-    
-    var lifetimeUrl = CHECKOUT_LIFETIME_URL;
-    var monthlyUrl = CHECKOUT_MONTHLY_URL;
-    
-    if (state.user) {
-      lifetimeUrl += '?ign=' + encodeURIComponent(state.user);
-      monthlyUrl += '?ign=' + encodeURIComponent(state.user);
+    var packageIds = [];
+    state.cart.forEach(function (item) {
+      var pkgId = getPackageId(item);
+      if (pkgId && pkgId !== '{PENDING_ID}') {
+        packageIds.push(pkgId);
+      }
+    });
+
+    if (packageIds.length === 0) return;
+
+    var btn = document.querySelector('.checkout-btn');
+    var originalText = btn ? btn.innerText : '';
+    if (btn) btn.innerText = 'Creating Session...';
+
+    try {
+      var itemsPayload = packageIds.map(function(id) {
+        return { packageId: id, quantity: 1 };
+      });
+
+      var response = await fetch(WORKER_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          items: itemsPayload,
+          customer: {
+            playerUsername: state.user || 'Guest'
+          },
+          successUrl: window.location.href,
+          cancelUrl: window.location.href
+        })
+      });
+
+      var data = await response.json();
+      
+      if (data.success && data.data && data.data.url) {
+        window.location.href = data.data.url;
+      } else {
+        throw new Error(data.message || 'No redirect URL provided by API.');
+      }
+    } catch (err) {
+      console.error('API Error:', err);
+      alert('Store Configuration Error: ' + err.message + '\n\nPlease check your FluxStore Dashboard settings.');
+      var fallbackUrl = 'https://smsmp.fluxstore.net/';
+      window.open(fallbackUrl, '_blank', 'noopener,noreferrer');
+    } finally {
+      if (btn) btn.innerText = originalText;
     }
-    
-    if (hasLifetime) window.open(lifetimeUrl, '_blank', 'noopener,noreferrer');
-    if (hasMonthly) window.open(monthlyUrl, '_blank', 'noopener,noreferrer');
   }
 
   function removeFromCart(index) {
@@ -538,6 +658,20 @@
       const addBtn = e.target.closest('.add-cart-btn');
       if (addBtn) {
         addToCart(addBtn.dataset.rankId);
+        return;
+      }
+
+      const keyBtn = e.target.closest('.btn-buy-key');
+      if (keyBtn) {
+        e.stopPropagation();
+        openConfirmKey(keyBtn.dataset.id, keyBtn.dataset.pack);
+        return;
+      }
+
+      const bundleBtn = e.target.closest('.btn-buy-bundle');
+      if (bundleBtn) {
+        e.stopPropagation();
+        openConfirmBundle(bundleBtn.dataset.id);
         return;
       }
 

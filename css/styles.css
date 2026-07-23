@@ -2328,3 +2328,171 @@ a.support-card:hover {
     text-align: center;
   }
 }
+
+/* --- Info & Dash Shop Styles --- */
+
+.dash-shop-accordion {
+  background: var(--surface-2);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  margin-top: 2.5rem;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.dash-shop-accordion summary {
+  padding: 1.25rem 1.5rem;
+  font-family: 'Russo One', sans-serif;
+  font-size: 1.1rem;
+  cursor: pointer;
+  background: var(--surface-1);
+  user-select: none;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dash-shop-accordion summary::-webkit-details-marker {
+  display: none;
+}
+
+.dash-shop-accordion summary::after {
+  content: '▼';
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  transition: transform 0.3s;
+  color: var(--text-muted);
+}
+
+.dash-shop-accordion[open] summary::after {
+  transform: rotate(180deg);
+}
+
+.dash-shop-content {
+  padding: 1.5rem;
+  border-top: 1px solid var(--border-color);
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.dash-shop-content h3 {
+  color: var(--text-color);
+  margin-bottom: 0.25rem;
+}
+
+.dash-shop-content h4 {
+  color: var(--text-color);
+  margin: 1.5rem 0 0.5rem 0;
+  font-size: 1rem;
+}
+
+.dash-shop-content ul {
+  list-style: none;
+  padding: 0;
+}
+
+.dash-shop-content ul li {
+  padding: 0.4rem 0;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.dash-shop-content ul li strong {
+  color: var(--text-color);
+}
+
+.dash-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+}
+
+.info-blocks {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+  width: 100%;
+}
+
+.info-card-block {
+  background: var(--surface-1);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.75rem;
+}
+
+.info-card-block h3 {
+  margin-bottom: 1rem;
+  font-family: 'Russo One', sans-serif;
+  color: var(--text-color);
+}
+
+.info-card-block ul {
+  list-style: none;
+  padding: 0;
+}
+
+.info-card-block ul li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  color: var(--text-muted);
+}
+
+.info-card-block ul li:last-child {
+  border-bottom: none;
+}
+
+.info-card-block ul li strong {
+  color: var(--primary-color);
+}
+
+.crates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.crate-info-card {
+  text-align: center;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  height: 100%;
+}
+
+.crate-info-card h3 {
+  font-size: 0.9rem;
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+}
+
+.bundle-items {
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem 0 1.25rem 0;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-align: left;
+  width: 100%;
+}
+
+.bundle-items li {
+  padding: 0.25rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.bundle-items li:before {
+  content: "•";
+  color: var(--primary-color);
+  display: inline-block;
+  width: 1em;
+}
