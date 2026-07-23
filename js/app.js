@@ -472,6 +472,8 @@
       var data = await response.json();
       
       if (data.success && data.data && data.data.url) {
+        state.cart = [];
+        updateCartUI();
         window.location.href = data.data.url;
       } else {
         throw new Error(data.message || 'No redirect URL provided by API.');
@@ -534,6 +536,8 @@
       var data = await response.json();
       
       if (data.success && data.data && data.data.url) {
+        state.cart = [];
+        updateCartUI();
         window.location.href = data.data.url;
       } else {
         throw new Error(data.message || 'No redirect URL provided by API.');
