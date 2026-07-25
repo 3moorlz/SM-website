@@ -41,8 +41,7 @@
 
   function rankCartLabel(rank, inCart) {
     if (inCart) return '✓ In Cart';
-    if (rank.monthlyPrice) return 'View Options';
-    return '🛒 Add to Cart';
+    return 'VIEW OPTIONS';
   }
 
   function formatPrice(amount) {
@@ -78,6 +77,12 @@
   }
 
   function switchView(view, storeCat) {
+    if (view === 'store' && !state.user) {
+      showToast('Please login to access the store', 'warning');
+      openOverlayPanel('login', $('#login-modal'));
+      return;
+    }
+    
     state.view = view;
     $$('.view').forEach((el) => el.classList.remove('active'));
     const panel = $('#view-' + view);
@@ -262,7 +267,7 @@
         '<article class="key-card">' +
           '<img src="' + key.image + '" alt="" class="key-card-icon" onerror="this.src=\'assets/key.webp\'">' +
           '<h3>' + key.name + '</h3>' +
-          '<button type="button" class="btn btn-primary btn-sm btn-buy-key" style="margin-top:auto;" data-id="' + key.id + '">🛒 Add to Cart</button>' +
+          '<button type="button" class="btn btn-primary btn-sm btn-buy-key" style="margin-top:auto;" data-id="' + key.id + '">VIEW OPTIONS</button>' +
         '</article>'
       );
     }).join('');
@@ -277,7 +282,7 @@
           '<h3>' + bundle.name + '</h3>' +
           '<p class="key-card-slot">' + bundle.value + '</p>' +
           '<ul class="bundle-items">' + bundle.items.map(function(i) { return '<li>' + i + '</li>'; }).join('') + '</ul>' +
-          '<button type="button" class="btn btn-primary btn-sm btn-buy-bundle" style="margin-top:auto;" data-id="' + bundle.id + '">🛒 Add to Cart</button>' +
+          '<button type="button" class="btn btn-primary btn-sm btn-buy-bundle" style="margin-top:auto;" data-id="' + bundle.id + '">VIEW OPTIONS</button>' +
         '</article>'
       );
     }).join('');
