@@ -52,7 +52,7 @@
   function showToast(message, type) {
     const container = $('#toast-container');
     const toast = document.createElement('div');
-    toast.className = 'toast' + (type === 'success' ? ' success' : '');
+    toast.className = 'toast' + (type ? ' ' + type : '');
     toast.textContent = message;
     container.appendChild(toast);
     setTimeout(() => toast.remove(), 3500);
@@ -262,10 +262,7 @@
         '<article class="key-card">' +
           '<img src="' + key.image + '" alt="" class="key-card-icon" onerror="this.src=\'assets/key.webp\'">' +
           '<h3>' + key.name + '</h3>' +
-          '<div class="key-prices" style="display:flex; gap:0.5rem; margin-top:auto; flex-direction:column;">' +
-            '<button type="button" class="btn btn-primary btn-sm btn-buy-key" data-id="' + key.id + '" data-pack="single">1x - $' + key.singlePrice.toFixed(2) + '</button>' +
-            '<button type="button" class="btn btn-secondary btn-sm btn-buy-key" data-id="' + key.id + '" data-pack="pack">5x - $' + key.packPrice.toFixed(2) + ' <small>(' + key.saveText + ')</small></button>' +
-          '</div>' +
+          '<button type="button" class="btn btn-primary btn-sm btn-buy-key" style="margin-top:auto;" data-id="' + key.id + '">🛒 Add to Cart</button>' +
         '</article>'
       );
     }).join('');
@@ -280,7 +277,7 @@
           '<h3>' + bundle.name + '</h3>' +
           '<p class="key-card-slot">' + bundle.value + '</p>' +
           '<ul class="bundle-items">' + bundle.items.map(function(i) { return '<li>' + i + '</li>'; }).join('') + '</ul>' +
-          '<button type="button" class="btn btn-primary btn-sm btn-buy-bundle" style="margin-top:auto;" data-id="' + bundle.id + '">Buy - $' + bundle.price.toFixed(2) + '</button>' +
+          '<button type="button" class="btn btn-primary btn-sm btn-buy-bundle" style="margin-top:auto;" data-id="' + bundle.id + '">🛒 Add to Cart</button>' +
         '</article>'
       );
     }).join('');
@@ -356,20 +353,31 @@
     openOverlayPanel('confirm', $('#confirm-modal'));
   }
 
-  function openConfirmKey(keyId, packType) {
+  function openConfirmKey(keyId) {
     const key = KEYS.find(function(k) { return k.id === keyId; });
     if (!key) return;
-    const isPack = packType === 'pack';
-    const price = isPack ? key.packPrice : key.singlePrice;
-    const label = key.name + (isPack ? ' (5x)' : '');
     
-    state.pendingPurchase = { id: key.id, name: key.name, price: price, tier: packType, label: label };
+    const price = key.packPrice;
+    const label = key.name + ' (5x Pack)';
     
+    state.pendingPurchase = { id: key.id, name: key.name, price: price, tier: 'pack', label: label };
+    
+    let tierPicker = 
+      '<div class="tier-picker">' +
+        '<button type="button" class="tier-option" data-tier="single">' +
+          'Single · ' + formatPrice(key.singlePrice) +
+        '</button>' +
+        '<button type="button" class="tier-option active" data-tier="pack">' +
+          '5x Pack · ' + formatPrice(key.packPrice) + ' · Best Deal' +
+        '</button>' +
+        '<p class="tier-note">' + key.saveText + '</p>' +
+      '</div>';
+      
     $('#confirm-modal-content').innerHTML =
       '<div class="embed-header" style="border-left-color:#6d28d9">' +
         '<img src="' + key.image + '" alt="" onerror="this.src=\'assets/key.webp\'"><div><h3>' + key.name + '</h3>' +
         '<p class="confirm-tier-label">' + label + ' · ' + formatPrice(price) + '</p></div>' +
-      '</div>';
+      '</div>' + tierPicker;
     openOverlayPanel('confirm', $('#confirm-modal'));
   }
 
@@ -389,14 +397,33 @@
   }
 
   function setConfirmTier(tierBtn) {
-    const rank = getRank(state.pendingPurchase && state.pendingPurchase.id);
-    if (!rank) return;
+    if (!state.pendingPurchase) return;
     const tier = tierBtn.dataset.tier;
-    const price = tier === 'monthly' ? rank.monthlyPrice : rank.lifetimePrice;
-    const tierLabel = tier === 'monthly' ? 'Monthly' : 'Lifetime';
+    
+    let price = 0;
+    let tierLabel = '';
+    let name = '';
+    
+    const rank = getRank(state.pendingPurchase.id);
+    if (rank) {
+      price = tier === 'monthly' ? rank.monthlyPrice : rank.lifetimePrice;
+      tierLabel = tier === 'monthly' ? 'Monthly' : 'Lifetime';
+      name = rank.name;
+    } else {
+      const key = KEYS.find(function(k) { return k.id === state.pendingPurchase.id; });
+      if (key) {
+        price = tier === 'pack' ? key.packPrice : key.singlePrice;
+        tierLabel = tier === 'pack' ? '5x Pack' : 'Single';
+        name = key.name;
+      } else {
+        return;
+      }
+    }
+
     state.pendingPurchase.price = price;
     state.pendingPurchase.tier = tier;
-    state.pendingPurchase.label = rank.name + ' (' + tierLabel + ')';
+    state.pendingPurchase.label = name + ' (' + tierLabel + ')';
+    
     $$('.tier-option').forEach(function (btn) {
       btn.classList.toggle('active', btn.dataset.tier === tier);
     });
@@ -480,7 +507,7 @@
       }
     } catch (err) {
       console.error('FluxStore API Error:', err);
-      alert('Store Configuration Error: ' + err.message + '\n\nPlease check your FluxStore Dashboard settings.');
+      showToast('Checkout Error: ' + err.message, 'error');
       // Fallback
       var url = 'https://smsmp.fluxstore.net/package/' + pkgId;
       if (state.user) {
@@ -544,7 +571,7 @@
       }
     } catch (err) {
       console.error('API Error:', err);
-      alert('Store Configuration Error: ' + err.message + '\n\nPlease check your FluxStore Dashboard settings.');
+      showToast('Checkout Error: ' + err.message, 'error');
       var fallbackUrl = 'https://smsmp.fluxstore.net/';
       window.open(fallbackUrl, '_blank', 'noopener,noreferrer');
     } finally {
@@ -668,7 +695,7 @@
       const keyBtn = e.target.closest('.btn-buy-key');
       if (keyBtn) {
         e.stopPropagation();
-        openConfirmKey(keyBtn.dataset.id, keyBtn.dataset.pack);
+        openConfirmKey(keyBtn.dataset.id);
         return;
       }
 
@@ -712,7 +739,7 @@
         if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(IP_PLACEHOLDER).catch(function () {});
         }
-        showToast('IP copied');
+        showToast('Copied IP', 'success');
         return;
       }
 

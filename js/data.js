@@ -197,11 +197,11 @@ const HOME_FEATURES = [
 ];
 
 const KEYS = [
-  { id: 'sentinel', name: 'Sentinel Key', image: 'assets/sentinel_key.webp', singlePrice: 0.29, packPrice: 1.19, saveText: 'Save $0.26', singleId: 'd041b0b3-07b2-44a0-9b80-1cacae690d6b', packId: '{PENDING_ID}' },
-  { id: 'crusader', name: 'Crusader Key', image: 'assets/crusader_key.webp', singlePrice: 0.79, packPrice: 3.39, saveText: 'Save $0.56', singleId: 'a87c1e80-bb2d-4dff-ad22-93a912ab6e21', packId: '{PENDING_ID}' },
-  { id: 'champion', name: 'Champion Key', image: 'assets/champion_key.webp', singlePrice: 1.49, packPrice: 3.39, saveText: 'Save $0.96', singleId: '9e4a6932-9342-4b24-a9e1-c41b41e01ac7', packId: '{PENDING_ID}' },
-  { id: 'ascendant', name: 'Ascendant Key', image: 'assets/ascendant_key.webp', singlePrice: 2.99, packPrice: 12.99, saveText: 'Save $1.96', singleId: 'e3c3c88f-1650-4de2-91f6-305376158544', packId: '{PENDING_ID}' },
-  { id: 'seasonal', name: 'Seasonal Key', image: 'assets/immortal_key.png', singlePrice: 5.99, packPrice: 24.99, saveText: 'Save $4.96', singleId: 'da4a57c5-9e42-471a-a106-69c16491bdf3', packId: '{PENDING_ID}' }
+  { id: 'sentinel', name: 'Sentinel Key', image: 'assets/sentinel_key.webp', singlePrice: 0.29, packPrice: 1.19, saveText: 'Save $0.26', singleId: 'd041b0b3-07b2-44a0-9b80-1cacae690d6b', packId: '0d037be7-6e50-4ff3-847d-b9be9cb1a04e' },
+  { id: 'crusader', name: 'Crusader Key', image: 'assets/crusader_key.webp', singlePrice: 0.79, packPrice: 3.39, saveText: 'Save $0.56', singleId: 'a87c1e80-bb2d-4dff-ad22-93a912ab6e21', packId: 'bad9f413-a1ed-4c48-9244-44c191cee941' },
+  { id: 'champion', name: 'Champion Key', image: 'assets/champion_key.webp', singlePrice: 1.49, packPrice: 3.39, saveText: 'Save $0.96', singleId: '9e4a6932-9342-4b24-a9e1-c41b41e01ac7', packId: 'ab4bf262-0ea4-4da8-95ab-326848be2f3b' },
+  { id: 'ascendant', name: 'Ascendant Key', image: 'assets/ascendant_key.webp', singlePrice: 2.99, packPrice: 12.99, saveText: 'Save $1.96', singleId: 'e3c3c88f-1650-4de2-91f6-305376158544', packId: '946a5fa9-54fb-4e18-8fff-56a98ed2c213' },
+  { id: 'seasonal', name: 'Seasonal Key', image: 'assets/immortal_key.png', singlePrice: 5.99, packPrice: 24.99, saveText: 'Save $4.96', singleId: 'da4a57c5-9e42-471a-a106-69c16491bdf3', packId: 'cf314ba2-d41a-484a-8dde-f6fa73966a0c' }
 ];
 
 const BUNDLES = [

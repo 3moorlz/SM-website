@@ -41,7 +41,7 @@
           <button type="button" class="nav-link" data-view="store" data-store-cat="ranks">Store</button>
           <button type="button" class="nav-link soon-trigger" data-soon="Leaderboards">Leaderboards</button>
           <button type="button" class="nav-link soon-trigger" data-soon="Staff">Staff</button>
-          <button type="button" class="nav-link" data-view="support">Support</button>
+          <button type="button" class="nav-link" data-view="info">Info</button>
         </nav>
 
         <nav class="mobile-nav hidden" id="mobile-nav">
@@ -49,7 +49,7 @@
           <button type="button" class="nav-link" data-view="store" data-store-cat="ranks">Store</button>
           <button type="button" class="nav-link soon-trigger" data-soon="Leaderboards">Leaderboards</button>
           <button type="button" class="nav-link soon-trigger" data-soon="Staff">Staff</button>
-          <button type="button" class="nav-link" data-view="support">Support</button>
+          <button type="button" class="nav-link" data-view="info">Info</button>
         </nav>
 
         <div class="hero-actions">
@@ -102,54 +102,26 @@
           </blockquote>
 
           <div class="store-tiles">
+            <button type="button" class="store-tile store-tile-wide" data-view="store" data-store-cat="ranks">
+              <img src="assets/paidranks.webp" alt="" class="store-tile-icon">
+              <span class="store-tile-label">Ranks</span>
+              <span class="store-tile-arrow" aria-hidden="true">›</span>
+            </button>
             <div class="store-tiles-row">
-              <button type="button" class="store-tile" data-view="store" data-store-cat="ranks">
-                <img src="assets/paidranks.webp" alt="" class="store-tile-icon">
-                <span class="store-tile-label">Ranks</span>
-                <span class="store-tile-arrow" aria-hidden="true">›</span>
-              </button>
               <button type="button" class="store-tile" data-view="store" data-store-cat="keys">
                 <img src="assets/key.webp" alt="" class="store-tile-icon">
                 <span class="store-tile-label">Keys</span>
                 <span class="store-tile-arrow" aria-hidden="true">›</span>
               </button>
+              <button type="button" class="store-tile" data-view="store" data-store-cat="bundles">
+                <img src="assets/money.webp" alt="" class="store-tile-icon">
+                <span class="store-tile-label">Bundles</span>
+                <span class="store-tile-arrow" aria-hidden="true">›</span>
+              </button>
             </div>
-            <button type="button" class="store-tile store-tile-wide" data-view="store" data-store-cat="bundles">
-              <img src="assets/money.webp" alt="" class="store-tile-icon">
-              <span class="store-tile-label">Bundles</span>
-              <span class="store-tile-arrow" aria-hidden="true">›</span>
-            </button>
           </div>
 
-          <details class="dash-shop-accordion">
-            <summary>In-Game Dash Shop</summary>
-            <div class="dash-shop-content">
-              <h3>Currency: Dashes</h3>
-              <p><strong>1 Dash</strong> / 30 seconds AFK<br><strong>10 Dashes</strong> / kill</p>
-              <div class="dash-grid">
-                <div>
-                  <h4>Keys</h4>
-                  <ul>
-                    <li><strong>Seasonal</strong> - 2,750</li>
-                    <li><strong>Ascendant</strong> - 1,250</li>
-                    <li><strong>Champion</strong> - 600</li>
-                    <li><strong>Crusader</strong> - 275</li>
-                    <li><strong>Sentinel</strong> - 100</li>
-                  </ul>
-                </div>
-                <div>
-                  <h4>Spawners</h4>
-                  <ul>
-                    <li><strong>Iron Golem</strong> - 50,000</li>
-                    <li><strong>Skeleton</strong> - 25,000</li>
-                    <li><strong>Cow</strong> - 12,500</li>
-                    <li><strong>Sheep</strong> - 6,000</li>
-                    <li><strong>Rabbit</strong> - 2,500</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </details>
+
 
           <div class="server-stats" aria-label="Server info">
             <div class="stat">
@@ -169,29 +141,7 @@
           </div>
           <div class="advancement-list" id="feature-grid"></div>
 
-          <div class="info-blocks">
-            <a href="https://discord.smsmp.net" class="support-card support-discord-card" target="_blank" rel="noopener noreferrer">
-              <div class="support-discord-body">
-                <strong>Store Info Channel</strong>
-                <span>Check the #store-info channel in our Discord for the latest updates and detailed discussions.</span>
-                <img src="assets/mark.webp" alt="" class="support-discord-mark">
-              </div>
-            </a>
-            
-            <div class="info-card-block">
-              <h3>AFK Area Rewards</h3>
-              <ul>
-                <li><strong>Sentinel Key</strong> ≈ 50 minutes</li>
-                <li><strong>Crusader Key</strong> ≈ 2.3 hours</li>
-                <li><strong>Champion Key</strong> ≈ 5 hours</li>
-                <li><strong>Ascendant Key</strong> ≈ 10.5 hours</li>
-                <li><strong>Seasonal Key</strong> ≈ 23 hours</li>
-                <li><strong>Skeleton Spawner</strong> ≈ 208 hours</li>
-                <li><strong>Iron Golem Spawner</strong> ≈ 417 hours</li>
-              </ul>
-            </div>
 
-          </div>
         </div>
       </section>
 
@@ -253,25 +203,53 @@
         </div>
       </section>
 
-      <section id="view-support" class="view">
+      <section id="view-info" class="view">
         <div class="container page-view">
           <div class="page-view-header">
             <img src="assets/support.webp" alt="" class="page-view-icon">
-            <h1>Support</h1>
+            <h1>Info</h1>
           </div>
-          <div class="support-blocks">
-            <a href="https://discord.gg/93D5Jt8jEr" class="support-card support-discord-card" target="_blank" rel="noopener noreferrer">
-              <div class="support-discord-body">
-                <strong>Support Discord</strong>
-                <span>Join the support server for help and tickets.</span>
-                <img src="assets/mark.webp" alt="" class="support-discord-mark">
+
+          <div class="info-card-block" style="margin-bottom: 2rem; background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem;">
+            <h3 style="margin-bottom: 1rem; color: var(--text);">In-Game Dash Shop</h3>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem;"><strong>Currency: Dashes</strong> (1 Dash / 30 seconds AFK, 10 Dashes / kill)</p>
+            <div class="dash-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div>
+                <h4 style="color: var(--text); margin-bottom: 0.5rem;">Keys</h4>
+                <ul style="color: var(--text-muted); padding-left: 1.25rem;">
+                  <li><strong>Seasonal</strong> - 2,750</li>
+                  <li><strong>Ascendant</strong> - 1,250</li>
+                  <li><strong>Champion</strong> - 600</li>
+                  <li><strong>Crusader</strong> - 275</li>
+                  <li><strong>Sentinel</strong> - 100</li>
+                </ul>
               </div>
-            </a>
-            <div class="support-card">
-              <strong>Email</strong>
-              <a href="mailto:SpearMaceSMP@gmail.com">SpearMaceSMP@gmail.com</a>
+              <div>
+                <h4 style="color: var(--text); margin-bottom: 0.5rem;">Spawners</h4>
+                <ul style="color: var(--text-muted); padding-left: 1.25rem;">
+                  <li><strong>Iron Golem</strong> - 50,000</li>
+                  <li><strong>Skeleton</strong> - 25,000</li>
+                  <li><strong>Cow</strong> - 12,500</li>
+                  <li><strong>Sheep</strong> - 6,000</li>
+                  <li><strong>Rabbit</strong> - 2,500</li>
+                </ul>
+              </div>
             </div>
           </div>
+
+          <div class="info-card-block" style="margin-bottom: 2rem; background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem;">
+            <h3 style="margin-bottom: 1rem; color: var(--text);">AFK Area Rewards</h3>
+            <ul style="color: var(--text-muted); padding-left: 1.25rem;">
+              <li><strong>Sentinel Key</strong> ≈ 50 minutes</li>
+              <li><strong>Crusader Key</strong> ≈ 2.3 hours</li>
+              <li><strong>Champion Key</strong> ≈ 5 hours</li>
+              <li><strong>Ascendant Key</strong> ≈ 10.5 hours</li>
+              <li><strong>Seasonal Key</strong> ≈ 23 hours</li>
+              <li><strong>Skeleton Spawner</strong> ≈ 208 hours</li>
+              <li><strong>Iron Golem Spawner</strong> ≈ 417 hours</li>
+            </ul>
+          </div>
+
         </div>
       </section>
     </main>
