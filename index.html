@@ -41,7 +41,7 @@
           <button type="button" class="nav-link" data-view="store" data-store-cat="ranks">Store</button>
           <button type="button" class="nav-link soon-trigger" data-soon="Leaderboards">Leaderboards</button>
           <button type="button" class="nav-link" data-view="info">Info</button>
-          <button type="button" class="nav-link soon-trigger" data-soon="Staff">Staff</button>
+          <button type="button" class="nav-link" data-view="staff">Staff</button>
         </nav>
 
         <nav class="mobile-nav hidden" id="mobile-nav">
@@ -49,7 +49,7 @@
           <button type="button" class="nav-link" data-view="store" data-store-cat="ranks">Store</button>
           <button type="button" class="nav-link soon-trigger" data-soon="Leaderboards">Leaderboards</button>
           <button type="button" class="nav-link" data-view="info">Info</button>
-          <button type="button" class="nav-link soon-trigger" data-soon="Staff">Staff</button>
+          <button type="button" class="nav-link" data-view="staff">Staff</button>
         </nav>
 
         <div class="hero-actions">
@@ -164,6 +164,7 @@
             </div>
             <div class="sidebar-col sidebar-col-payments">
               <p class="recent-payments-title">Recent Payments</p>
+              
               <ul class="recent-payments-list" id="recent-payments-list">
                 <li class="recent-empty">No payments yet</li>
               </ul>
@@ -193,6 +194,12 @@
             </div>
 
             <div class="store-panel" id="store-keys" hidden>
+              <div style="display: flex; justify-content: flex-end; margin-bottom: 1rem;">
+                <div class="keys-toggle" style="background: rgba(255, 255, 255, 0.05); padding: 0.25rem; border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.1); display: flex; gap: 0.25rem;">
+                  <button type="button" class="btn btn-sm btn-primary" id="keys-single-btn" style="min-width: 80px;">1x Keys</button>
+                  <button type="button" class="btn btn-sm" id="keys-pack-btn" style="min-width: 80px; background: transparent; border: none; color: var(--text-muted); box-shadow: none;">5x Packs</button>
+                </div>
+              </div>
               <div class="keys-grid" id="keys-grid"></div>
             </div>
 
@@ -210,13 +217,13 @@
             <h1>Info</h1>
           </div>
 
-          <div class="info-card-block" style="margin-bottom: 2rem; background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem;">
-            <h3 style="margin-bottom: 1rem; color: var(--text);">In-Game Dash Shop</h3>
-            <p style="color: var(--text-muted); margin-bottom: 1.5rem;"><strong>Currency: Dashes</strong> (1 Dash / 30 seconds AFK, 10 Dashes / kill)</p>
-            <div class="dash-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="info-card-block">
+            <h3>In-Game Dash Shop</h3>
+            <p class="info-card-desc"><strong>Currency: Dashes</strong> (1 Dash / 30 seconds AFK, 10 Dashes / kill)</p>
+            <div class="dash-grid">
               <div>
-                <h4 style="color: var(--text); margin-bottom: 0.5rem;">Keys</h4>
-                <ul style="color: var(--text-muted); padding-left: 1.25rem;">
+                <h4>Keys</h4>
+                <ul class="info-list">
                   <li><strong>Seasonal</strong> - 2,750</li>
                   <li><strong>Ascendant</strong> - 1,250</li>
                   <li><strong>Champion</strong> - 600</li>
@@ -225,8 +232,8 @@
                 </ul>
               </div>
               <div>
-                <h4 style="color: var(--text); margin-bottom: 0.5rem;">Spawners</h4>
-                <ul style="color: var(--text-muted); padding-left: 1.25rem;">
+                <h4>Spawners</h4>
+                <ul class="info-list">
                   <li><strong>Iron Golem</strong> - 50,000</li>
                   <li><strong>Skeleton</strong> - 25,000</li>
                   <li><strong>Cow</strong> - 12,500</li>
@@ -237,9 +244,9 @@
             </div>
           </div>
 
-          <div class="info-card-block" style="margin-bottom: 2rem; background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem;">
-            <h3 style="margin-bottom: 1rem; color: var(--text);">AFK Area Rewards</h3>
-            <ul style="color: var(--text-muted); padding-left: 1.25rem;">
+          <div class="info-card-block">
+            <h3>AFK Area Rewards</h3>
+            <ul class="info-list">
               <li><strong>Sentinel Key</strong> ≈ 50 minutes</li>
               <li><strong>Crusader Key</strong> ≈ 2.3 hours</li>
               <li><strong>Champion Key</strong> ≈ 5 hours</li>
@@ -248,6 +255,29 @@
               <li><strong>Skeleton Spawner</strong> ≈ 208 hours</li>
               <li><strong>Iron Golem Spawner</strong> ≈ 417 hours</li>
             </ul>
+          </div>
+
+        </div>
+      </section>
+
+      <section id="view-staff" class="view">
+        <div class="container page-view">
+          <div class="page-view-header" style="position: relative;">
+            <img src="assets/staff.webp" alt="" class="page-view-icon" onerror="this.style.display='none'">
+            <h1>Staff Team</h1>
+          </div>
+          
+          <div id="roster-view">
+            
+
+             <div class="staff-group">
+               <div class="staff-group-header">
+                 <h2 id="roster-role-title">All Staff</h2>
+               </div>
+               <div class="staff-grid" id="roster-grid">
+                  
+               </div>
+             </div>
           </div>
 
         </div>
@@ -280,8 +310,8 @@
 
       <div class="footer-legal">
         <div class="legal-links">
-          <button type="button" class="soon-trigger" data-soon="Terms">Terms &amp; Conditions</button>
-          <button type="button" class="soon-trigger" data-soon="Privacy">Privacy Policy</button>
+          <a href="#" class="legal-text-trigger" data-template="tos-text" data-title="Terms & Conditions">Terms & Conditions</a>
+          <a href="#" class="legal-text-trigger" data-template="privacy-text" data-title="Privacy Policy">Privacy Policy</a>
         </div>
       </div>
     </footer>
@@ -326,7 +356,17 @@
       <button type="button" class="modal-close" data-close-modal="confirm-modal" aria-label="Close">&times;</button>
       <div id="confirm-modal-content"></div>
       <button type="button" class="btn btn-primary btn-block" id="confirm-add-cart">Add to Cart</button>
-      <button type="button" class="btn btn-accent btn-block" id="confirm-buy-now">Buy Now ↗</button>
+    </div>
+  </div>
+
+  <div id="legal-text-modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-backdrop" data-close-modal="legal-text-modal"></div>
+    <div class="modal-panel" style="max-width: 800px; width: 90%; max-height: 90vh; display: flex; flex-direction: column;">
+      <h2 id="legal-text-title" style="margin-top: 0; font-family: var(--font-display); color: var(--primary-color);"></h2>
+      <div id="legal-text-content" style="flex: 1; overflow-y: auto; background: var(--surface-1); padding: 2rem; border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.05); font-family: var(--font-sans); font-size: 1.05rem; color: #d0d0d0; white-space: pre-wrap; margin-bottom: 1rem; line-height: 1.8; box-shadow: inset 0 2px 20px rgba(0,0,0,0.5);"></div>
+      <div class="modal-actions" style="text-align: right;">
+        <button type="button" class="btn btn-primary" data-close-modal="legal-text-modal">Close</button>
+      </div>
     </div>
   </div>
 
@@ -341,12 +381,141 @@
         <span>Total</span>
         <strong id="cart-total">$0.00</strong>
       </div>
-      <p class="cart-handoff-note">You'll pick your items and pay on the SpearMace store.</p>
+      <div class="cart-legal-check">
+        <label class="legal-checkbox-label">
+          <input type="checkbox" id="legal-agree-checkbox" disabled>
+          <span class="legal-checkbox-text">I have read and agree to the <a href="#" class="legal-link legal-text-trigger" id="cart-tos-link" data-template="tos-text" data-title="Terms of Service">Terms of Service</a> and <a href="#" class="legal-link legal-text-trigger" id="cart-privacy-link" data-template="privacy-text" data-title="Privacy Policy">Privacy Policy</a>.</span>
+        </label>
+        <p class="cart-legal-note" id="cart-legal-note">You must open and read both documents before proceeding.</p>
+      </div>
       <button type="button" class="btn btn-primary btn-block" id="cart-checkout-btn" disabled>Proceed to Purchase</button>
     </div>
   </aside>
 
   <script src="js/data.js"></script>
+
+  <template id="tos-text">
+Terms of Service for SM SMP
+
+Last Updated: July 30, 2026
+
+Welcome to SM SMP (the "Server," "we," "us," or "our"). These Terms of Service ("Terms") govern your access to and use of our Minecraft server located at play.smsmp.net, our website located at smsmp.net, our webstore located at smsmp.fluxstore.net, and our Discord community at discord.smsmp.net (collectively, the "Services").
+
+By connecting to our Server, making a purchase on our webstore, or utilizing any of our Services, you agree to be bound by these Terms in their entirety.
+
+1. AUTOMATIC AGREEMENT
+By connecting to our Server (play.smsmp.net), visiting our website (smsmp.net), making a purchase on our webstore (smsmp.fluxstore.net), or utilizing any of our Services, you automatically agree to be bound by these Terms in their entirety. If you do not agree to these Terms, you must immediately cease using our Services.
+
+2. NON-AFFILIATION DISCLAIMER
+SM SMP is an independently owned and operated community. We are NOT affiliated with, endorsed by, sponsored by, or supported by Mojang Synergies AB, Microsoft Corporation, or any other real-world brand or entity. "Minecraft" is a registered trademark of Mojang Synergies AB. 
+
+3. ELIGIBILITY
+You must be at least 13 years of age to access or use our Services. If you are between the ages of 13 and the age of majority in your jurisdiction (typically 18), you must have the permission of a parent or legal guardian to use our Services, and they must agree to these Terms on your behalf.
+
+4. VIRTUAL GOODS AND WEBSTORE PURCHASES
+We operate a webstore (smsmp.fluxstore.net) where users can purchase virtual items, ranks, and server currency (collectively, "Virtual Goods").
+4.1. Ownership: You do not own the Virtual Goods. You are purchasing a limited, non-transferable, revocable license to access and use these features within our Server. This license may be revoked or terminated at any time without reimbursement, particularly in the event of a server ban or rule violation.
+4.2. No Real-World Value: Virtual Goods have no real-world monetary value and cannot be redeemed, sold, or transferred for real fiat currency.
+4.3. All Sales Are Final: Due to the digital nature of Virtual Goods, ALL SALES ARE FINAL AND NON-REFUNDABLE. We do not offer refunds, exchanges, or returns for any reason, including but not limited to: account bans, server wipes, lag, downtime, or lack of interest.
+4.4. Chargebacks and Disputes: If you initiate a chargeback, dispute, or payment reversal through your bank, credit card company, or PayPal, your account will be immediately and permanently banned from the webstore, and you will receive a 30-day ban from the Server. Your IP address and account details may also be reported to shared community ban lists.
+4.5. Modification of Virtual Goods: We reserve the right to modify, nerf, remove, or replace the perks, items, and features associated with Virtual Goods at any time without prior notice or compensation.
+
+5. USER CONDUCT AND SERVER RULES
+When using our Services, you agree to abide by all server rules as posted in our Discord and in-game. 
+5.1. Prohibited Actions: You agree NOT to engage in cheating, exploiting bugs, using unauthorized modifications (hacked clients, auto-clickers, macros), harassment, hate speech, doxxing, or advertising other servers.
+5.2. Disciplinary Action: Server staff retain the exclusive right to mute, kick, temporarily suspend, or permanently ban any user at their sole discretion. No refunds will be provided if you lose access to the Server due to a rule violation.
+5.3. Loophole Abuse: Attempting to bypass the spirit of the rules using loopholes will be treated as a rule violation. The interpretation of the rules lies entirely with the SM SMP administration team.
+5.4. Screensharing and Inspections: SM SMP is based in the United States and operates on private property. By choosing to connect to our Server, you consent to submitting to a screenshare (SS) or inspection by our staff if there is reasonable suspicion that you are using unauthorized modifications (cheats, clients, macros, etc.). This requirement applies regardless of your geographic location or local data regulations (including the GDPR), as submitting to an inspection is a mandatory condition of accessing our private services. Refusal to comply with a screenshare request will result in an immediate and permanent ban.
+
+6. USER-GENERATED CONTENT
+Anything you build, type, or create on the Server ("User Content") becomes the property of SM SMP. We reserve the right to modify, delete, or utilize your User Content without notification or compensation. We are not responsible or liable for any User Content submitted by you or other players.
+
+7. ACCOUNT SECURITY & PLAYER ISSUES
+You are entirely responsible for maintaining the confidentiality and security of your Minecraft account and Discord account. SM SMP is not responsible for any loss of services caused by player-side issues, including but not limited to lost access to your account, forgotten passwords, or compromised accounts. We will not refund, reimburse, restore, or transfer ranks, items, or stats lost due to any such issues.
+
+8. SERVER AVAILABILITY AND DATA RETENTION
+8.1. Uptime: We strive to provide a continuous and stable experience, but we do not guarantee uninterrupted access. The Server may experience downtime for maintenance, updates, or unforeseen technical failures.
+
+9. DISCLAIMER OF WARRANTIES
+THE SERVICES ARE PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS WITHOUT ANY WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED. WE DISCLAIM ALL WARRANTIES, INCLUDING MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. WE DO NOT WARRANT THAT THE SERVICES WILL BE ERROR-FREE, SECURE, OR FREE FROM VIRUSES OR OTHER HARMFUL COMPONENTS.
+
+10. LIMITATION OF LIABILITY
+TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT SHALL SM SMP, ITS OWNERS, ADMINISTRATORS, OR STAFF BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES (INCLUDING LOSS OF PROFITS, DATA, OR USE) ARISING OUT OF OR IN CONNECTION WITH YOUR USE OF THE SERVICES, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+11. INDEMNIFICATION
+You agree to indemnify, defend, and hold harmless SM SMP and its staff from any claims, liabilities, damages, losses, and expenses (including legal fees) arising from your use of the Services or your violation of these Terms.
+
+12. MODIFICATION OF TERMS
+We reserve the right to modify or replace these Terms at any time. Material changes will be communicated via our Discord announcements or website. Your continued use of the Services after any changes constitutes acceptance of the new Terms.
+
+13. CONTACT INFORMATION
+If you have any questions regarding these Terms, please contact us by creating a support ticket in our Discord (discord.smsmp.net) or by emailing SpearMaceSMP@gmail.com for business inquires.
+
+</template>
+  <template id="privacy-text">
+Privacy Policy for SM SMP
+
+Last Updated: July 25, 2026
+
+SM SMP ("we," "our," or "us") respects your privacy and is committed to protecting the personal information you share with us. This Privacy Policy outlines our practices regarding the collection, use, protection, and disclosure of information when you access our Minecraft server (play.smsmp.net), our website (smsmp.net), our webstore (smsmp.fluxstore.net), and our Discord community (discord.smsmp.net) (collectively, the "Services").
+
+Please read this Privacy Policy carefully. By accessing or using our Services, you consent to the data practices described in this document.
+
+1. INFORMATION WE COLLECT
+We collect information that you provide to us directly, as well as data that is collected automatically when you use our Services.
+1.1. Game Data: When you join our Minecraft server, we automatically log your Minecraft Username, Unique User ID (UUID), IP Address, login/logout timestamps, chat logs, and in-game statistics (e.g., playtime, economy balances, inventory, kills).
+1.2. Payment Information: When you make a purchase on our webstore, you must provide your Minecraft Username. Payment processing is handled entirely by our third-party provider, FluxStore, and their associated payment gateways (e.g., PayPal, Stripe). We DO NOT collect, process, or store your sensitive financial information (such as credit card numbers or bank details). We only receive transaction confirmations and order identifiers to deliver your virtual goods.
+1.3. Communication Data: If you interact with our Discord server or contact us via email, we collect your Discord username, Discord User ID, email address, and the contents of your messages.
+1.4. Website Usage Data: When you visit our website, we may automatically collect standard web server logs, which include your IP address, browser type, operating system, referring URLs, and the pages you view. This data is collected strictly for the purposes of website updates, continuous improvements, and fraud detection.
+1.5. Screenshare and Inspection Data: As detailed in our Terms of Service, we reserve the right to perform screenshares (SS) or inspections on users suspected of using unauthorized modifications. During these inspections, our staff may temporarily view files, folders, processes, and applications on your local device. We do not permanently copy, store, or distribute this local data; it is viewed solely in real-time for the purpose of verifying rule compliance.
+
+2. HOW WE USE YOUR INFORMATION
+We use the collected information for the following legitimate business purposes:
+2.1. Service Delivery: To operate the Minecraft server, authenticate your identity, and instantly deliver purchased Virtual Goods to your in-game account.
+2.2. Enforcement and Security: To monitor server activity, detect fraudulent transactions, track alternate accounts, perform anti-cheat inspections (screenshares), and enforce our Terms of Service.
+2.3. Community Features: To display competitive leaderboards on our website utilizing your in-game statistics.
+2.4. Customer Support: To respond to your inquiries, support tickets, and purchase disputes.
+2.5. Improvement: To analyze traffic and usage patterns to optimize server performance and improve our website's user experience.
+
+3. HOW WE SHARE YOUR INFORMATION
+We respect your privacy and DO NOT sell, rent, or trade your personal information to third parties for marketing purposes. We may share your information only under the following circumstances:
+3.1. Service Providers: We may share necessary data with trusted third-party vendors who assist us in operating our Services (such as server hosting providers, DDoS protection services, and our webstore provider, FluxStore). These providers are bound by their own privacy policies.
+3.2. Legal Compliance: We may disclose your information if required to do so by law, subpoena, or court order, or if we believe in good faith that such action is necessary to comply with legal processes.
+3.3. Protection of Rights: We may disclose information to investigate fraud, defend against legal claims, or protect the rights, property, and safety of SM SMP, our staff, or our players.
+
+4. COOKIES AND TRACKING TECHNOLOGIES
+Our website may use "cookies" (small data files stored on your device) to enhance user experience, save session preferences, and analyze site traffic. You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent. However, if you do not accept cookies, some portions of our website (such as the webstore cart) may not function properly.
+
+5. DATA RETENTION
+We retain your personal information for as long as your account is active or as needed to provide you with the Services. We may retain certain data (such as transaction records, IP logs, and ban histories) indefinitely to resolve disputes, prevent fraud, and enforce our agreements.
+
+6. DATA SECURITY
+We implement industry-standard administrative and technical security measures to protect your personal information against unauthorized access, loss, or alteration. However, please be aware that no method of transmission over the Internet or electronic storage is 100% secure. We cannot guarantee absolute security of your data.
+
+7. CHILDREN'S PRIVACY
+Our Services are not directed to children under the age of 13. We do not knowingly collect personal information from children under 13 without verifiable parental consent. If we become aware that we have collected personal information from a child under 13 without such consent, we will take reasonable steps to delete that information.
+
+8. INTERNATIONAL DATA TRANSFERS
+SM SMP operates globally. Your information may be transferred to, stored, and processed in countries other than your own, where data protection laws may differ. By using our Services, you consent to the transfer of your information to our server locations.
+
+9. YOUR RIGHTS
+Depending on your jurisdiction, you may have the right to request access to, correction of, or deletion of your personal data. To exercise these rights, please contact our support team. Note that deleting certain data (like your UUID) will result in the loss of all in-game progress and purchased items.
+
+10. CHANGES TO THIS PRIVACY POLICY
+We reserve the right to update this Privacy Policy at our discretion. Any material changes will be communicated to the community via our Discord server. Your continued use of the Services after modifications indicates your acceptance of the updated Privacy Policy.
+
+11. CONTACT US
+If you have any questions, concerns, or requests regarding this Privacy Policy, please contact us by:
+- Joining our Discord: discord.smsmp.net
+- Emailing us at: SpearMaceSMP@gmail.com
+
+</template>
   <script src="js/app.js"></script>
 </body>
 </html>
+
+
+
+
+
+

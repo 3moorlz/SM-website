@@ -23,14 +23,16 @@
   }
 
   function getPackageId(item) {
-    var rank = getRank(item.id);
-    if (rank) return item.tier === 'monthly' ? rank.monthlyPackageId : rank.lifetimePackageId;
-    
-    var key = KEYS.find(function(k) { return k.id === item.id; });
-    if (key) return item.tier === 'pack' ? key.packId : key.singleId;
-    
-    var bundle = BUNDLES.find(function(b) { return b.id === item.id; });
-    if (bundle) return bundle.packageId;
+    if (item.type === 'rank') {
+      var rank = getRank(item.id);
+      if (rank) return item.tier === 'monthly' ? rank.monthlyPackageId : rank.lifetimePackageId;
+    } else if (item.type === 'key') {
+      var key = KEYS.find(function(k) { return k.id === item.id; });
+      if (key) return item.tier === 'pack' ? key.packId : key.singleId;
+    } else if (item.type === 'bundle') {
+      var bundle = BUNDLES.find(function(b) { return b.id === item.id; });
+      if (bundle) return bundle.packageId;
+    }
     
     return null;
   }
@@ -199,6 +201,8 @@
     } else if (id === 'confirm') {
       $('#confirm-modal').classList.add('hidden');
       state.pendingPurchase = null;
+    } else if (id === 'legal-text') {
+      $('#legal-text-modal').classList.add('hidden');
     }
     if (openOverlay === id) unlockPage();
   }
@@ -261,16 +265,30 @@
     }).join('');
   }
 
+  let currentKeysTier = 'single';
+
   function renderKeys() {
-    let html = KEYS.map(function(key) {
-      return (
-        '<article class="key-card">' +
-          '<img src="' + key.image + '" alt="" class="key-card-icon" onerror="this.src=\'assets/key.webp\'">' +
-          '<h3>' + key.name + '</h3>' +
-          '<button type="button" class="btn btn-primary btn-sm btn-buy-key" style="margin-top:auto;" data-id="' + key.id + '">VIEW OPTIONS</button>' +
-        '</article>'
-      );
-    }).join('');
+    let html = '';
+    KEYS.forEach(function(key) {
+      if (currentKeysTier === 'single') {
+        html += 
+          '<article class="key-card">' +
+            '<img src="' + key.image + '" alt="" class="key-card-icon" onerror="this.onerror=null; this.src=\'assets/key.webp\';">' +
+            '<h3>' + key.name + '</h3>' +
+            '<div class="store-card-price">$' + key.singlePrice.toFixed(2) + '</div>' +
+            '<button type="button" class="btn btn-primary btn-store-item btn-buy-key" data-id="' + key.id + '" data-tier="single">VIEW OPTIONS</button>' +
+          '</article>';
+      } else {
+        html += 
+          '<article class="key-card">' +
+            '<img src="' + (key.packImage || key.image) + '" alt="" class="key-card-icon" style="width: 64px; height: 64px;" onerror="this.onerror=null; this.src=\'assets/key.webp\';">' +
+            '<h3>' + key.name + ' (5x Pack)</h3>' +
+            '<div class="store-card-price">$' + key.packPrice.toFixed(2) + '</div>' +
+            '<div class="store-card-savings">' + key.saveText + '</div>' +
+            '<button type="button" class="btn btn-primary btn-store-item btn-buy-key" data-id="' + key.id + '" data-tier="pack">VIEW OPTIONS</button>' +
+          '</article>';
+      }
+    });
     $('#keys-grid').innerHTML = html;
   }
 
@@ -278,11 +296,11 @@
     let html = BUNDLES.map(function(bundle) {
       return (
         '<article class="key-card">' +
-          '<img src="' + bundle.image + '" alt="" class="key-card-icon" onerror="this.src=\'assets/money.webp\'">' +
+          '<img src="' + bundle.image + '" alt="" class="bundle-card-icon" onerror="this.onerror=null; this.src=\'assets/money.webp\';">' +
           '<h3>' + bundle.name + '</h3>' +
-          '<p class="key-card-slot">' + bundle.value + '</p>' +
-          '<ul class="bundle-items">' + bundle.items.map(function(i) { return '<li>' + i + '</li>'; }).join('') + '</ul>' +
-          '<button type="button" class="btn btn-primary btn-sm btn-buy-bundle" style="margin-top:auto;" data-id="' + bundle.id + '">VIEW OPTIONS</button>' +
+          '<div class="store-card-price">$' + bundle.price.toFixed(2) + '</div>' +
+          '<div class="store-card-savings">' + bundle.value + '</div>' +
+          '<button type="button" class="btn btn-primary btn-store-item btn-buy-bundle" data-id="' + bundle.id + '">VIEW OPTIONS</button>' +
         '</article>'
       );
     }).join('');
@@ -326,6 +344,7 @@
     const defaultPrice = defaultTier === 'monthly' ? rank.monthlyPrice : rank.lifetimePrice;
     const defaultLabel = defaultTier === 'monthly' ? 'Monthly' : 'Lifetime';
     state.pendingPurchase = {
+      type: 'rank',
       id: rank.id,
       name: rank.name,
       price: defaultPrice,
@@ -358,21 +377,23 @@
     openOverlayPanel('confirm', $('#confirm-modal'));
   }
 
-  function openConfirmKey(keyId) {
+  function openConfirmKey(keyId, defaultTier) {
     const key = KEYS.find(function(k) { return k.id === keyId; });
     if (!key) return;
+
+    const tier = defaultTier || 'pack';
+    const price = tier === 'pack' ? key.packPrice : key.singlePrice;
+    const label = tier === 'pack' ? key.name + ' (5x Pack)' : key.name + ' (Single)';
+    const image = tier === 'pack' ? (key.packImage || key.image) : key.image;
     
-    const price = key.packPrice;
-    const label = key.name + ' (5x Pack)';
-    
-    state.pendingPurchase = { id: key.id, name: key.name, price: price, tier: 'pack', label: label };
+    state.pendingPurchase = { type: 'key', id: key.id, name: key.name, price: price, tier: tier, label: label, image: image };
     
     let tierPicker = 
       '<div class="tier-picker">' +
-        '<button type="button" class="tier-option" data-tier="single">' +
+        '<button type="button" class="tier-option ' + (tier === 'single' ? 'active' : '') + '" data-tier="single">' +
           'Single · ' + formatPrice(key.singlePrice) +
         '</button>' +
-        '<button type="button" class="tier-option active" data-tier="pack">' +
+        '<button type="button" class="tier-option ' + (tier === 'pack' ? 'active' : '') + '" data-tier="pack">' +
           '5x Pack · ' + formatPrice(key.packPrice) + ' · Best Deal' +
         '</button>' +
         '<p class="tier-note">' + key.saveText + '</p>' +
@@ -380,7 +401,7 @@
       
     $('#confirm-modal-content').innerHTML =
       '<div class="embed-header" style="border-left-color:#6d28d9">' +
-        '<img src="' + key.image + '" alt="" onerror="this.src=\'assets/key.webp\'"><div><h3>' + key.name + '</h3>' +
+        '<img id="confirm-item-image" src="' + image + '" alt="" onerror="this.onerror=null; this.src=\'assets/key.webp\';"><div><h3>' + key.name + '</h3>' +
         '<p class="confirm-tier-label">' + label + ' · ' + formatPrice(price) + '</p></div>' +
       '</div>' + tierPicker;
     openOverlayPanel('confirm', $('#confirm-modal'));
@@ -390,11 +411,11 @@
     const bundle = BUNDLES.find(function(b) { return b.id === bundleId; });
     if (!bundle) return;
     
-    state.pendingPurchase = { id: bundle.id, name: bundle.name, price: bundle.price, tier: 'bundle', label: bundle.name };
+    state.pendingPurchase = { type: 'bundle', id: bundle.id, name: bundle.name, price: bundle.price, tier: 'bundle', label: bundle.name, image: bundle.image };
     
     $('#confirm-modal-content').innerHTML =
       '<div class="embed-header" style="border-left-color:#6d28d9">' +
-        '<img src="' + bundle.image + '" alt="" onerror="this.src=\'assets/money.webp\'"><div><h3>' + bundle.name + '</h3>' +
+        '<img id="confirm-item-image" src="' + bundle.image + '" alt="" onerror="this.onerror=null; this.src=\'assets/money.webp\';"><div><h3>' + bundle.name + '</h3>' +
         '<p class="confirm-tier-label">Bundle · ' + formatPrice(bundle.price) + '</p></div>' +
       '</div>' +
       '<ul class="embed-perk-list">' + bundle.items.map(function(i){return '<li>'+i+'</li>';}).join('') + '</ul>';
@@ -408,32 +429,81 @@
     let price = 0;
     let tierLabel = '';
     let name = '';
+    let newImage = null;
     
-    const rank = getRank(state.pendingPurchase.id);
-    if (rank) {
+    if (state.pendingPurchase.type === 'rank') {
+      const rank = getRank(state.pendingPurchase.id);
+      if (!rank) return;
       price = tier === 'monthly' ? rank.monthlyPrice : rank.lifetimePrice;
       tierLabel = tier === 'monthly' ? 'Monthly' : 'Lifetime';
       name = rank.name;
-    } else {
+    } else if (state.pendingPurchase.type === 'key') {
       const key = KEYS.find(function(k) { return k.id === state.pendingPurchase.id; });
-      if (key) {
-        price = tier === 'pack' ? key.packPrice : key.singlePrice;
-        tierLabel = tier === 'pack' ? '5x Pack' : 'Single';
-        name = key.name;
-      } else {
-        return;
-      }
+      if (!key) return;
+      price = tier === 'pack' ? key.packPrice : key.singlePrice;
+      tierLabel = tier === 'pack' ? '5x Pack' : 'Single';
+      name = key.name;
+      newImage = tier === 'pack' ? (key.packImage || key.image) : key.image;
+    } else {
+      return;
     }
 
     state.pendingPurchase.price = price;
     state.pendingPurchase.tier = tier;
     state.pendingPurchase.label = name + ' (' + tierLabel + ')';
+    if (newImage) {
+      state.pendingPurchase.image = newImage;
+    }
     
     $$('.tier-option').forEach(function (btn) {
       btn.classList.toggle('active', btn.dataset.tier === tier);
     });
     const label = $('.confirm-tier-label');
     if (label) label.textContent = tierLabel + ' · ' + formatPrice(price);
+    
+    if (newImage) {
+      const imgEl = $('#confirm-item-image');
+      if (imgEl) imgEl.src = newImage;
+    }
+  }
+
+  let tosClicked = false;
+  let privacyClicked = false;
+
+  function openLegalModal(title, templateId, callback) {
+    const modal = $('#legal-text-modal');
+    $('#legal-text-title').textContent = title;
+    const content = $('#legal-text-content');
+    openOverlayPanel('legal-text', modal);
+
+    const template = document.getElementById(templateId);
+    let text = template ? template.innerHTML : '';
+    if (!text) {
+      content.textContent = 'Error: Document not found.';
+      if (callback) callback();
+      return;
+    }
+
+    let html = text
+      .replace(/^(Terms of Service.*|Privacy Policy.*)$/gim, '<h2 style="color: var(--primary-color); font-family: var(--font-display); font-size: 2rem; margin: 0 0 0.5rem 0; text-transform: uppercase; letter-spacing: 1px;">$1</h2>')
+      .replace(/^(Last Updated: .*)$/gim, '<div style="color: rgba(255,255,255,0.5); font-size: 0.9rem; margin-bottom: 2rem; font-style: italic;">$1</div>')
+      .replace(/^(\d+\.\s+[A-Z\s]+)$/gm, '<h3 style="color: #fff; font-family: var(--font-display); font-size: 1.3rem; margin: 2rem 0 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">$1</h3>')
+      .replace(/(ALL SALES ARE FINAL AND NON-REFUNDABLE)/g, '<strong style="color: #ff4444; font-weight: 800;">$1</strong>');
+
+    content.style.overflow = '';
+    content.style.padding = '';
+    content.innerHTML = html;
+    
+    if (callback) callback();
+  }
+
+  function checkLegalLinks() {
+    if (tosClicked && privacyClicked) {
+      const cb = $('#legal-agree-checkbox');
+      if (cb) cb.disabled = false;
+      const note = $('#cart-legal-note');
+      if (note) note.style.display = 'none';
+    }
   }
 
   function updateCartUI() {
@@ -452,7 +522,11 @@
     }
     renderRankCards();
     var checkoutBtn = $('#cart-checkout-btn');
-    if (checkoutBtn) checkoutBtn.disabled = state.cart.length === 0;
+    var cb = $('#legal-agree-checkbox');
+    var hasItems = state.cart.length > 0;
+    if (checkoutBtn) {
+      checkoutBtn.disabled = !(hasItems && cb && cb.checked);
+    }
   }
 
   function addToCart(rankId) {
@@ -466,7 +540,7 @@
     if (state.cart.some((c) => c.key === key)) {
       showToast(item.label + ' is already in your cart.', 'success');
     } else {
-      state.cart.push({ key: key, id: item.id, name: item.name, price: item.price, tier: item.tier, label: item.label });
+      state.cart.push({ type: item.type, key: key, id: item.id, name: item.name, price: item.price, tier: item.tier, label: item.label });
       showToast(item.label + ' added to cart!', 'success');
     }
     closeOverlay('confirm');
@@ -474,58 +548,11 @@
     openCart($('#cart-toggle'));
   }
 
-  async function buyNowFromModal() {
-    var pending = state.pendingPurchase;
-    if (!pending) return;
-
-    var pkgId = getPackageId(pending);
-    if (!pkgId || pkgId === '{PENDING_ID}') return;
-
-    var btn = document.querySelector('#confirm-buy-now');
-    var originalText = btn ? btn.innerText : '';
-    if (btn) btn.innerText = 'Creating Session...';
-
-    try {
-      var response = await fetch(WORKER_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          items: [{ packageId: pkgId, quantity: 1 }],
-          customer: {
-            playerUsername: state.user || 'Guest'
-          },
-          successUrl: window.location.href,
-          cancelUrl: window.location.href
-        })
-      });
-
-      var data = await response.json();
-      
-      if (data.success && data.data && data.data.url) {
-        state.cart = [];
-        updateCartUI();
-        window.location.href = data.data.url;
-      } else {
-        throw new Error(data.message || 'No redirect URL provided by API.');
-      }
-    } catch (err) {
-      console.error('FluxStore API Error:', err);
-      showToast('Checkout Error: ' + err.message, 'error');
-      // Fallback
-      var url = 'https://smsmp.fluxstore.net/package/' + pkgId;
-      if (state.user) {
-        url += '?ign=' + encodeURIComponent(state.user);
-      }
-      window.open(url, '_blank', 'noopener,noreferrer');
-    } finally {
-      if (btn) btn.innerText = originalText;
-      closeOverlay('confirm');
-    }
+  function buyNowFromModal() {
+    addPendingToCart();
   }
 
-  // We will route this through a free Cloudflare Worker to fix the CORS error and secure the API Key
+  
   const WORKER_URL = 'https://fluxstore-api.spearmacesmp.workers.dev';
 
   async function checkoutCart() {
@@ -660,7 +687,74 @@
     }
   }
 
+  function renderStaffRoster() {
+    var rosterView = $('#roster-view');
+    if (!rosterView) return;
+
+    var container = $('.staff-group');
+    if (!container) return;
+
+    if (!STAFF_MEMBERS || STAFF_MEMBERS.length === 0) {
+      container.innerHTML = '<p style="color:var(--text-muted); text-align: center;">No staff found.</p>';
+      return;
+    }
+
+    const roleOrder = [
+      'Owner', 'Developer', 'Manager', 
+      'Promotional Manager', 'Ticket Manager', 'Staff Manager', 
+      'Sr. Admin', 'Admin', 'Sr. Mod', 'Mod', 'Jr. Mod', 'Helper', 'Trainee'
+    ];
+
+    const roleColors = {
+      'Owner': 'rank-purple',
+      'Developer': 'rank-red',
+      'Manager': 'rank-blue',
+      'Promotional Manager': 'rank-blue',
+      'Ticket Manager': 'rank-blue',
+      'Staff Manager': 'rank-blue',
+      'Sr. Admin': 'rank-green',
+      'Admin': 'rank-green',
+      'Sr. Mod': 'rank-orange',
+      'Mod': 'rank-orange',
+      'Jr. Mod': 'rank-orange',
+      'Helper': 'rank-orange',
+      'Trainee': 'rank-orange'
+    };
+
+    let html = '';
+
+    roleOrder.forEach(role => {
+      const staffInRole = STAFF_MEMBERS.filter(s => s.role === role);
+      if (staffInRole.length > 0) {
+        html += '<div class="staff-role-section">';
+        html += '<h3 class="role-title">' + role + '</h3>';
+        html += '<div class="staff-grid">';
+        
+        const colorClass = roleColors[role] || 'rank-orange';
+
+        staffInRole.forEach(s => {
+          html += '<div class="staff-card ' + colorClass + '">' +
+                  '<img src="https://mc-heads.net/avatar/' + s.head + '/64" alt="" class="staff-head">' +
+                  '<div class="staff-details">' +
+                  '<span class="staff-mc"><img src="assets/' + s.icon + '" alt="' + s.role + '" class="staff-badge"> ' + s.name + '</span>' +
+                  '<span class="staff-role">' + s.role + '</span>' +
+                  '</div>' +
+                  '</div>';
+        });
+
+        html += '</div></div>';
+      }
+    });
+
+    container.innerHTML = html;
+  }
+
   function bindEvents() {
+    var legalCb = $('#legal-agree-checkbox');
+    if (legalCb) {
+      legalCb.addEventListener('change', updateCartUI);
+    }
+
     document.addEventListener('click', (e) => {
       const advToggle = e.target.closest('.advancement-toggle');
       if (advToggle) {
@@ -700,7 +794,7 @@
       const keyBtn = e.target.closest('.btn-buy-key');
       if (keyBtn) {
         e.stopPropagation();
-        openConfirmKey(keyBtn.dataset.id);
+        openConfirmKey(keyBtn.dataset.id, keyBtn.dataset.tier);
         return;
       }
 
@@ -722,8 +816,69 @@
         const id = closeModal.dataset.closeModal;
         if (id === 'perks-modal') closeOverlay('perks');
         if (id === 'confirm-modal') closeOverlay('confirm');
+        if (id === 'legal-text-modal') closeOverlay('legal-text');
         return;
       }
+
+      if (e.target.closest('#keys-single-btn')) {
+        currentKeysTier = 'single';
+        renderKeys();
+        
+        const singleBtn = $('#keys-single-btn');
+        const packBtn = $('#keys-pack-btn');
+        singleBtn.classList.add('btn-primary');
+        singleBtn.style.background = '';
+        singleBtn.style.border = '';
+        singleBtn.style.color = '';
+        singleBtn.style.boxShadow = '';
+        
+        packBtn.classList.remove('btn-primary');
+        packBtn.style.background = 'transparent';
+        packBtn.style.border = 'none';
+        packBtn.style.color = 'var(--text-muted)';
+        packBtn.style.boxShadow = 'none';
+        return;
+      }
+      
+      if (e.target.closest('#keys-pack-btn')) {
+        currentKeysTier = 'pack';
+        renderKeys();
+        
+        const singleBtn = $('#keys-single-btn');
+        const packBtn = $('#keys-pack-btn');
+        packBtn.classList.add('btn-primary');
+        packBtn.style.background = '';
+        packBtn.style.border = '';
+        packBtn.style.color = '';
+        packBtn.style.boxShadow = '';
+        
+        singleBtn.classList.remove('btn-primary');
+        singleBtn.style.background = 'transparent';
+        singleBtn.style.border = 'none';
+        singleBtn.style.color = 'var(--text-muted)';
+        singleBtn.style.boxShadow = 'none';
+        return;
+      }
+
+      const legalTrigger = e.target.closest('.legal-text-trigger');
+      if (legalTrigger) {
+        e.preventDefault();
+        openLegalModal(legalTrigger.dataset.title, legalTrigger.dataset.template, function() {
+          if (legalTrigger.id === 'cart-tos-link') {
+            tosClicked = true;
+            checkLegalLinks();
+          }
+          if (legalTrigger.id === 'cart-privacy-link') {
+            privacyClicked = true;
+            checkLegalLinks();
+          }
+        });
+        return;
+      }
+
+
+
+
 
       if (e.target.closest('#confirm-add-cart')) {
         addPendingToCart();
@@ -832,6 +987,7 @@
     renderComparisonTable();
     renderKitTable();
     updateCartUI();
+    renderStaffRoster();
     bindEvents();
   }
 
@@ -841,3 +997,4 @@
     init();
   }
 })();
+

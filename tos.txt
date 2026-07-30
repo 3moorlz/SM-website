@@ -1,0 +1,56 @@
+Terms of Service for SM SMP
+
+Last Updated: July 30, 2026
+
+Welcome to SM SMP (the "Server," "we," "us," or "our"). These Terms of Service ("Terms") govern your access to and use of our Minecraft server located at play.smsmp.net, our website located at smsmp.net, our webstore located at smsmp.fluxstore.net, and our Discord community at discord.smsmp.net (collectively, the "Services").
+
+By connecting to our Server, making a purchase on our webstore, or utilizing any of our Services, you agree to be bound by these Terms in their entirety.
+
+1. AUTOMATIC AGREEMENT
+By connecting to our Server (play.smsmp.net), visiting our website (smsmp.net), making a purchase on our webstore (smsmp.fluxstore.net), or utilizing any of our Services, you automatically agree to be bound by these Terms in their entirety. If you do not agree to these Terms, you must immediately cease using our Services.
+
+2. NON-AFFILIATION DISCLAIMER
+SM SMP is an independently owned and operated community. We are NOT affiliated with, endorsed by, sponsored by, or supported by Mojang Synergies AB, Microsoft Corporation, or any other real-world brand or entity. "Minecraft" is a registered trademark of Mojang Synergies AB. 
+
+3. ELIGIBILITY
+You must be at least 13 years of age to access or use our Services. If you are between the ages of 13 and the age of majority in your jurisdiction (typically 18), you must have the permission of a parent or legal guardian to use our Services, and they must agree to these Terms on your behalf.
+
+4. VIRTUAL GOODS AND WEBSTORE PURCHASES
+We operate a webstore (smsmp.fluxstore.net) where users can purchase virtual items, ranks, and server currency (collectively, "Virtual Goods").
+4.1. Ownership: You do not own the Virtual Goods. You are purchasing a limited, non-transferable, revocable license to access and use these features within our Server. This license may be revoked or terminated at any time without reimbursement, particularly in the event of a server ban or rule violation.
+4.2. No Real-World Value: Virtual Goods have no real-world monetary value and cannot be redeemed, sold, or transferred for real fiat currency.
+4.3. All Sales Are Final: Due to the digital nature of Virtual Goods, ALL SALES ARE FINAL AND NON-REFUNDABLE. We do not offer refunds, exchanges, or returns for any reason, including but not limited to: account bans, server wipes, lag, downtime, or lack of interest.
+4.4. Chargebacks and Disputes: If you initiate a chargeback, dispute, or payment reversal through your bank, credit card company, or PayPal, your account will be immediately and permanently banned from the webstore, and you will receive a 30-day ban from the Server. Your IP address and account details may also be reported to shared community ban lists.
+4.5. Modification of Virtual Goods: We reserve the right to modify, nerf, remove, or replace the perks, items, and features associated with Virtual Goods at any time without prior notice or compensation.
+
+5. USER CONDUCT AND SERVER RULES
+When using our Services, you agree to abide by all server rules as posted in our Discord and in-game. 
+5.1. Prohibited Actions: You agree NOT to engage in cheating, exploiting bugs, using unauthorized modifications (hacked clients, auto-clickers, macros), harassment, hate speech, doxxing, or advertising other servers.
+5.2. Disciplinary Action: Server staff retain the exclusive right to mute, kick, temporarily suspend, or permanently ban any user at their sole discretion. No refunds will be provided if you lose access to the Server due to a rule violation.
+5.3. Loophole Abuse: Attempting to bypass the spirit of the rules using loopholes will be treated as a rule violation. The interpretation of the rules lies entirely with the SM SMP administration team.
+5.4. Screensharing and Inspections: SM SMP is based in the United States and operates on private property. By choosing to connect to our Server, you consent to submitting to a screenshare (SS) or inspection by our staff if there is reasonable suspicion that you are using unauthorized modifications (cheats, clients, macros, etc.). This requirement applies regardless of your geographic location or local data regulations (including the GDPR), as submitting to an inspection is a mandatory condition of accessing our private services. Refusal to comply with a screenshare request will result in an immediate and permanent ban.
+
+6. USER-GENERATED CONTENT
+Anything you build, type, or create on the Server ("User Content") becomes the property of SM SMP. We reserve the right to modify, delete, or utilize your User Content without notification or compensation. We are not responsible or liable for any User Content submitted by you or other players.
+
+7. ACCOUNT SECURITY & PLAYER ISSUES
+You are entirely responsible for maintaining the confidentiality and security of your Minecraft account and Discord account. SM SMP is not responsible for any loss of services caused by player-side issues, including but not limited to lost access to your account, forgotten passwords, or compromised accounts. We will not refund, reimburse, restore, or transfer ranks, items, or stats lost due to any such issues.
+
+8. SERVER AVAILABILITY AND DATA RETENTION
+8.1. Uptime: We strive to provide a continuous and stable experience, but we do not guarantee uninterrupted access. The Server may experience downtime for maintenance, updates, or unforeseen technical failures.
+
+9. DISCLAIMER OF WARRANTIES
+THE SERVICES ARE PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS WITHOUT ANY WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED. WE DISCLAIM ALL WARRANTIES, INCLUDING MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. WE DO NOT WARRANT THAT THE SERVICES WILL BE ERROR-FREE, SECURE, OR FREE FROM VIRUSES OR OTHER HARMFUL COMPONENTS.
+
+10. LIMITATION OF LIABILITY
+TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT SHALL SM SMP, ITS OWNERS, ADMINISTRATORS, OR STAFF BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES (INCLUDING LOSS OF PROFITS, DATA, OR USE) ARISING OUT OF OR IN CONNECTION WITH YOUR USE OF THE SERVICES, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+11. INDEMNIFICATION
+You agree to indemnify, defend, and hold harmless SM SMP and its staff from any claims, liabilities, damages, losses, and expenses (including legal fees) arising from your use of the Services or your violation of these Terms.
+
+12. MODIFICATION OF TERMS
+We reserve the right to modify or replace these Terms at any time. Material changes will be communicated via our Discord announcements or website. Your continued use of the Services after any changes constitutes acceptance of the new Terms.
+
+13. CONTACT INFORMATION
+If you have any questions regarding these Terms, please contact us by creating a support ticket in our Discord (discord.smsmp.net) or by emailing SpearMaceSMP@gmail.com for business inquires.
+

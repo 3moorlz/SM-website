@@ -160,6 +160,23 @@ const RANKS = [
   },
 ];
 
+const STAFF_MEMBERS = [
+  { role: 'Owner', name: 'G660', head: 'G660', icon: 'owner.webp' },
+  { role: 'Developer', name: 'UknUnc', head: 'UknUnc', icon: 'dev.webp' },
+  { role: 'Manager', name: 'Fruitifly', head: 'Fruitifly', icon: 'manager.webp' },
+  { role: 'Manager', name: 'Yehosy', head: 'Yehosy', icon: 'manager.webp' },
+  { role: 'Sr. Admin', name: 'Lifes_Tuff', head: 'Lifes_Tuff', icon: 'SrAdmin.webp' },
+  { role: 'Admin', name: 'FvsionNova', head: 'FvsionNova', icon: 'Admin.webp' },
+  { role: 'Admin', name: 'JustTheNon', head: 'JustTheNon', icon: 'Admin.webp' },
+  { role: 'Admin', name: 'IllusionsEU', head: 'IllusionsEU', icon: 'Admin.webp' },
+  { role: 'Admin', name: 'Nixeron_', head: 'Nixeron_', icon: 'Admin.webp' },
+  { role: 'Mod', name: 'BilliePotatoe', head: 'BilliePotatoe', icon: 'mod.webp' },
+  { role: 'Mod', name: 'AbleSquirrel', head: 'AbleSquirrel', icon: 'mod.webp' },
+  { role: 'Mod', name: 'Fritsyy', head: 'Fritsyy', icon: 'mod.webp' },
+  { role: 'Jr. Mod', name: 'Censorr_', head: 'Censorr_', icon: 'JrMod.webp' },
+  { role: 'Jr. Mod', name: 'RaccoonNyx', head: 'RaccoonNyx', icon: 'JrMod.webp' }
+];
+
 const COMPARISON_ROWS = [
   { label: 'Homes', values: ['14', '12', '9', '7', '5'] },
   { label: 'Auction Listings', values: ['40', '30', '25', '20', '15'] },
@@ -197,19 +214,19 @@ const HOME_FEATURES = [
 ];
 
 const KEYS = [
-  { id: 'sentinel', name: 'Sentinel Key', image: 'assets/sentinel_key.webp', singlePrice: 0.29, packPrice: 1.19, saveText: 'Save $0.26', singleId: 'd041b0b3-07b2-44a0-9b80-1cacae690d6b', packId: '0d037be7-6e50-4ff3-847d-b9be9cb1a04e' },
-  { id: 'crusader', name: 'Crusader Key', image: 'assets/crusader_key.webp', singlePrice: 0.79, packPrice: 3.39, saveText: 'Save $0.56', singleId: 'a87c1e80-bb2d-4dff-ad22-93a912ab6e21', packId: 'bad9f413-a1ed-4c48-9244-44c191cee941' },
-  { id: 'champion', name: 'Champion Key', image: 'assets/champion_key.webp', singlePrice: 1.49, packPrice: 3.39, saveText: 'Save $0.96', singleId: '9e4a6932-9342-4b24-a9e1-c41b41e01ac7', packId: 'ab4bf262-0ea4-4da8-95ab-326848be2f3b' },
-  { id: 'ascendant', name: 'Ascendant Key', image: 'assets/ascendant_key.webp', singlePrice: 2.99, packPrice: 12.99, saveText: 'Save $1.96', singleId: 'e3c3c88f-1650-4de2-91f6-305376158544', packId: '946a5fa9-54fb-4e18-8fff-56a98ed2c213' },
-  { id: 'seasonal', name: 'Seasonal Key', image: 'assets/immortal_key.png', singlePrice: 5.99, packPrice: 24.99, saveText: 'Save $4.96', singleId: 'da4a57c5-9e42-471a-a106-69c16491bdf3', packId: 'cf314ba2-d41a-484a-8dde-f6fa73966a0c' }
+  { id: 'sentinel', name: 'Sentinel Key', image: 'assets/sentinel_key.webp', packImage: 'assets/sentinelpack.png', singlePrice: 0.29, packPrice: 1.19, saveText: 'Save $0.26', singleId: 'd041b0b3-07b2-44a0-9b80-1cacae690d6b', packId: '0d037be7-6e50-4ff3-847d-b9be9cb1a04e' },
+  { id: 'crusader', name: 'Crusader Key', image: 'assets/crusader_key.webp', packImage: 'assets/crusaderpack.png', singlePrice: 0.79, packPrice: 3.39, saveText: 'Save $0.56', singleId: 'a87c1e80-bb2d-4dff-ad22-93a912ab6e21', packId: 'bad9f413-a1ed-4c48-9244-44c191cee941' },
+  { id: 'champion', name: 'Champion Key', image: 'assets/champion_key.webp', packImage: 'assets/championpack.png', singlePrice: 1.49, packPrice: 6.49, saveText: 'Save $0.96', singleId: '9e4a6932-9342-4b24-a9e1-c41b41e01ac7', packId: 'ab4bf262-0ea4-4da8-95ab-326848be2f3b' },
+  { id: 'ascendant', name: 'Ascendant Key', image: 'assets/ascendant_key.webp', packImage: 'assets/ascendantpack.png', singlePrice: 2.99, packPrice: 12.99, saveText: 'Save $1.96', singleId: 'e3c3c88f-1650-4de2-91f6-305376158544', packId: '946a5fa9-54fb-4e18-8fff-56a98ed2c213' },
+  { id: 'seasonal', name: 'Seasonal Key', image: 'assets/immortal_key.png', packImage: 'assets/seasonalpack.png', singlePrice: 5.99, packPrice: 24.99, saveText: 'Save $4.96', singleId: 'da4a57c5-9e42-471a-a106-69c16491bdf3', packId: 'cf314ba2-d41a-484a-8dde-f6fa73966a0c' }
 ];
 
 const BUNDLES = [
-  { id: 'starter-bundle', name: 'Explorer Bundle', price: 4.99, image: 'assets/money.webp', value: '~2,375 Dashes Value', packageId: '6cc1e29b-c3ea-41f9-84f8-4a26a1e4dacb', items: ['10x Sentinel keys', '5x Crusader keys', '100 Dashes'] },
-  { id: 'warrior-bundle', name: 'Adventurer Bundle', price: 9.99, image: 'assets/money.webp', value: '~8,100 Dashes Value', packageId: 'd7d91f4b-ef9f-47e3-9f8e-3707199d2c28', items: ['10x Sentinel keys', '10x Crusader keys', '3x Champion keys', '250 Dashes', '1x Rabbit spawner'] },
-  { id: 'champion-bundle', name: 'Champion Bundle', price: 19.99, image: 'assets/money.webp', value: '~16,850 Dash Value', packageId: '31c90fdb-fab1-4312-9d4d-93306f172159', items: ['10x Crusader keys', '10x Champion keys', '3x Ascendant keys', '600 Dashes', '1x Sheep spawner'] },
-  { id: 'ascendant-bundle', name: 'Ascendant Bundle', price: 34.99, image: 'assets/money.webp', value: '~32,200 Dash Value', packageId: '8d44c1b7-07e8-4e59-a96d-db6d37c9cb13', items: ['10x Champion keys', '10x Ascendant keys', '2x Seasonal keys', '1.2k Dashes', '1x Cow spawner'] },
-  { id: 'ultimate-bundle', name: 'Season 1 Ultimate Bundle', price: 49.99, image: 'assets/money.webp', value: '84,500 Dashes Value', packageId: '7175b35d-16e3-4614-8ace-20fa884a139c', items: ['20x Sentinel keys', '15x Crusader keys', '10x Champion keys', '5x Ascendant keys', '3x Seasonal keys', '2.5k Dashes', '1x Iron Golem Spawner'] }
+  { id: 'starter-bundle', name: 'Sentinel Bundle', price: 4.99, image: 'assets/starterbundle.png', value: '(Save $1.30) (Worth $6.29)', packageId: '6cc1e29b-c3ea-41f9-84f8-4a26a1e4dacb', items: ['10x Sentinel Keys', '5x Crusader Keys'] },
+  { id: 'warrior-bundle', name: 'Warrior Bundle', price: 9.99, image: 'assets/warriorbundle.png', value: '(Save $3.98) (Worth ~8,100 dashes)', packageId: 'd7d91f4b-ef9f-47e3-9f8e-3707199d2c28', items: ['10x Sentinel Keys', '10x Crusader Keys', '3x Champion Keys', '250 Dashes', '1x Rabbit Spawner'] },
+  { id: 'champion-bundle', name: 'Champion Bundle', price: 19.99, image: 'assets/championbundle.png', value: '(Save $9.37) (Worth ~16,850 Dashes)', packageId: '31c90fdb-fab1-4312-9d4d-93306f172159', items: ['10x Crusader Keys', '10x Champion Keys', '3x Ascendant Keys', '600 Dashes', '1x Sheep Spawner'] },
+  { id: 'ascendant-bundle', name: 'Ascendant Bundle', price: 34.99, image: 'assets/ascendantbundle.png', value: '(Save $17.90) (Worth ~32,200 Dashes)', packageId: '8d44c1b7-07e8-4e59-a96d-db6d37c9cb13', items: ['10x Champion Keys', '10x Ascendant Keys', '2x Seasonal Keys', '1.2k Dashes', '1x Cow Spawner'] },
+  { id: 'ultimate-bundle', name: 'Season 1 Ultimate Bundle', price: 49.99, image: 'assets/seasonalbundle.png', value: '(Save $36.03) (Worth ~84,500 Dashes) (Best value)', packageId: '7175b35d-16e3-4614-8ace-20fa884a139c', items: ['20x Crusader Keys', '15x Champion Keys', '10x Ascendant Keys', '3x Seasonal Keys', '2.5k Dashes', '1x Iron Golem Spawner'] }
 ];
 
 const CRATES = [
