@@ -45,7 +45,7 @@ body.scroll-lock {
   overflow: hidden;
 }
 
-/* Global Custom Scrollbar */
+
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -1188,6 +1188,18 @@ a {
   color: var(--text-muted);
   display: block;
   margin-top: 4px;
+}
+
+.staff-title-chip {
+  display: inline-block;
+  background: rgba(20, 184, 166, 0.15); 
+  color: #14b8a6;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-left: 6px;
+  border: 1px solid rgba(20, 184, 166, 0.3);
 }
 
 

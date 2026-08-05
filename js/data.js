@@ -1,4 +1,4 @@
-const DISCORD_URL = 'https://discord.smsmp.net/';
+const DISCORD_URL = 'https://discord.gg/qUWUjSndMW';
 const SUPPORT_DISCORD_URL = 'https://discord.gg/93D5Jt8jEr';
 const CONTACT_EMAIL = 'SpearMaceSMP@gmail.com';
 const IP_PLACEHOLDER = 'play.smsmp.net';
@@ -161,7 +161,6 @@ const RANKS = [
 ];
 
 const STAFF_MEMBERS = [
-  { role: 'Owner', name: 'G660', head: 'G660', icon: 'owner.webp' },
   { role: 'Developer', name: 'UknUnc', head: 'UknUnc', icon: 'dev.webp' },
   { role: 'Manager', name: 'Fruitifly', head: 'Fruitifly', icon: 'manager.webp' },
   { role: 'Manager', name: 'Yehosy', head: 'Yehosy', icon: 'manager.webp' },
@@ -172,9 +171,9 @@ const STAFF_MEMBERS = [
   { role: 'Admin', name: 'Nixeron_', head: 'Nixeron_', icon: 'Admin.webp' },
   { role: 'Mod', name: 'BilliePotatoe', head: 'BilliePotatoe', icon: 'mod.webp' },
   { role: 'Mod', name: 'AbleSquirrel', head: 'AbleSquirrel', icon: 'mod.webp' },
-  { role: 'Mod', name: 'Fritsyy', head: 'Fritsyy', icon: 'mod.webp' },
+  { role: 'Mod', title: 'Builders', name: 'Fritsyy', head: 'Fritsyy', icon: 'mod.webp' },
   { role: 'Jr. Mod', name: 'Censorr_', head: 'Censorr_', icon: 'JrMod.webp' },
-  { role: 'Jr. Mod', name: 'RaccoonNyx', head: 'RaccoonNyx', icon: 'JrMod.webp' }
+  { role: 'Jr. Mod', title: 'Builders', name: 'RaccoonNyx', head: 'RaccoonNyx', icon: 'JrMod.webp' }
 ];
 
 const COMPARISON_ROWS = [
@@ -211,6 +210,43 @@ const HOME_FEATURES = [
   { icon: '⏱', title: 'Playtime Milestones', text: 'The longer you play, the more milestone rewards you unlock.' },
   { icon: '💰', title: 'Player-Driven Economy', text: 'Run shops, list auctions, fill orders. The market moves because players move it.' },
   { icon: '🗡', title: 'Competitive PvP (The Pit)', text: 'Fight in The Pit when you want raw PvP without the usual survival overhead.' },
+];
+
+const PATHWAY_RANKS = [
+  { id: 'server_lead', label: 'Server Lead', tier: 'lead', colorClass: 'rank-purple', icon: 'serverlead.webp', requiresTrial: false, overview: 'The top of the staff pathway. Server Leads set overall direction for the staff team and sign off on major decisions.' },
+  { id: 'promotional_manager', label: 'Promotional Manager', tier: 'management', colorClass: 'rank-blue', icon: 'manager.webp', requiresTrial: true, overview: 'Runs the staff promotion process — reviewing performance, running trials, and recommending rank changes.' },
+  { id: 'staff_manager', label: 'Staff Manager', tier: 'management', colorClass: 'rank-blue', icon: 'manager.webp', requiresTrial: true, overview: 'Manages the entire staff team\'s day-to-day operations, schedules, and internal standards.' },
+  { id: 'ticket_manager', label: 'Ticket Manager', tier: 'management', colorClass: 'rank-blue', icon: 'manager.webp', requiresTrial: true, overview: 'Owns the support ticket system end-to-end — staffing it, setting standards, and resolving escalations.' },
+  { id: 'manager', label: 'Manager', tier: 'management', colorClass: 'rank-blue', icon: 'manager.webp', requiresTrial: true, overview: 'Full management access. Oversees staff performance, training, and the overall health of the server.' },
+  { id: 'sr_admin', label: 'Sr. Admin', tier: 'admin', colorClass: 'rank-green', icon: 'SrAdmin.webp', requiresTrial: false, overview: 'The senior-most administrative rank before management. Runs day-to-day operations across the Admin and Mod teams.' },
+  { id: 'admin', label: 'Admin', tier: 'admin', colorClass: 'rank-green', icon: 'Admin.webp', requiresTrial: true, overview: 'Administrative access to server tools. Oversees moderation quality and handles escalations Mods can\'t resolve.' },
+  { id: 'sr_mod', label: 'Sr. Mod', tier: 'mod', colorClass: 'rank-orange', icon: 'SrMod.webp', requiresTrial: false, overview: 'Mentors the Mod team and takes point on harder enforcement calls and appeals.' },
+  { id: 'mod', label: 'Mod', tier: 'mod', colorClass: 'rank-orange', icon: 'mod.webp', requiresTrial: false, overview: 'Full moderation permissions. Enforces the rules, runs investigations, and keeps the server fair.' },
+  { id: 'jr_mod', label: 'Jr. Mod', tier: 'mod', colorClass: 'rank-orange', icon: 'JrMod.webp', requiresTrial: false, overview: 'Newly trusted with light moderation tools — basic chat and in-game rule enforcement.' },
+  { id: 'helper', label: 'Helper', tier: 'mod', colorClass: 'rank-orange', icon: 'Helper.webp', requiresTrial: false, overview: 'Frontline support in chat and the help queue. Helpers answer questions and flag issues for the Mod team.' },
+  { id: 'trainee', label: 'Trainee', tier: 'mod', colorClass: 'rank-orange', icon: 'staff.webp', requiresTrial: false, overview: 'The first step onto the team. Trainees learn the ropes under close supervision before earning full Helper permissions.' },
+  { id: 'informatics', label: 'Informatics', tier: 'dev', colorClass: 'rank-red', icon: 'informatics.webp', requiresTrial: true, overview: 'Handles server data, configs, and technical documentation that keep systems running smoothly.' },
+  { id: 'developer', label: 'Developer', tier: 'dev', colorClass: 'rank-red', icon: 'dev.webp', requiresTrial: true, overview: 'Builds and maintains the plugins, systems, and tools that power the server.' },
+  { id: 'builders', label: 'Builders', tier: 'special', colorClass: 'rank-teal', icon: 'builder.webp', requiresTrial: true, overview: 'A title, not a rank. Permissions come from whatever staff rank the person actually holds.' }
+];
+
+const PATHWAY_EDGES = [
+  { from: 'trainee', to: 'helper', type: 'direct' },
+  { from: 'helper', to: 'jr_mod', type: 'direct' },
+  { from: 'jr_mod', to: 'mod', type: 'direct' },
+  { from: 'mod', to: 'sr_mod', type: 'direct' },
+  { from: 'sr_mod', to: 'admin', type: 'direct' },
+  { from: 'admin', to: 'sr_admin', type: 'direct' },
+  { from: 'sr_admin', to: 'manager', type: 'direct' },
+  { from: 'manager', to: 'promotional_manager', type: 'direct', group: 'manager-fork' },
+  { from: 'manager', to: 'ticket_manager', type: 'direct', group: 'manager-fork' },
+  { from: 'manager', to: 'staff_manager', type: 'direct', group: 'manager-fork' },
+  { from: 'manager', to: 'builders', type: 'potential' },
+  { from: 'ticket_manager', to: 'server_lead', type: 'potential' },
+  { from: 'promotional_manager', to: 'server_lead', type: 'potential', bidirectional: true },
+  { from: 'staff_manager', to: 'server_lead', type: 'potential', bidirectional: true },
+  { from: 'staff_manager', to: 'informatics', type: 'potential' },
+  { from: 'informatics', to: 'developer', type: 'potential' }
 ];
 
 const KEYS = [

@@ -1,0 +1,57 @@
+
+
+.pathway-image-container {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.pathway-main-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.pathway-hotspot {
+  position: absolute;
+  display: block;
+  cursor: pointer;
+  border-radius: 6px; /* Matches the cards in the image slightly */
+  background-color: transparent;
+  border: none;
+  transition: box-shadow 0.3s ease, background-color 0.3s ease;
+  z-index: 50;
+}
+
+.pathway-hotspot:hover {
+  
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.6), inset 0 0 10px rgba(168, 85, 247, 0.3);
+  background-color: rgba(168, 85, 247, 0.05);
+}
+
+.pathway-tooltip {
+  position: fixed;
+  background: rgba(15, 15, 20, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 0.9rem;
+  pointer-events: none;
+  z-index: 9999;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  transform: translate(-50%, -100%);
+  margin-top: -15px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-family: var(--font-body, sans-serif);
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.pathway-tooltip.hidden {
+  display: none !important;
+}

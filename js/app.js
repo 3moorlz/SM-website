@@ -1,6 +1,9 @@
 (function () {
   'use strict';
 
+  const ASSET_PREFIX = window.location.pathname.includes('/html/') ? '../' : '';
+
+
   const state = {
     view: 'home',
     storeCategory: 'ranks',
@@ -17,6 +20,14 @@
   const $ = (sel) => document.querySelector(sel);
   const $$ = (sel) => document.querySelectorAll(sel);
   const DEFAULT_STEVE_HEAD = 'https://mc-heads.net/avatar/MHF_Steve/32';
+
+  function saveState() {
+    try {
+      localStorage.setItem('sm_cart', JSON.stringify(state.cart));
+      localStorage.setItem('sm_user', JSON.stringify({ user: state.user, bedrock: state.bedrock }));
+    } catch (e) {}
+  }
+
 
   function getRank(id) {
     return RANKS.find(function (r) { return r.id === id; });
@@ -208,6 +219,7 @@
   }
 
   function renderFeatures() {
+    if (!$('#feature-grid')) return;
     $('#feature-grid').innerHTML = HOME_FEATURES.map((f, i) =>
       '<div class="advancement-item">' +
         '<button type="button" class="advancement-toggle" aria-expanded="false" aria-controls="adv-' + i + '">' +
@@ -246,6 +258,7 @@
   }
 
   function renderRankCards() {
+    if (!$('#rank-cards')) return;
     $('#rank-cards').innerHTML = RANKS.map(function (rank) {
       const inCart = state.cart.some(function (item) { return item.id === rank.id; });
       const featured = rank.id === 'immortal';
@@ -253,7 +266,7 @@
         '<article class="rank-card' + (featured ? ' rank-featured' : '') + '" style="--rank-accent:' + rank.accent + ';--rank-glow:' + rank.accentGlow + '">' +
           (featured ? '<span class="rank-tier-badge">Top Tier</span>' : '') +
           '<div class="rank-card-header">' +
-            '<img src="' + rank.badge + '" alt="' + rank.name + ' rank badge" class="rank-badge">' +
+            '<img src="' + ASSET_PREFIX + rank.badge + '" alt="' + rank.name + ' rank badge" class="rank-badge">' +
             '<h3>' + rank.name + '</h3>' +
             rankPricingHtml(rank) +
           '</div>' +
@@ -273,7 +286,7 @@
       if (currentKeysTier === 'single') {
         html += 
           '<article class="key-card">' +
-            '<img src="' + key.image + '" alt="" class="key-card-icon" onerror="this.onerror=null; this.src=\'assets/key.webp\';">' +
+            '<img src="' + ASSET_PREFIX + key.image + '" alt="" class="key-card-icon" onerror="this.onerror=null; this.src=\'' + ASSET_PREFIX + 'assets/key.webp\';">' +
             '<h3>' + key.name + '</h3>' +
             '<div class="store-card-price">$' + key.singlePrice.toFixed(2) + '</div>' +
             '<button type="button" class="btn btn-primary btn-store-item btn-buy-key" data-id="' + key.id + '" data-tier="single">VIEW OPTIONS</button>' +
@@ -281,7 +294,7 @@
       } else {
         html += 
           '<article class="key-card">' +
-            '<img src="' + (key.packImage || key.image) + '" alt="" class="key-card-icon" style="width: 64px; height: 64px;" onerror="this.onerror=null; this.src=\'assets/key.webp\';">' +
+            '<img src="' + ASSET_PREFIX + (key.packImage || key.image) + '" alt="" class="key-card-icon" style="width: 64px; height: 64px;" onerror="this.onerror=null; this.src=\'' + ASSET_PREFIX + 'assets/key.webp\';">' +
             '<h3>' + key.name + ' (5x Pack)</h3>' +
             '<div class="store-card-price">$' + key.packPrice.toFixed(2) + '</div>' +
             '<div class="store-card-savings">' + key.saveText + '</div>' +
@@ -289,6 +302,7 @@
           '</article>';
       }
     });
+    if (!$('#keys-grid')) return;
     $('#keys-grid').innerHTML = html;
   }
 
@@ -296,7 +310,7 @@
     let html = BUNDLES.map(function(bundle) {
       return (
         '<article class="key-card">' +
-          '<img src="' + bundle.image + '" alt="" class="bundle-card-icon" onerror="this.onerror=null; this.src=\'assets/money.webp\';">' +
+          '<img src="' + ASSET_PREFIX + bundle.image + '" alt="" class="bundle-card-icon" onerror="this.onerror=null; this.src=\'' + ASSET_PREFIX + 'assets/money.webp\';">' +
           '<h3>' + bundle.name + '</h3>' +
           '<div class="store-card-price">$' + bundle.price.toFixed(2) + '</div>' +
           '<div class="store-card-savings">' + bundle.value + '</div>' +
@@ -304,11 +318,13 @@
         '</article>'
       );
     }).join('');
+    if (!$('#bundles-grid')) return;
     $('#bundles-grid').innerHTML = html;
   }
 
   function renderComparisonTable() {
     const table = $('#comparison-table');
+    if (!table) return;
     table.querySelector('thead').innerHTML =
       '<tr><th>Feature</th>' + RANKS.map(function (r) {
         return '<th class="' + rankColClass(r) + '">' + r.name + '</th>';
@@ -323,6 +339,7 @@
 
   function renderKitTable() {
     const table = $('#kit-table');
+    if (!table) return;
     table.querySelector('thead').innerHTML =
       '<tr><th>Command / Feature</th>' + RANKS.map(function (r) {
         return '<th class="' + rankColClass(r) + '">' + r.name + '</th>';
@@ -369,7 +386,7 @@
 
     $('#confirm-modal-content').innerHTML =
       '<div class="embed-header" style="border-left-color:' + rank.accent + '">' +
-        '<img src="' + rank.badge + '" alt=""><div><h3>' + rank.name + '</h3>' +
+        '<img src="' + ASSET_PREFIX + rank.badge + '" alt=""><div><h3>' + rank.name + '</h3>' +
         '<p class="confirm-tier-label">' + defaultLabel + ' · ' + formatPrice(defaultPrice) + '</p></div>' +
       '</div>' +
       tierPicker +
@@ -401,7 +418,7 @@
       
     $('#confirm-modal-content').innerHTML =
       '<div class="embed-header" style="border-left-color:#6d28d9">' +
-        '<img id="confirm-item-image" src="' + image + '" alt="" onerror="this.onerror=null; this.src=\'assets/key.webp\';"><div><h3>' + key.name + '</h3>' +
+        '<img id="confirm-item-image" src="' + ASSET_PREFIX + image + '" alt="" onerror="this.onerror=null; this.src=\'' + ASSET_PREFIX + 'assets/key.webp\';"><div><h3>' + key.name + '</h3>' +
         '<p class="confirm-tier-label">' + label + ' · ' + formatPrice(price) + '</p></div>' +
       '</div>' + tierPicker;
     openOverlayPanel('confirm', $('#confirm-modal'));
@@ -415,7 +432,7 @@
     
     $('#confirm-modal-content').innerHTML =
       '<div class="embed-header" style="border-left-color:#6d28d9">' +
-        '<img id="confirm-item-image" src="' + bundle.image + '" alt="" onerror="this.onerror=null; this.src=\'assets/money.webp\';"><div><h3>' + bundle.name + '</h3>' +
+        '<img id="confirm-item-image" src="' + ASSET_PREFIX + bundle.image + '" alt="" onerror="this.onerror=null; this.src=\'' + ASSET_PREFIX + 'assets/money.webp\';"><div><h3>' + bundle.name + '</h3>' +
         '<p class="confirm-tier-label">Bundle · ' + formatPrice(bundle.price) + '</p></div>' +
       '</div>' +
       '<ul class="embed-perk-list">' + bundle.items.map(function(i){return '<li>'+i+'</li>';}).join('') + '</ul>';
@@ -541,6 +558,7 @@
       showToast(item.label + ' is already in your cart.', 'success');
     } else {
       state.cart.push({ type: item.type, key: key, id: item.id, name: item.name, price: item.price, tier: item.tier, label: item.label });
+      saveState();
       showToast(item.label + ' added to cart!', 'success');
     }
     closeOverlay('confirm');
@@ -596,6 +614,7 @@
       
       if (data.success && data.data && data.data.url) {
         state.cart = [];
+        saveState();
         updateCartUI();
         window.location.href = data.data.url;
       } else {
@@ -613,6 +632,7 @@
 
   function removeFromCart(index) {
     state.cart.splice(index, 1);
+    saveState();
     updateCartUI();
   }
 
@@ -663,6 +683,7 @@
     }
     clearUsernameError();
     state.user = name;
+    saveState();
     const skinUrl = 'https://mc-heads.net/avatar/' + encodeURIComponent(name) + '/32';
     const img = new Image();
     img.onload = () => applyLogin(name, skinUrl);
@@ -736,8 +757,8 @@
           html += '<div class="staff-card ' + colorClass + '">' +
                   '<img src="https://mc-heads.net/avatar/' + s.head + '/64" alt="" class="staff-head">' +
                   '<div class="staff-details">' +
-                  '<span class="staff-mc"><img src="assets/' + s.icon + '" alt="' + s.role + '" class="staff-badge"> ' + s.name + '</span>' +
-                  '<span class="staff-role">' + s.role + '</span>' +
+                  '<span class="staff-mc"><img src="' + ASSET_PREFIX + 'assets/' + s.icon + '" alt="' + s.role + '" class="staff-badge"> ' + s.name + '</span>' +
+                  '<span class="staff-role">' + s.role + (s.title ? ' <span class="staff-title-chip">' + s.title + '</span>' : '') + '</span>' +
                   '</div>' +
                   '</div>';
         });
@@ -762,12 +783,7 @@
         return;
       }
 
-      const viewBtn = e.target.closest('[data-view]');
-      if (viewBtn && viewBtn.dataset.view) {
-        const cat = viewBtn.dataset.storeCat;
-        switchView(viewBtn.dataset.view, cat);
-        return;
-      }
+      
 
       const categoryToggle = e.target.closest('#category-toggle');
       if (categoryToggle) {
@@ -960,6 +976,7 @@
 
     $('#bedrock-toggle').addEventListener('change', (e) => {
       state.bedrock = e.target.checked;
+      saveState();
       $('#edition-label').textContent = state.bedrock ? 'Bedrock Edition' : 'Java Edition';
     });
 
@@ -979,8 +996,46 @@
     });
   }
 
+
   function init() {
+    try {
+      var savedCart = JSON.parse(localStorage.getItem('sm_cart'));
+      if (Array.isArray(savedCart)) state.cart = savedCart;
+      var savedUser = JSON.parse(localStorage.getItem('sm_user'));
+      if (savedUser) {
+        state.user = savedUser.user;
+        state.bedrock = savedUser.bedrock;
+        
+        var loginBtn = $('#login-open');
+        var userProfile = $('#user-profile');
+        var userProfileHead = $('#user-profile-head');
+        var userProfileName = $('#user-profile-name');
+        
+        if (loginBtn && userProfile && userProfileHead && userProfileName) {
+          loginBtn.classList.add('hidden');
+          userProfileHead.src = 'https://mc-heads.net/avatar/' + encodeURIComponent(state.user) + '/32';
+          userProfileName.textContent = state.user;
+          userProfile.classList.remove('hidden');
+        }
+      }
+    } catch (e) {}
+
+    var path = window.location.pathname;
+    $$('.top-nav .nav-link, .mobile-nav .nav-link').forEach(function(link) {
+      link.classList.remove('active');
+      var href = link.getAttribute('href');
+      if (href) {
+        var cleanHref = href.replace('../', '').split('?')[0];
+        if (path.indexOf(cleanHref) > -1 && cleanHref !== '') {
+          link.classList.add('active');
+        } else if ((path.endsWith('/') || path.endsWith('index.html')) && cleanHref === 'index.html') {
+          link.classList.add('active');
+        }
+      }
+    });
+
     renderFeatures();
+
     renderRankCards();
     renderKeys();
     renderBundles();
@@ -989,6 +1044,15 @@
     updateCartUI();
     renderStaffRoster();
     bindEvents();
+
+    var urlParams = new URLSearchParams(window.location.search);
+    var cat = urlParams.get('cat');
+    if (cat && window.location.pathname.includes('store.html')) {
+        if (typeof switchStoreCategory === 'function') {
+            switchStoreCategory(cat);
+        }
+    }
+
   }
 
   if (document.readyState === 'loading') {
