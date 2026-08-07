@@ -38,30 +38,43 @@
 
         <nav class="top-nav" id="top-nav">
           <a href="../index.html" class="nav-link">Home</a>
-          <a href="../html/store.html" class="nav-link">Store</a>
-          <a href="../html/leaderboards.html" class="nav-link">Leaderboards</a>
-          <a href="../html/info.html" class="nav-link">Info</a>
-          <a href="../html/staff.html" class="nav-link">Staff</a>
+          <a href="store.html" class="nav-link">Store</a>
+          <a href="staff.html" class="nav-link">Staff</a>
+          <a href="smsuite.html" class="nav-link">SMSuite&trade;</a>
+          <a href="leaderboards.html" class="nav-link">Leaderboards</a>
+          <a href="info.html" class="nav-link">Info</a>
         </nav>
 
         <nav class="mobile-nav hidden" id="mobile-nav">
           <a href="../index.html" class="nav-link">Home</a>
-          <a href="../html/store.html" class="nav-link">Store</a>
-          <a href="../html/leaderboards.html" class="nav-link">Leaderboards</a>
-          <a href="../html/staff.html" class="nav-link">Staff</a>
-          <a href="../html/info.html" class="nav-link">Info</a>
+          <a href="store.html" class="nav-link">Store</a>
+          <a href="staff.html" class="nav-link">Staff</a>
+          <a href="smsuite.html" class="nav-link">SMSuite&trade;</a>
+          <a href="leaderboards.html" class="nav-link">Leaderboards</a>
+          <a href="info.html" class="nav-link">Info</a>
         </nav>
 
         <div class="hero-actions">
           <button type="button" class="cart-toggle hero-action" id="cart-toggle" aria-label="Open cart" aria-expanded="false" aria-controls="cart-panel">
-            <span class="cart-icon">🛒</span>
+            <span class="cart-icon">
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart">
+    <circle cx="8" cy="21" r="1"/>
+    <circle cx="19" cy="21" r="1"/>
+    <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+  </svg>
+</span>
             <span class="cart-count" id="cart-count">0</span>
           </button>
           <button type="button" class="btn btn-primary btn-sm" id="login-open" aria-haspopup="dialog">Login</button>
-          <button type="button" class="hero-action user-profile hidden" id="user-profile">
-            <img src="" alt="" class="user-profile-head" id="user-profile-head">
-            <span class="user-profile-name" id="user-profile-name"></span>
-          </button>
+          <div class="user-profile-container hidden" id="user-profile" style="position: relative;">
+              <button type="button" class="hero-action user-profile-btn" id="user-profile-btn" style="display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 0.8rem; font-size: 0.95rem; background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text); cursor: pointer;">
+                <img src="" alt="" class="user-profile-head" id="user-profile-head" style="width: 24px; height: 24px; border-radius: 4px;">
+                <span class="user-profile-name" id="user-profile-name" style="font-weight: 600;"></span>
+              </button>
+              <div class="user-dropdown hidden" id="user-dropdown" style="position: absolute; top: 100%; right: 0; margin-top: 0.5rem; background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 0.5rem; min-width: 100%; z-index: 100; box-shadow: var(--glow);">
+                <button type="button" class="btn btn-primary btn-sm btn-block" id="logout-btn" style="width: 100%;">Logout</button>
+              </div>
+            </div>
         </div>
       </div>
 
@@ -125,6 +138,7 @@
         <div class="legal-links">
           <a href="#" class="legal-text-trigger" data-template="tos-text" data-title="Terms & Conditions">Terms & Conditions</a>
           <a href="#" class="legal-text-trigger" data-template="privacy-text" data-title="Privacy Policy">Privacy Policy</a>
+          <a href="#" class="legal-text-trigger" data-template="legal-notice-text" data-title="Legal Notice">Legal Notice</a>
         </div>
       </div>
     </footer>
@@ -324,11 +338,14 @@ If you have any questions, concerns, or requests regarding this Privacy Policy, 
 
 </template>
   <script src="../js/app.js"></script>
+
+<template id="legal-notice-text">
+This software and its source code are the confidential and proprietary property of G660 & Vaporeon. 
+
+Unauthorized copying, modification, distribution, decompilation, or reverse engineering of this software, via any medium, is strictly prohibited without explicit written permission from the author. Misuse of our property will result in DMCA takedown and further legal action depending on severity.
+
+Copyright © 2026 G660, Vaporeon, & SMSMP™. All Rights Reserved.
+</template>
 </body>
 </html>
-
-
-
-
-
 

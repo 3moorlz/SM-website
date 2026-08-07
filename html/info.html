@@ -20,6 +20,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Russo+One&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/preview.css">
 </head>
 <body>
   <div id="toast-container" class="toast-container" aria-live="polite"></div>
@@ -38,30 +39,43 @@
 
         <nav class="top-nav" id="top-nav">
           <a href="../index.html" class="nav-link">Home</a>
-          <a href="../html/store.html" class="nav-link">Store</a>
-          <a href="../html/leaderboards.html" class="nav-link">Leaderboards</a>
-          <a href="../html/info.html" class="nav-link">Info</a>
-          <a href="../html/staff.html" class="nav-link">Staff</a>
+          <a href="store.html" class="nav-link">Store</a>
+          <a href="staff.html" class="nav-link">Staff</a>
+          <a href="smsuite.html" class="nav-link">SMSuite&trade;</a>
+          <a href="leaderboards.html" class="nav-link">Leaderboards</a>
+          <a href="info.html" class="nav-link">Info</a>
         </nav>
 
         <nav class="mobile-nav hidden" id="mobile-nav">
           <a href="../index.html" class="nav-link">Home</a>
-          <a href="../html/store.html" class="nav-link">Store</a>
-          <a href="../html/leaderboards.html" class="nav-link">Leaderboards</a>
-          <a href="../html/staff.html" class="nav-link">Staff</a>
-          <a href="../html/info.html" class="nav-link">Info</a>
+          <a href="store.html" class="nav-link">Store</a>
+          <a href="staff.html" class="nav-link">Staff</a>
+          <a href="smsuite.html" class="nav-link">SMSuite&trade;</a>
+          <a href="leaderboards.html" class="nav-link">Leaderboards</a>
+          <a href="info.html" class="nav-link">Info</a>
         </nav>
 
         <div class="hero-actions">
           <button type="button" class="cart-toggle hero-action" id="cart-toggle" aria-label="Open cart" aria-expanded="false" aria-controls="cart-panel">
-            <span class="cart-icon">🛒</span>
+            <span class="cart-icon">
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart">
+    <circle cx="8" cy="21" r="1"/>
+    <circle cx="19" cy="21" r="1"/>
+    <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+  </svg>
+</span>
             <span class="cart-count" id="cart-count">0</span>
           </button>
           <button type="button" class="btn btn-primary btn-sm" id="login-open" aria-haspopup="dialog">Login</button>
-          <button type="button" class="hero-action user-profile hidden" id="user-profile">
-            <img src="" alt="" class="user-profile-head" id="user-profile-head">
-            <span class="user-profile-name" id="user-profile-name"></span>
-          </button>
+          <div class="user-profile-container hidden" id="user-profile" style="position: relative;">
+              <button type="button" class="hero-action user-profile-btn" id="user-profile-btn" style="display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 0.8rem; font-size: 0.95rem; background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text); cursor: pointer;">
+                <img src="" alt="" class="user-profile-head" id="user-profile-head" style="width: 24px; height: 24px; border-radius: 4px;">
+                <span class="user-profile-name" id="user-profile-name" style="font-weight: 600;"></span>
+              </button>
+              <div class="user-dropdown hidden" id="user-dropdown" style="position: absolute; top: 100%; right: 0; margin-top: 0.5rem; background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 0.5rem; min-width: 100%; z-index: 100; box-shadow: var(--glow);">
+                <button type="button" class="btn btn-primary btn-sm btn-block" id="logout-btn" style="width: 100%;">Logout</button>
+              </div>
+            </div>
         </div>
       </div>
 
@@ -97,7 +111,7 @@
 <section id="view-info" class="view active">
         <div class="container page-view">
           <div class="page-view-header">
-            <img src="assets/support.webp" alt="" class="page-view-icon">
+            <img src="../assets/spearmace.webp" alt="" class="page-view-icon">
             <h1>Info</h1>
           </div>
 
@@ -141,64 +155,147 @@
             </ul>
           </div>
 
-          <div class="info-card-block" id="kits-section">
-            <h3>Kits Preview</h3>
-            <div class="dash-grid" id="kits-grid">
-              <div class="preview-trigger-card" data-preview-trigger="member_kit">
-                <h4>Member Kit</h4>
-                <button type="button" class="btn btn-primary btn-sm">Preview</button>
-              </div>
-              <div class="preview-trigger-card" data-preview-trigger="sentinel_kit">
-                <h4>Sentinel Kit</h4>
-                <button type="button" class="btn btn-primary btn-sm">Preview</button>
-              </div>
-              <div class="preview-trigger-card" data-preview-trigger="crusader_kit">
-                <h4>Crusader Kit</h4>
-                <button type="button" class="btn btn-primary btn-sm">Preview</button>
-              </div>
-              <div class="preview-trigger-card" data-preview-trigger="champion_kit">
-                <h4>Champion Kit</h4>
-                <button type="button" class="btn btn-primary btn-sm">Preview</button>
-              </div>
-              <div class="preview-trigger-card" data-preview-trigger="ascendant_kit">
-                <h4>Ascendant Kit</h4>
-                <button type="button" class="btn btn-primary btn-sm">Preview</button>
-              </div>
-              <div class="preview-trigger-card" data-preview-trigger="immortal_kit">
-                <h4>Immortal Kit</h4>
-                <button type="button" class="btn btn-primary btn-sm">Preview</button>
-              </div>
-            </div>
-          </div>
-          <div class="info-card-block" id="crates-section">
-            <h3>Crates Preview</h3>
-            <div class="dash-grid" id="crates-grid">
-              <div class="preview-trigger-card" data-preview-trigger="sentinel_crate">
-                <h4>Sentinel Crate</h4>
-                <button type="button" class="btn btn-primary btn-sm">Preview</button>
-              </div>
-              <div class="preview-trigger-card" data-preview-trigger="crusader_crate">
-                <h4>Crusader Crate</h4>
-                <button type="button" class="btn btn-primary btn-sm">Preview</button>
-              </div>
-              <div class="preview-trigger-card" data-preview-trigger="champion_crate">
-                <h4>Champion Crate</h4>
-                <button type="button" class="btn btn-primary btn-sm">Preview</button>
-              </div>
-              <div class="preview-trigger-card" data-preview-trigger="ascendant_crate">
-                <h4>Ascendant Crate</h4>
-                <button type="button" class="btn btn-primary btn-sm">Preview</button>
-              </div>
-              <div class="preview-trigger-card" data-preview-trigger="seasonal_crate">
-                <h4>Seasonal Crate</h4>
-                <button type="button" class="btn btn-primary btn-sm">Preview</button>
-              </div>
-            </div>
-          </div>
-
           </div>
         </div>
-      </section>
+      
+                    <div class="info-card-block" id="cave-explorer-section">
+            <h3>Cave Explorer Schedule</h3>
+            <div class="dash-grid">
+                <div class="dash-card">
+                  <h4 style="color: var(--primary-color); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-bottom: 0.75rem;">Monday - Payday</h4>
+                  <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem;">
+                    <li style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 0.5rem; border-radius: 4px;">
+                      <span style="font-weight: 500;">$1,000,000</span>
+                      <span style="color: #a0a0a0; font-size: 0.9rem;">1000 Dashes</span>
+                    </li>
+                    <li style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 0.5rem; border-radius: 4px;">
+                      <span style="font-weight: 500;">$500,000</span>
+                      <span style="color: #a0a0a0; font-size: 0.9rem;">600 Dashes</span>
+                    </li>
+                    <li style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 0.5rem; border-radius: 4px;">
+                      <span style="font-weight: 500;">$250,000</span>
+                      <span style="color: #a0a0a0; font-size: 0.9rem;">300 Dashes</span>
+                    </li>
+                  </ul>
+                </div>
+                <div class="dash-card">
+                  <h4 style="color: var(--primary-color); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-bottom: 0.75rem;">Tuesday - End Day</h4>
+                  <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem;">
+                    <li style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 0.5rem; border-radius: 4px;">
+                      <span style="font-weight: 500;">Shulker Shell</span>
+                      <span style="color: #a0a0a0; font-size: 0.9rem;">40 Dashes</span>
+                    </li>
+                    <li style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 0.5rem; border-radius: 4px;">
+                      <span style="font-weight: 500;">Elytra</span>
+                      <span style="color: #a0a0a0; font-size: 0.9rem;">1000 Dashes</span>
+                    </li>
+                    <li style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 0.5rem; border-radius: 4px;">
+                      <span style="font-weight: 500;">Wind Burst I</span>
+                      <span style="color: #a0a0a0; font-size: 0.9rem;">350 Dashes</span>
+                    </li>
+                  </ul>
+                </div>
+                <div class="dash-card">
+                  <h4 style="color: var(--primary-color); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-bottom: 0.75rem;">Wednesday - Key Day</h4>
+                  <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem;">
+                    <li style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 0.5rem; border-radius: 4px;">
+                      <span style="font-weight: 500;">Seasonal Key</span>
+                      <span style="color: #a0a0a0; font-size: 0.9rem;">1000 Dashes</span>
+                    </li>
+                    <li style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 0.5rem; border-radius: 4px;">
+                      <span style="font-weight: 500;">Ascendant Key</span>
+                      <span style="color: #a0a0a0; font-size: 0.9rem;">850 Dashes</span>
+                    </li>
+                    <li style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 0.5rem; border-radius: 4px;">
+                      <span style="font-weight: 500;">Champion Key</span>
+                      <span style="color: #a0a0a0; font-size: 0.9rem;">650 Dashes</span>
+                    </li>
+                  </ul>
+                </div>
+                <div class="dash-card">
+                  <h4 style="color: var(--primary-color); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-bottom: 0.75rem;">Thursday - Enchant Day</h4>
+                  <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem;">
+                    <li style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 0.5rem; border-radius: 4px;">
+                      <span style="font-weight: 500;">Lunge III</span>
+                      <span style="color: #a0a0a0; font-size: 0.9rem;">80 Dashes</span>
+                    </li>
+                    <li style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 0.5rem; border-radius: 4px;">
+                      <span style="font-weight: 500;">Sharpness V</span>
+                      <span style="color: #a0a0a0; font-size: 0.9rem;">80 Dashes</span>
+                    </li>
+                    <li style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 0.5rem; border-radius: 4px;">
+                      <span style="font-weight: 500;">Wind Burst I</span>
+                      <span style="color: #a0a0a0; font-size: 0.9rem;">350 Dashes</span>
+                    </li>
+                  </ul>
+                </div>
+                <div class="dash-card">
+                  <h4 style="color: var(--primary-color); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-bottom: 0.75rem;">Friday - Consumables Day</h4>
+                  <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem;">
+                    <li style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 0.5rem; border-radius: 4px;">
+                      <span style="font-weight: 500;">Enchanted Golden Apple</span>
+                      <span style="color: #a0a0a0; font-size: 0.9rem;">250 Dashes</span>
+                    </li>
+                    <li style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 0.5rem; border-radius: 4px;">
+                      <span style="font-weight: 500;">Golden Apple</span>
+                      <span style="color: #a0a0a0; font-size: 0.9rem;">5 Dashes</span>
+                    </li>
+                    <li style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 0.5rem; border-radius: 4px;">
+                      <span style="font-weight: 500;">Golden Carrot</span>
+                      <span style="color: #a0a0a0; font-size: 0.9rem;">1 Dashes</span>
+                    </li>
+                  </ul>
+                </div>
+                <div class="dash-card">
+                  <h4 style="color: var(--primary-color); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-bottom: 0.75rem;">Saturday - Gear Day</h4>
+                  <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem;">
+                    <li style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 0.5rem; border-radius: 4px;">
+                      <span style="font-weight: 500;">Netherite Ingot</span>
+                      <span style="color: #a0a0a0; font-size: 0.9rem;">50 Dashes</span>
+                    </li>
+                    <li style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 0.5rem; border-radius: 4px;">
+                      <span style="font-weight: 500;">Heavy Core</span>
+                      <span style="color: #a0a0a0; font-size: 0.9rem;">100 Dashes</span>
+                    </li>
+                    <li style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 0.5rem; border-radius: 4px;">
+                      <span style="font-weight: 500;">Totem of Undying</span>
+                      <span style="color: #a0a0a0; font-size: 0.9rem;">450 Dashes</span>
+                    </li>
+                  </ul>
+                </div>
+                <div class="dash-card">
+                  <h4 style="color: var(--primary-color); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-bottom: 0.75rem;">Sunday - Spawner Day</h4>
+                  <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem;">
+                    <li style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 0.5rem; border-radius: 4px;">
+                      <span style="font-weight: 500;">Warden Spawner</span>
+                      <span style="color: #a0a0a0; font-size: 0.9rem;">618 Dashes</span>
+                    </li>
+                    <li style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 0.5rem; border-radius: 4px;">
+                      <span style="font-weight: 500;">Skeleton Spawner</span>
+                      <span style="color: #a0a0a0; font-size: 0.9rem;">450 Dashes</span>
+                    </li>
+                    <li style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 0.5rem; border-radius: 4px;">
+                      <span style="font-weight: 500;">Cow Spawner</span>
+                      <span style="color: #a0a0a0; font-size: 0.9rem;">188 Dashes</span>
+                    </li>
+                  </ul>
+                </div>
+</div>
+            </div>
+          </div>
+          <div class="info-card-block" id="kits-preview">
+            <h3>Kits</h3>
+            <div class="card-grid" id="kitsGrid"></div>
+          </div>
+          <div class="info-card-block" id="crates-preview">
+            <h3>Crates</h3>
+            <div class="card-grid" id="cratesGrid"></div>
+          </div>
+
+                    </div>
+
+                    </div>
+        </section>
 </main>
 
     <footer class="site-footer">
@@ -229,6 +326,7 @@
         <div class="legal-links">
           <a href="#" class="legal-text-trigger" data-template="tos-text" data-title="Terms & Conditions">Terms & Conditions</a>
           <a href="#" class="legal-text-trigger" data-template="privacy-text" data-title="Privacy Policy">Privacy Policy</a>
+          <a href="#" class="legal-text-trigger" data-template="legal-notice-text" data-title="Legal Notice">Legal Notice</a>
         </div>
       </div>
     </footer>
@@ -429,319 +527,15 @@ If you have any questions, concerns, or requests regarding this Privacy Policy, 
 </template>
   <script src="../js/app.js"></script>
 
-  
-  
-  
-  
-  
-  <div class="modal hidden" id="member_kit-modal" role="dialog" aria-modal="true" style="z-index: 10000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-    <div class="modal-backdrop" data-preview-close="member_kit" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);"></div>
-    <div class="modal-panel embed-modal" style="position: relative; max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; padding: 2rem;">
-      <button type="button" class="modal-close" data-preview-close="member_kit" aria-label="Close" style="position: absolute; top: 1rem; right: 1.5rem; background: transparent; border: none; color: var(--text-muted); font-size: 2rem; cursor: pointer;">&times;</button>
-      <div class="modal-header" style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); text-align: left;">
-        <h2 style="font-family: var(--font-display); color: var(--text-base); font-size: 1.75rem; margin: 0;">Member Kit Contents</h2>
-      </div>
-      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">This item's contents are not yet documented.</li>
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">Please check back later.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="modal hidden" id="sentinel_kit-modal" role="dialog" aria-modal="true" style="z-index: 10000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-    <div class="modal-backdrop" data-preview-close="sentinel_kit" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);"></div>
-    <div class="modal-panel embed-modal" style="position: relative; max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; padding: 2rem;">
-      <button type="button" class="modal-close" data-preview-close="sentinel_kit" aria-label="Close" style="position: absolute; top: 1rem; right: 1.5rem; background: transparent; border: none; color: var(--text-muted); font-size: 2rem; cursor: pointer;">&times;</button>
-      <div class="modal-header" style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); text-align: left;">
-        <h2 style="font-family: var(--font-display); color: var(--text-base); font-size: 1.75rem; margin: 0;">Sentinel Kit Contents</h2>
-      </div>
-      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">This item's contents are not yet documented.</li>
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">Please check back later.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="modal hidden" id="crusader_kit-modal" role="dialog" aria-modal="true" style="z-index: 10000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-    <div class="modal-backdrop" data-preview-close="crusader_kit" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);"></div>
-    <div class="modal-panel embed-modal" style="position: relative; max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; padding: 2rem;">
-      <button type="button" class="modal-close" data-preview-close="crusader_kit" aria-label="Close" style="position: absolute; top: 1rem; right: 1.5rem; background: transparent; border: none; color: var(--text-muted); font-size: 2rem; cursor: pointer;">&times;</button>
-      <div class="modal-header" style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); text-align: left;">
-        <h2 style="font-family: var(--font-display); color: var(--text-base); font-size: 1.75rem; margin: 0;">Crusader Kit Contents</h2>
-      </div>
-      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">This item's contents are not yet documented.</li>
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">Please check back later.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="modal hidden" id="champion_kit-modal" role="dialog" aria-modal="true" style="z-index: 10000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-    <div class="modal-backdrop" data-preview-close="champion_kit" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);"></div>
-    <div class="modal-panel embed-modal" style="position: relative; max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; padding: 2rem;">
-      <button type="button" class="modal-close" data-preview-close="champion_kit" aria-label="Close" style="position: absolute; top: 1rem; right: 1.5rem; background: transparent; border: none; color: var(--text-muted); font-size: 2rem; cursor: pointer;">&times;</button>
-      <div class="modal-header" style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); text-align: left;">
-        <h2 style="font-family: var(--font-display); color: var(--text-base); font-size: 1.75rem; margin: 0;">Champion Kit Contents</h2>
-      </div>
-      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">This item's contents are not yet documented.</li>
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">Please check back later.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="modal hidden" id="ascendant_kit-modal" role="dialog" aria-modal="true" style="z-index: 10000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-    <div class="modal-backdrop" data-preview-close="ascendant_kit" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);"></div>
-    <div class="modal-panel embed-modal" style="position: relative; max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; padding: 2rem;">
-      <button type="button" class="modal-close" data-preview-close="ascendant_kit" aria-label="Close" style="position: absolute; top: 1rem; right: 1.5rem; background: transparent; border: none; color: var(--text-muted); font-size: 2rem; cursor: pointer;">&times;</button>
-      <div class="modal-header" style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); text-align: left;">
-        <h2 style="font-family: var(--font-display); color: var(--text-base); font-size: 1.75rem; margin: 0;">Ascendant Kit Contents</h2>
-      </div>
-      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">This item's contents are not yet documented.</li>
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">Please check back later.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="modal hidden" id="immortal_kit-modal" role="dialog" aria-modal="true" style="z-index: 10000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-    <div class="modal-backdrop" data-preview-close="immortal_kit" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);"></div>
-    <div class="modal-panel embed-modal" style="position: relative; max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; padding: 2rem;">
-      <button type="button" class="modal-close" data-preview-close="immortal_kit" aria-label="Close" style="position: absolute; top: 1rem; right: 1.5rem; background: transparent; border: none; color: var(--text-muted); font-size: 2rem; cursor: pointer;">&times;</button>
-      <div class="modal-header" style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); text-align: left;">
-        <h2 style="font-family: var(--font-display); color: var(--text-base); font-size: 1.75rem; margin: 0;">Immortal Kit Contents</h2>
-      </div>
-      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">This item's contents are not yet documented.</li>
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">Please check back later.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="modal hidden" id="sentinel_crate-modal" role="dialog" aria-modal="true" style="z-index: 10000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-    <div class="modal-backdrop" data-preview-close="sentinel_crate" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);"></div>
-    <div class="modal-panel embed-modal" style="position: relative; max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; padding: 2rem;">
-      <button type="button" class="modal-close" data-preview-close="sentinel_crate" aria-label="Close" style="position: absolute; top: 1rem; right: 1.5rem; background: transparent; border: none; color: var(--text-muted); font-size: 2rem; cursor: pointer;">&times;</button>
-      <div class="modal-header" style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); text-align: left;">
-        <h2 style="font-family: var(--font-display); color: var(--text-base); font-size: 1.75rem; margin: 0;">Sentinel Crate Contents</h2>
-      </div>
-      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">This item's contents are not yet documented.</li>
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">Please check back later.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="modal hidden" id="crusader_crate-modal" role="dialog" aria-modal="true" style="z-index: 10000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-    <div class="modal-backdrop" data-preview-close="crusader_crate" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);"></div>
-    <div class="modal-panel embed-modal" style="position: relative; max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; padding: 2rem;">
-      <button type="button" class="modal-close" data-preview-close="crusader_crate" aria-label="Close" style="position: absolute; top: 1rem; right: 1.5rem; background: transparent; border: none; color: var(--text-muted); font-size: 2rem; cursor: pointer;">&times;</button>
-      <div class="modal-header" style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); text-align: left;">
-        <h2 style="font-family: var(--font-display); color: var(--text-base); font-size: 1.75rem; margin: 0;">Crusader Crate Contents</h2>
-      </div>
-      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">This item's contents are not yet documented.</li>
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">Please check back later.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="modal hidden" id="champion_crate-modal" role="dialog" aria-modal="true" style="z-index: 10000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-    <div class="modal-backdrop" data-preview-close="champion_crate" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);"></div>
-    <div class="modal-panel embed-modal" style="position: relative; max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; padding: 2rem;">
-      <button type="button" class="modal-close" data-preview-close="champion_crate" aria-label="Close" style="position: absolute; top: 1rem; right: 1.5rem; background: transparent; border: none; color: var(--text-muted); font-size: 2rem; cursor: pointer;">&times;</button>
-      <div class="modal-header" style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); text-align: left;">
-        <h2 style="font-family: var(--font-display); color: var(--text-base); font-size: 1.75rem; margin: 0;">Champion Crate Contents</h2>
-      </div>
-      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">This item's contents are not yet documented.</li>
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">Please check back later.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="modal hidden" id="ascendant_crate-modal" role="dialog" aria-modal="true" style="z-index: 10000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-    <div class="modal-backdrop" data-preview-close="ascendant_crate" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);"></div>
-    <div class="modal-panel embed-modal" style="position: relative; max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; padding: 2rem;">
-      <button type="button" class="modal-close" data-preview-close="ascendant_crate" aria-label="Close" style="position: absolute; top: 1rem; right: 1.5rem; background: transparent; border: none; color: var(--text-muted); font-size: 2rem; cursor: pointer;">&times;</button>
-      <div class="modal-header" style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); text-align: left;">
-        <h2 style="font-family: var(--font-display); color: var(--text-base); font-size: 1.75rem; margin: 0;">Ascendant Crate Contents</h2>
-      </div>
-      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">This item's contents are not yet documented.</li>
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">Please check back later.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="modal hidden" id="seasonal_crate-modal" role="dialog" aria-modal="true" style="z-index: 10000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-    <div class="modal-backdrop" data-preview-close="seasonal_crate" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);"></div>
-    <div class="modal-panel embed-modal" style="position: relative; max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; padding: 2rem;">
-      <button type="button" class="modal-close" data-preview-close="seasonal_crate" aria-label="Close" style="position: absolute; top: 1rem; right: 1.5rem; background: transparent; border: none; color: var(--text-muted); font-size: 2rem; cursor: pointer;">&times;</button>
-      <div class="modal-header" style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); text-align: left;">
-        <h2 style="font-family: var(--font-display); color: var(--text-base); font-size: 1.75rem; margin: 0;">Seasonal Crate Contents</h2>
-      </div>
-      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">This item's contents are not yet documented.</li>
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">Please check back later.</li>
-      </ul>
-    </div>
-  </div>
-<script src="../js/preview.js?v=6"></script>
-
-  <div class="modal hidden" id="member_kit-modal" role="dialog" aria-modal="true" style="z-index: 10000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-    <div class="modal-backdrop" data-preview-close="member_kit" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);"></div>
-    <div class="modal-panel embed-modal" style="position: relative; max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; padding: 2rem;">
-      <button type="button" class="modal-close" data-preview-close="member_kit" aria-label="Close" style="position: absolute; top: 1rem; right: 1.5rem; background: transparent; border: none; color: var(--text-muted); font-size: 2rem; cursor: pointer;">&times;</button>
-      <div class="modal-header" style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); text-align: left;">
-        <h2 style="font-family: var(--font-display); color: var(--text-base); font-size: 1.75rem; margin: 0;">Member Kit Contents</h2>
-      </div>
-      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">This item's contents are not yet documented.</li>
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">Please check back later.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="modal hidden" id="sentinel_kit-modal" role="dialog" aria-modal="true" style="z-index: 10000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-    <div class="modal-backdrop" data-preview-close="sentinel_kit" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);"></div>
-    <div class="modal-panel embed-modal" style="position: relative; max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; padding: 2rem;">
-      <button type="button" class="modal-close" data-preview-close="sentinel_kit" aria-label="Close" style="position: absolute; top: 1rem; right: 1.5rem; background: transparent; border: none; color: var(--text-muted); font-size: 2rem; cursor: pointer;">&times;</button>
-      <div class="modal-header" style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); text-align: left;">
-        <h2 style="font-family: var(--font-display); color: var(--text-base); font-size: 1.75rem; margin: 0;">Sentinel Kit Contents</h2>
-      </div>
-      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">This item's contents are not yet documented.</li>
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">Please check back later.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="modal hidden" id="crusader_kit-modal" role="dialog" aria-modal="true" style="z-index: 10000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-    <div class="modal-backdrop" data-preview-close="crusader_kit" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);"></div>
-    <div class="modal-panel embed-modal" style="position: relative; max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; padding: 2rem;">
-      <button type="button" class="modal-close" data-preview-close="crusader_kit" aria-label="Close" style="position: absolute; top: 1rem; right: 1.5rem; background: transparent; border: none; color: var(--text-muted); font-size: 2rem; cursor: pointer;">&times;</button>
-      <div class="modal-header" style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); text-align: left;">
-        <h2 style="font-family: var(--font-display); color: var(--text-base); font-size: 1.75rem; margin: 0;">Crusader Kit Contents</h2>
-      </div>
-      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">This item's contents are not yet documented.</li>
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">Please check back later.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="modal hidden" id="champion_kit-modal" role="dialog" aria-modal="true" style="z-index: 10000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-    <div class="modal-backdrop" data-preview-close="champion_kit" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);"></div>
-    <div class="modal-panel embed-modal" style="position: relative; max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; padding: 2rem;">
-      <button type="button" class="modal-close" data-preview-close="champion_kit" aria-label="Close" style="position: absolute; top: 1rem; right: 1.5rem; background: transparent; border: none; color: var(--text-muted); font-size: 2rem; cursor: pointer;">&times;</button>
-      <div class="modal-header" style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); text-align: left;">
-        <h2 style="font-family: var(--font-display); color: var(--text-base); font-size: 1.75rem; margin: 0;">Champion Kit Contents</h2>
-      </div>
-      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">This item's contents are not yet documented.</li>
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">Please check back later.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="modal hidden" id="ascendant_kit-modal" role="dialog" aria-modal="true" style="z-index: 10000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-    <div class="modal-backdrop" data-preview-close="ascendant_kit" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);"></div>
-    <div class="modal-panel embed-modal" style="position: relative; max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; padding: 2rem;">
-      <button type="button" class="modal-close" data-preview-close="ascendant_kit" aria-label="Close" style="position: absolute; top: 1rem; right: 1.5rem; background: transparent; border: none; color: var(--text-muted); font-size: 2rem; cursor: pointer;">&times;</button>
-      <div class="modal-header" style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); text-align: left;">
-        <h2 style="font-family: var(--font-display); color: var(--text-base); font-size: 1.75rem; margin: 0;">Ascendant Kit Contents</h2>
-      </div>
-      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">This item's contents are not yet documented.</li>
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">Please check back later.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="modal hidden" id="immortal_kit-modal" role="dialog" aria-modal="true" style="z-index: 10000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-    <div class="modal-backdrop" data-preview-close="immortal_kit" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);"></div>
-    <div class="modal-panel embed-modal" style="position: relative; max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; padding: 2rem;">
-      <button type="button" class="modal-close" data-preview-close="immortal_kit" aria-label="Close" style="position: absolute; top: 1rem; right: 1.5rem; background: transparent; border: none; color: var(--text-muted); font-size: 2rem; cursor: pointer;">&times;</button>
-      <div class="modal-header" style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); text-align: left;">
-        <h2 style="font-family: var(--font-display); color: var(--text-base); font-size: 1.75rem; margin: 0;">Immortal Kit Contents</h2>
-      </div>
-      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">This item's contents are not yet documented.</li>
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">Please check back later.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="modal hidden" id="sentinel_crate-modal" role="dialog" aria-modal="true" style="z-index: 10000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-    <div class="modal-backdrop" data-preview-close="sentinel_crate" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);"></div>
-    <div class="modal-panel embed-modal" style="position: relative; max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; padding: 2rem;">
-      <button type="button" class="modal-close" data-preview-close="sentinel_crate" aria-label="Close" style="position: absolute; top: 1rem; right: 1.5rem; background: transparent; border: none; color: var(--text-muted); font-size: 2rem; cursor: pointer;">&times;</button>
-      <div class="modal-header" style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); text-align: left;">
-        <h2 style="font-family: var(--font-display); color: var(--text-base); font-size: 1.75rem; margin: 0;">Sentinel Crate Contents</h2>
-      </div>
-      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">This item's contents are not yet documented.</li>
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">Please check back later.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="modal hidden" id="crusader_crate-modal" role="dialog" aria-modal="true" style="z-index: 10000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-    <div class="modal-backdrop" data-preview-close="crusader_crate" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);"></div>
-    <div class="modal-panel embed-modal" style="position: relative; max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; padding: 2rem;">
-      <button type="button" class="modal-close" data-preview-close="crusader_crate" aria-label="Close" style="position: absolute; top: 1rem; right: 1.5rem; background: transparent; border: none; color: var(--text-muted); font-size: 2rem; cursor: pointer;">&times;</button>
-      <div class="modal-header" style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); text-align: left;">
-        <h2 style="font-family: var(--font-display); color: var(--text-base); font-size: 1.75rem; margin: 0;">Crusader Crate Contents</h2>
-      </div>
-      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">This item's contents are not yet documented.</li>
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">Please check back later.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="modal hidden" id="champion_crate-modal" role="dialog" aria-modal="true" style="z-index: 10000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-    <div class="modal-backdrop" data-preview-close="champion_crate" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);"></div>
-    <div class="modal-panel embed-modal" style="position: relative; max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; padding: 2rem;">
-      <button type="button" class="modal-close" data-preview-close="champion_crate" aria-label="Close" style="position: absolute; top: 1rem; right: 1.5rem; background: transparent; border: none; color: var(--text-muted); font-size: 2rem; cursor: pointer;">&times;</button>
-      <div class="modal-header" style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); text-align: left;">
-        <h2 style="font-family: var(--font-display); color: var(--text-base); font-size: 1.75rem; margin: 0;">Champion Crate Contents</h2>
-      </div>
-      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">This item's contents are not yet documented.</li>
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">Please check back later.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="modal hidden" id="ascendant_crate-modal" role="dialog" aria-modal="true" style="z-index: 10000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-    <div class="modal-backdrop" data-preview-close="ascendant_crate" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);"></div>
-    <div class="modal-panel embed-modal" style="position: relative; max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; padding: 2rem;">
-      <button type="button" class="modal-close" data-preview-close="ascendant_crate" aria-label="Close" style="position: absolute; top: 1rem; right: 1.5rem; background: transparent; border: none; color: var(--text-muted); font-size: 2rem; cursor: pointer;">&times;</button>
-      <div class="modal-header" style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); text-align: left;">
-        <h2 style="font-family: var(--font-display); color: var(--text-base); font-size: 1.75rem; margin: 0;">Ascendant Crate Contents</h2>
-      </div>
-      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">This item's contents are not yet documented.</li>
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">Please check back later.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="modal hidden" id="seasonal_crate-modal" role="dialog" aria-modal="true" style="z-index: 10000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-    <div class="modal-backdrop" data-preview-close="seasonal_crate" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);"></div>
-    <div class="modal-panel embed-modal" style="position: relative; max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; padding: 2rem;">
-      <button type="button" class="modal-close" data-preview-close="seasonal_crate" aria-label="Close" style="position: absolute; top: 1rem; right: 1.5rem; background: transparent; border: none; color: var(--text-muted); font-size: 2rem; cursor: pointer;">&times;</button>
-      <div class="modal-header" style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); text-align: left;">
-        <h2 style="font-family: var(--font-display); color: var(--text-base); font-size: 1.75rem; margin: 0;">Seasonal Crate Contents</h2>
-      </div>
-      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">This item's contents are not yet documented.</li>
-        <li style="color: var(--text-base); font-size: 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">Please check back later.</li>
-      </ul>
-    </div>
-  </div>
+  <div id="tooltip" class="tooltip"></div>
 <script src="../js/preview.js?v=7"></script>
+
+<template id="legal-notice-text">
+This software and its source code are the confidential and proprietary property of G660 & Vaporeon. 
+
+Unauthorized copying, modification, distribution, decompilation, or reverse engineering of this software, via any medium, is strictly prohibited without explicit written permission from the author. Misuse of our property will result in DMCA takedown and further legal action depending on severity.
+
+Copyright © 2026 G660, Vaporeon, & SMSMP™. All Rights Reserved.
+</template>
 </body>
 </html>

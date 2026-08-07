@@ -19,7 +19,7 @@
   position: absolute;
   display: block;
   cursor: pointer;
-  border-radius: 6px; /* Matches the cards in the image slightly */
+  border-radius: 6px; 
   background-color: transparent;
   border: none;
   transition: box-shadow 0.3s ease, background-color 0.3s ease;

@@ -1,6 +1,5 @@
 
 
-
 window.openStaffModal = function(rankObj) {
   
   const modal = document.getElementById('staff-modal');
@@ -11,7 +10,6 @@ window.openStaffModal = function(rankObj) {
     return;
   }
 
-  
   const roleName = rankObj.label;
   title.style.display = 'none';
   
@@ -39,7 +37,6 @@ window.openStaffModal = function(rankObj) {
 
   modal.classList.remove('hidden');
 
-  
   const closeBtn = modal.querySelector('.modal-close');
   const backdrop = modal.querySelector('.modal-backdrop');
   

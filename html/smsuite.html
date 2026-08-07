@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Store — SM SMP</title>
+  <title>Leaderboards — SM SMP</title>
   <meta name="description" content="Spear Mace SMP. Earn ranks through gameplay on a Minecraft server built around grinding, PvP, and a player-run economy.">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://mc-heads.net data:; connect-src 'self' https://mc-heads.net https://fluxstore-api.spearmacesmp.workers.dev; base-uri 'self'; form-action 'self';">
   <meta name="theme-color" content="#6d28d9">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Store — SM SMP">
+  <meta property="og:title" content="Leaderboards — SM SMP">
   <meta property="og:description" content="Spear Mace SMP. Earn ranks through gameplay.">
   <meta property="og:image" content="../assets/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -107,69 +107,7 @@
     </header>
 
     <main>
-<section id="view-store" class="view active">
-        <div class="container store-page">
-          <aside class="store-sidebar">
-            <div class="sidebar-col sidebar-col-categories">
-              <p class="category-label">Categories</p>
-              <div class="category-dropdown" id="category-dropdown">
-                <button type="button" class="category-toggle" id="category-toggle" aria-haspopup="listbox" aria-expanded="false" aria-controls="category-wheel">
-                  <span id="category-toggle-label">Ranks</span>
-                  <span class="category-toggle-arrow" aria-hidden="true">▾</span>
-                </button>
-                <div class="category-wheel" id="category-wheel" role="listbox" hidden>
-                  <button type="button" class="wheel-item active" data-store-cat="ranks" role="option" aria-selected="true">Ranks</button>
-                  <button type="button" class="wheel-item" data-store-cat="keys" role="option" aria-selected="false">Keys</button>
-                  <button type="button" class="wheel-item" data-store-cat="bundles" role="option" aria-selected="false">Bundles</button>
-                </div>
-              </div>
-            </div>
-            <div class="sidebar-col sidebar-col-payments">
-              <p class="recent-payments-title">Recent Payments</p>
-              
-              <ul class="recent-payments-list" id="recent-payments-list">
-                <li class="recent-empty">No payments yet</li>
-              </ul>
-            </div>
-          </aside>
-
-          <div class="store-main">
-            <div class="store-panel active" id="store-ranks">
-              <p class="store-intro">Pick a rank, subscription, or lifetime purchase. Perks stack as you go up the ladder.</p>
-              <div class="rank-cards" id="rank-cards"></div>
-              <div class="table-section">
-                <div class="table-scroll">
-                  <table class="comparison-table" id="comparison-table">
-                    <thead></thead>
-                    <tbody></tbody>
-                  </table>
-                </div>
-                <div class="table-scroll commands-table-wrap">
-                  <div class="commands-banner">Commands</div>
-                  <table class="comparison-table kit-table" id="kit-table">
-                    <thead></thead>
-                    <tbody></tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-
-            <div class="store-panel" id="store-keys" hidden>
-              <div style="display: flex; justify-content: flex-end; margin-bottom: 1rem;">
-                <div class="keys-toggle" style="background: rgba(255, 255, 255, 0.05); padding: 0.25rem; border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.1); display: flex; gap: 0.25rem;">
-                  <button type="button" class="btn btn-sm btn-primary" id="keys-single-btn" style="min-width: 80px;">1x Keys</button>
-                  <button type="button" class="btn btn-sm" id="keys-pack-btn" style="min-width: 80px; background: transparent; border: none; color: var(--text-muted); box-shadow: none;">5x Packs</button>
-                </div>
-              </div>
-              <div class="keys-grid" id="keys-grid"></div>
-            </div>
-
-            <div class="store-panel" id="store-bundles" hidden>
-              <div class="keys-grid" id="bundles-grid"></div>
-            </div>
-          </div>
-        </div>
-      </section>
+<section class="view active" style="text-align:center; padding:100px 20px;"><h2>SMSuite&trade;</h2><p>Coming Soon</p></section>
 </main>
 
     <footer class="site-footer">

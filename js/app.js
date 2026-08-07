@@ -3,7 +3,6 @@
 
   const ASSET_PREFIX = window.location.pathname.includes('/html/') ? '../' : '';
 
-
   const state = {
     view: 'home',
     storeCategory: 'ranks',
@@ -27,7 +26,6 @@
       localStorage.setItem('sm_user', JSON.stringify({ user: state.user, bedrock: state.bedrock }));
     } catch (e) {}
   }
-
 
   function getRank(id) {
     return RANKS.find(function (r) { return r.id === id; });
@@ -570,7 +568,6 @@
     addPendingToCart();
   }
 
-  
   const WORKER_URL = 'https://fluxstore-api.spearmacesmp.workers.dev';
 
   async function checkoutCart() {
@@ -605,8 +602,8 @@
           customer: {
             playerUsername: state.user || 'Guest'
           },
-          successUrl: window.location.href,
-          cancelUrl: window.location.href
+          successUrl: 'https://smsmp.net',
+          cancelUrl: 'https://smsmp.net'
         })
       });
 
@@ -783,7 +780,22 @@
         return;
       }
 
-      
+      const profileBtn = e.target.closest('#user-profile-btn');
+      const userDropdown = document.getElementById('user-dropdown');
+      if (profileBtn && userDropdown) {
+        userDropdown.classList.toggle('hidden');
+        return;
+      } else if (userDropdown && !userDropdown.classList.contains('hidden') && !e.target.closest('#user-dropdown')) {
+        
+        userDropdown.classList.add('hidden');
+      }
+
+      const logoutBtn = e.target.closest('#logout-btn');
+      if (logoutBtn) {
+        localStorage.removeItem('sm_user');
+        window.location.reload();
+        return;
+      }
 
       const categoryToggle = e.target.closest('#category-toggle');
       if (categoryToggle) {
@@ -892,10 +904,6 @@
         return;
       }
 
-
-
-
-
       if (e.target.closest('#confirm-add-cart')) {
         addPendingToCart();
         return;
@@ -995,7 +1003,6 @@
       if (openOverlay === 'confirm') trapFocus(e, $('#confirm-modal .modal-panel'));
     });
   }
-
 
   function init() {
     try {
