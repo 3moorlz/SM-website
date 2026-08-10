@@ -65,7 +65,7 @@
   }
   .kit-btn:after { content: '→'; transition: transform 0.15s ease; }
   .kit-card:hover .kit-btn:after { transform: translateX(3px); }
-  .tag-crate {
+  .tag-crate, .tag-rank {
     position: absolute; top: 0.85rem; right: 0.85rem;
     font-size: 0.62rem; font-weight: 700; text-transform: uppercase;
     letter-spacing: 0.05em;

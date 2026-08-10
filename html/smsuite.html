@@ -3,25 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Leaderboards — SM SMP</title>
+  <title>SMSuite™ — SM SMP</title>
   <meta name="description" content="Spear Mace SMP. Earn ranks through gameplay on a Minecraft server built around grinding, PvP, and a player-run economy.">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://mc-heads.net data:; connect-src 'self' https://mc-heads.net https://fluxstore-api.spearmacesmp.workers.dev; base-uri 'self'; form-action 'self';">
   <meta name="theme-color" content="#6d28d9">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Leaderboards — SM SMP">
   <meta property="og:description" content="Spear Mace SMP. Earn ranks through gameplay.">
-  <meta property="og:image" content="../assets/og-image.png">
+  <meta property="og:image" content="https://smsmp.net/assets/misc/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="icon" href="../assets/favicon.ico" sizes="32x32">
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <link rel="icon" href="../assets/favicon-32.png" type="image/png" sizes="32x32">
-  <link rel="apple-touch-icon" href="../assets/og-image.png">
+  <meta name="twitter:image" content="https://smsmp.net/assets/misc/og-image.png">
+  <meta property="og:url" content="https://smsmp.net">
+  <meta name="thumbnail" content="https://smsmp.net/assets/misc/og-image.png">
+  <link rel="icon" href="../assets/misc/favicon.ico" sizes="32x32">
+  <link rel="icon" href="../assets/misc/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../assets/misc/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="../assets/misc/og-image.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Russo+One&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "SM SMP",
+    "url": "https://smsmp.net/",
+    "image": "https://smsmp.net/assets/misc/og-image.png",
+    "description": "Spear Mace SMP. Earn ranks through gameplay on a Minecraft server built around grinding, PvP, and a player-run economy."
+  }
+  </script>
 </head>
-<body>
+<body class="page-smsuite">
   <div id="toast-container" class="toast-container" aria-live="polite"></div>
 
   <div id="page-shell">
@@ -40,7 +53,7 @@
           <a href="../index.html" class="nav-link">Home</a>
           <a href="store.html" class="nav-link">Store</a>
           <a href="staff.html" class="nav-link">Staff</a>
-          <a href="smsuite.html" class="nav-link">SMSuite&trade;</a>
+          <a href="smsuite.html" class="nav-link active">SMSuite&trade;</a>
           <a href="leaderboards.html" class="nav-link">Leaderboards</a>
           <a href="info.html" class="nav-link">Info</a>
         </nav>
@@ -49,7 +62,7 @@
           <a href="../index.html" class="nav-link">Home</a>
           <a href="store.html" class="nav-link">Store</a>
           <a href="staff.html" class="nav-link">Staff</a>
-          <a href="smsuite.html" class="nav-link">SMSuite&trade;</a>
+          <a href="smsuite.html" class="nav-link active">SMSuite&trade;</a>
           <a href="leaderboards.html" class="nav-link">Leaderboards</a>
           <a href="info.html" class="nav-link">Info</a>
         </nav>
@@ -81,7 +94,7 @@
       <div class="hero-stage">
         <button type="button" class="info-card ip-card" id="ip-copy-btn">
           <span class="card-badge badge-live">Copy IP</span>
-          <img src="../assets/ip.webp" alt="" class="card-icon-img">
+          <img src="../assets/misc/ip.webp" alt="" class="card-icon-img">
           <div class="card-body">
             <strong>IP Address</strong>
             <span class="ip-placeholder">play.smsmp.net</span>
@@ -90,14 +103,14 @@
 
         <div class="hero-brand">
           <div class="hero-brand-ring" aria-hidden="true"></div>
-          <img src="../assets/spearmace.webp" alt="" class="hero-emblem" aria-hidden="true">
-          <img src="../assets/logo.webp" alt="SM SMP — Spear Mace" class="hero-logo-img">
+          <img src="../assets/misc/spearmace.webp" alt="" class="hero-emblem" aria-hidden="true">
+          <img src="../assets/misc/logo.webp" alt="SM SMP — Spear Mace" class="hero-logo-img">
           <p class="hero-tagline">Play. Grind. Dominate.</p>
         </div>
 
         <a href="https://discord.smsmp.net/" class="info-card discord-card" target="_blank" rel="noopener noreferrer">
           <span class="card-badge badge-live">Join Us</span>
-          <img src="../assets/connect.webp" alt="" class="card-icon-img">
+          <img src="../assets/misc/connect.webp" alt="" class="card-icon-img">
           <div class="card-body">
             <strong>Discord</strong>
             <span>Click to join!</span>
@@ -106,14 +119,41 @@
       </div>
     </header>
 
-    <main>
-<section class="view active" style="text-align:center; padding:100px 20px;"><h2>SMSuite&trade;</h2><p>Coming Soon</p></section>
-</main>
+    <main class="smsuite-page">
+      <section class="smsuite-hero">
+        <h1>SM Suite&trade; &mdash; One connected ecosystem.</h1>
+        <p style="color: var(--text-muted); font-size: 1.1rem; margin-top: -1rem;">All plugins are custom made</p>
+      </section>
+
+      <section class="smsuite-grid-section">
+        <h2>The Core</h2>
+        <div class="plugin-grid" id="core-grid"></div>
+      </section>
+
+      <section class="smsuite-grid-section">
+        <h2>Player Systems</h2>
+        <div class="plugin-grid" id="player-grid"></div>
+      </section>
+
+      <section class="smsuite-grid-section">
+        <h2>Staff & Operations</h2>
+        <div class="plugin-grid" id="staff-grid"></div>
+      </section>
+
+      <section class="smsuite-grid-section">
+        <h2>Upcoming Modules</h2>
+        <div class="plugin-grid" id="upcoming-grid"></div>
+      </section>
+
+      <section class="smsuite-footer-credits">
+        <p>Built for SpearMace SMP by G660 & Vaporeon</p>
+      </section>
+    </main>
 
     <footer class="site-footer">
       <div class="container footer-inner">
         <div class="footer-brand">
-          <img src="../assets/youtube banner.webp" alt="SM SMP" class="footer-banner-img">
+          <img src="../assets/misc/youtube banner.webp" alt="SM SMP" class="footer-banner-img">
           <p class="footer-tagline">Where Progress Is Earned, Not Bought.</p>
           <p class="footer-email">Partnerships &amp; inquiries: <a href="mailto:SpearMaceSMP@gmail.com">SpearMaceSMP@gmail.com</a></p>
         </div>
@@ -337,7 +377,21 @@ If you have any questions, concerns, or requests regarding this Privacy Policy, 
 - Emailing us at: SpearMaceSMP@gmail.com
 
 </template>
+
+  <!-- SMSuite Specific Modal -->
+  <div class="modal hidden" id="smsuite-modal" role="dialog" aria-modal="true" aria-labelledby="smsuite-modal-title">
+    <div class="modal-backdrop" id="smsuite-modal-backdrop"></div>
+    <div class="modal-panel smsuite-modal-panel">
+      <button type="button" class="modal-close" id="smsuite-modal-close" aria-label="Close">&times;</button>
+      <h2 id="smsuite-modal-title" class="smsuite-modal-title">Plugin Name</h2>
+      <div class="plugin-line" style="margin-bottom: 1.5rem; width: 60px;"></div>
+      <div id="smsuite-modal-content" class="smsuite-modal-content"></div>
+    </div>
+  </div>
+
   <script src="../js/app.js"></script>
+  <script src="../js/smsuite-data.js"></script>
+  <script src="../js/smsuite.js"></script>
 
 <template id="legal-notice-text">
 This software and its source code are the confidential and proprietary property of G660 & Vaporeon. 

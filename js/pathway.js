@@ -78,7 +78,8 @@ window.openStaffModal = function(rankObj) {
                'Sr. Mod': 'Ascendant',
                'Mod': 'Champion',
                'Jr. Mod': 'Crusader',
-               'Helper': 'Sentinel'
+               'Helper': 'Sentinel',
+               'Builders': 'Immortal'
              };
              
              if (paidRanks[label]) {
@@ -88,7 +89,11 @@ window.openStaffModal = function(rankObj) {
              if (['Manager', 'Developer', 'Server Lead', 'Ticket Manager', 'Promotional Manager', 'Staff Manager', 'Informatics'].includes(label)) {
                const members = (typeof STAFF_MEMBERS !== 'undefined') ? STAFF_MEMBERS.filter(m => m.role === label || m.title === label) : [];
                const maxCapacity = (label === 'Manager' || label === 'Developer') ? 3 : 1;
-               const currentCapacity = (label === 'Informatics') ? 1 : members.length;
+               
+               let currentCapacity = members.length;
+               if (label === 'Informatics') currentCapacity = 0;
+               if (label === 'Developer') currentCapacity = 2;
+
                tooltipHtml += `<div style="color: #cbd5e1; font-size: 0.85em; margin-top: 4px;">Capacity: ${currentCapacity}/${maxCapacity}</div>`;
              }
              

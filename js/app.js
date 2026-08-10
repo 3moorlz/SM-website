@@ -190,7 +190,13 @@
   }
 
   function openOverlayPanel(id, panel, triggerEl) {
-    if (openOverlay && openOverlay !== id) closeOverlay(openOverlay);
+    if (openOverlay && openOverlay !== id) {
+      if (id === 'legal-text' && openOverlay === 'cart') {
+        window.previousOverlay = openOverlay;
+      } else {
+        closeOverlay(openOverlay);
+      }
+    }
     panel.classList.remove('hidden');
     lockPage(triggerEl);
     openOverlay = id;
@@ -213,6 +219,13 @@
     } else if (id === 'legal-text') {
       $('#legal-text-modal').classList.add('hidden');
     }
+    
+    if (id === 'legal-text' && window.previousOverlay) {
+      openOverlay = window.previousOverlay;
+      window.previousOverlay = null;
+      return;
+    }
+    
     if (openOverlay === id) unlockPage();
   }
 
@@ -284,7 +297,7 @@
       if (currentKeysTier === 'single') {
         html += 
           '<article class="key-card">' +
-            '<img src="' + ASSET_PREFIX + key.image + '" alt="" class="key-card-icon" onerror="this.onerror=null; this.src=\'' + ASSET_PREFIX + 'assets/key.webp\';">' +
+            '<img src="' + ASSET_PREFIX + key.image + '" alt="" class="key-card-icon" onerror="this.onerror=null; this.src=\'' + ASSET_PREFIX + 'assets/keys/ascendant_key.webp\';">' +
             '<h3>' + key.name + '</h3>' +
             '<div class="store-card-price">$' + key.singlePrice.toFixed(2) + '</div>' +
             '<button type="button" class="btn btn-primary btn-store-item btn-buy-key" data-id="' + key.id + '" data-tier="single">VIEW OPTIONS</button>' +
@@ -292,7 +305,7 @@
       } else {
         html += 
           '<article class="key-card">' +
-            '<img src="' + ASSET_PREFIX + (key.packImage || key.image) + '" alt="" class="key-card-icon" style="width: 64px; height: 64px;" onerror="this.onerror=null; this.src=\'' + ASSET_PREFIX + 'assets/key.webp\';">' +
+            '<img src="' + ASSET_PREFIX + (key.packImage || key.image) + '" alt="" class="key-card-icon" style="width: 64px; height: 64px;" onerror="this.onerror=null; this.src=\'' + ASSET_PREFIX + 'assets/keys/ascendant_key.webp\';">' +
             '<h3>' + key.name + ' (5x Pack)</h3>' +
             '<div class="store-card-price">$' + key.packPrice.toFixed(2) + '</div>' +
             '<div class="store-card-savings">' + key.saveText + '</div>' +
@@ -308,7 +321,7 @@
     let html = BUNDLES.map(function(bundle) {
       return (
         '<article class="key-card">' +
-          '<img src="' + ASSET_PREFIX + bundle.image + '" alt="" class="bundle-card-icon" onerror="this.onerror=null; this.src=\'' + ASSET_PREFIX + 'assets/money.webp\';">' +
+          '<img src="' + ASSET_PREFIX + bundle.image + '" alt="" class="bundle-card-icon" onerror="this.onerror=null; this.src=\'' + ASSET_PREFIX + 'assets/misc/money.webp\';">' +
           '<h3>' + bundle.name + '</h3>' +
           '<div class="store-card-price">$' + bundle.price.toFixed(2) + '</div>' +
           '<div class="store-card-savings">' + bundle.value + '</div>' +
@@ -416,7 +429,7 @@
       
     $('#confirm-modal-content').innerHTML =
       '<div class="embed-header" style="border-left-color:#6d28d9">' +
-        '<img id="confirm-item-image" src="' + ASSET_PREFIX + image + '" alt="" onerror="this.onerror=null; this.src=\'' + ASSET_PREFIX + 'assets/key.webp\';"><div><h3>' + key.name + '</h3>' +
+        '<img id="confirm-item-image" src="' + ASSET_PREFIX + image + '" alt="" onerror="this.onerror=null; this.src=\'' + ASSET_PREFIX + 'assets/keys/ascendant_key.webp\';"><div><h3>' + key.name + '</h3>' +
         '<p class="confirm-tier-label">' + label + ' · ' + formatPrice(price) + '</p></div>' +
       '</div>' + tierPicker;
     openOverlayPanel('confirm', $('#confirm-modal'));
@@ -430,7 +443,7 @@
     
     $('#confirm-modal-content').innerHTML =
       '<div class="embed-header" style="border-left-color:#6d28d9">' +
-        '<img id="confirm-item-image" src="' + ASSET_PREFIX + bundle.image + '" alt="" onerror="this.onerror=null; this.src=\'' + ASSET_PREFIX + 'assets/money.webp\';"><div><h3>' + bundle.name + '</h3>' +
+        '<img id="confirm-item-image" src="' + ASSET_PREFIX + bundle.image + '" alt="" onerror="this.onerror=null; this.src=\'' + ASSET_PREFIX + 'assets/misc/money.webp\';"><div><h3>' + bundle.name + '</h3>' +
         '<p class="confirm-tier-label">Bundle · ' + formatPrice(bundle.price) + '</p></div>' +
       '</div>' +
       '<ul class="embed-perk-list">' + bundle.items.map(function(i){return '<li>'+i+'</li>';}).join('') + '</ul>';
@@ -489,6 +502,11 @@
     const modal = $('#legal-text-modal');
     $('#legal-text-title').textContent = title;
     const content = $('#legal-text-content');
+
+    // Wipe old content and scroll BEFORE opening so browser has nothing to anchor to
+    content.innerHTML = '';
+    content.scrollTop = 0;
+
     openOverlayPanel('legal-text', modal);
 
     const template = document.getElementById(templateId);
@@ -508,6 +526,13 @@
     content.style.overflow = '';
     content.style.padding = '';
     content.innerHTML = html;
+
+    // Reset scroll again after content injection, using double rAF to guarantee browser has painted
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        content.scrollTop = 0;
+      });
+    });
     
     if (callback) callback();
   }
@@ -620,6 +645,12 @@
     } catch (err) {
       console.error('API Error:', err);
       showToast('Checkout Error: ' + err.message, 'error');
+      
+      // Clear the cart when proceeding to fallback checkout
+      state.cart = [];
+      saveState();
+      updateCartUI();
+      
       var fallbackUrl = 'https://smsmp.fluxstore.net/';
       window.open(fallbackUrl, '_blank', 'noopener,noreferrer');
     } finally {
@@ -702,6 +733,10 @@
       userProfileHead.src = skinUrl;
       userProfileName.textContent = name;
       userProfile.classList.remove('hidden');
+    }
+
+    if (window.pendingStoreRedirect) {
+      window.location.href = window.pendingStoreRedirect;
     }
   }
 
@@ -1004,7 +1039,85 @@
     });
   }
 
+  
+  function initSMSuiteModal() {
+    const smsuiteLinks = document.querySelectorAll('a[href*="smsuite.html"]');
+    if (smsuiteLinks.length === 0) return;
+    
+    // Create Modal HTML
+    const modalOverlay = document.createElement('div');
+    modalOverlay.className = 'legal-modal-overlay';
+    modalOverlay.innerHTML = `
+      <div class="legal-modal">
+        <h2>Before you continue</h2>
+        <p>Access to SMSuite&trade; requires you to read and agree to our legal agreements.</p>
+        
+        <div class="legal-links">
+          <a href="#" target="_blank">Terms of Service</a>
+          <a href="#" target="_blank">Privacy Policy</a>
+          <a href="#" target="_blank">Legal Notice</a>
+        </div>
+        
+        <label class="legal-checkbox-group">
+          <input type="checkbox" id="legal-agree-checkbox">
+          <span>I have read and agree to the Terms of Service, Privacy Policy, and Legal Notice.</span>
+        </label>
+        
+        <div class="legal-actions">
+          <button class="btn-cancel" id="legal-cancel-btn">Cancel</button>
+          <button class="btn-continue" id="legal-continue-btn">Continue</button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(modalOverlay);
+    
+    const checkbox = modalOverlay.querySelector('#legal-agree-checkbox');
+    const continueBtn = modalOverlay.querySelector('#legal-continue-btn');
+    const cancelBtn = modalOverlay.querySelector('#legal-cancel-btn');
+    
+    let targetUrl = '';
+    
+    // Enable/Disable continue button based on checkbox
+    checkbox.addEventListener('change', (e) => {
+      if (e.target.checked) {
+        continueBtn.classList.add('enabled');
+      } else {
+        continueBtn.classList.remove('enabled');
+      }
+    });
+    
+    // Cancel closes modal
+    cancelBtn.addEventListener('click', () => {
+      modalOverlay.classList.remove('show');
+      checkbox.checked = false;
+      continueBtn.classList.remove('enabled');
+    });
+    
+    // Continue navigates
+    continueBtn.addEventListener('click', () => {
+      if (checkbox.checked && targetUrl) {
+        window.location.href = targetUrl;
+      }
+    });
+    
+    // Intercept clicks
+    smsuiteLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        // If they're already on the smsuite page, don't show the modal again if they click it?
+        // Wait, if they are on smsuite.html, the href might be just 'smsuite.html' or '#'.
+        if (window.location.pathname.includes('smsuite.html')) return;
+        
+        e.preventDefault();
+        targetUrl = link.getAttribute('href');
+        modalOverlay.classList.add('show');
+      });
+    });
+  }
+
   function init() {
+
+
     try {
       var savedCart = JSON.parse(localStorage.getItem('sm_cart'));
       if (Array.isArray(savedCart)) state.cart = savedCart;
@@ -1026,16 +1139,51 @@
         }
       }
     } catch (e) {}
+    // Force login on store page direct navigation
+    if (window.location.pathname.includes('store.html') && !state.user) {
+      window.location.href = '../index.html?login=true';
+      return;
+    }
+
+    // Handle redirect back from store page
+    var urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('login') === 'true' && !state.user) {
+      window.pendingStoreRedirect = 'html/store.html';
+      openLogin();
+      // Remove query param without refreshing
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
+    // Intercept store links
+    document.querySelectorAll('a[href*="store.html"]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        if (!state.user) {
+          if (window.location.pathname.includes('store.html')) return;
+          e.preventDefault();
+          window.pendingStoreRedirect = link.getAttribute('href');
+          openLogin(link);
+        }
+      });
+    });
+
+      initSMSuiteModal();
+
 
     var path = window.location.pathname;
+    var currentFile = path.split('/').pop();
+    if (currentFile === '') currentFile = 'index.html'; // Root path defaults to index.html
+    
     $$('.top-nav .nav-link, .mobile-nav .nav-link').forEach(function(link) {
       link.classList.remove('active');
       var href = link.getAttribute('href');
       if (href) {
-        var cleanHref = href.replace('../', '').split('?')[0];
-        if (path.indexOf(cleanHref) > -1 && cleanHref !== '') {
-          link.classList.add('active');
-        } else if ((path.endsWith('/') || path.endsWith('index.html')) && cleanHref === 'index.html') {
+        var hrefFile = href.split('/').pop().split('?')[0];
+        if (hrefFile === '') hrefFile = 'index.html';
+        
+        var currentBase = currentFile.replace('.html', '');
+        var hrefBase = hrefFile.replace('.html', '');
+        
+        if (currentBase === hrefBase) {
           link.classList.add('active');
         }
       }

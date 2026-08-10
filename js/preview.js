@@ -43,17 +43,17 @@ function slotMedia(entry) {
 }
 
 const CARDS = [
-  { id: 'member_kit', name: 'Member Kit', tier: 'var(--iron)', emblemAsset: '../assets/member.png', meta: '14 items', crate: false },
-  { id: 'sentinel_kit', name: 'Sentinel Kit', tier: 'var(--text)', emblemAsset: '../assets/sentinel_banner.png', meta: '14 items', crate: false },
-  { id: 'crusader_kit', name: 'Crusader Kit', tier: 'var(--success)', emblemAsset: '../assets/crusader_banner.png', meta: '13 items', crate: false },
-  { id: 'champion_kit', name: 'Champion Kit', tier: 'var(--amber)', emblemAsset: '../assets/champion_banner.png', meta: '15 items', crate: false },
-  { id: 'ascendant_kit', name: 'Ascendant Kit', tier: 'var(--purple-mid)', emblemAsset: '../assets/ascendant_banner.png', meta: '15 items', crate: false },
-  { id: 'immortal_kit', name: 'Immortal Kit', tier: 'var(--cyan)', emblemAsset: '../assets/immortal_banner.png', meta: '17 items', crate: false },
-  { id: 'sentinel_crate', name: 'Sentinel Crate', tier: 'var(--text)', emblemAsset: '../assets/sentinel_key.webp', meta: '13 possible drops', crate: true },
-  { id: 'crusader_crate', name: 'Crusader Crate', tier: 'var(--success)', emblemAsset: '../assets/crusader_key.webp', meta: '13 possible drops', crate: true },
-  { id: 'champion_crate', name: 'Champion Crate', tier: 'var(--amber)', emblemAsset: '../assets/champion_key.webp', meta: '15 possible drops', crate: true },
-  { id: 'ascendant_crate', name: 'Ascendant Crate', tier: 'var(--purple-mid)', emblemAsset: '../assets/ascendant_key.webp', meta: '14 possible drops', crate: true },
-  { id: 'seasonal_crate', name: 'Seasonal Crate', tier: 'var(--cyan)', emblemAsset: '../assets/immortal_key.png', meta: '12 possible drops', crate: true },
+  { id: 'immortal_kit', name: 'Immortal Kit', tier: 'var(--cyan)', emblemAsset: '../assets/ranks/immortal_banner.png', meta: '17 items', crate: false },
+  { id: 'ascendant_kit', name: 'Ascendant Kit', tier: 'var(--purple-mid)', emblemAsset: '../assets/ranks/ascendant_banner.png', meta: '15 items', crate: false },
+  { id: 'champion_kit', name: 'Champion Kit', tier: 'var(--amber)', emblemAsset: '../assets/ranks/champion_banner.png', meta: '15 items', crate: false },
+  { id: 'crusader_kit', name: 'Crusader Kit', tier: 'var(--success)', emblemAsset: '../assets/ranks/crusader_banner.png', meta: '13 items', crate: false },
+  { id: 'sentinel_kit', name: 'Sentinel Kit', tier: 'var(--text)', emblemAsset: '../assets/ranks/sentinel_banner.png', meta: '14 items', crate: false },
+  { id: 'member_kit', name: 'Member Kit', tier: 'var(--iron)', emblemAsset: '../assets/ranks/member.png', meta: '14 items', crate: false },
+  { id: 'seasonal_crate', name: 'Seasonal Crate', tier: 'var(--cyan)', emblemAsset: '../assets/keys/immortal_key.png', meta: '12 possible drops', crate: true },
+  { id: 'ascendant_crate', name: 'Ascendant Crate', tier: 'var(--purple-mid)', emblemAsset: '../assets/keys/ascendant_key.webp', meta: '14 possible drops', crate: true },
+  { id: 'champion_crate', name: 'Champion Crate', tier: 'var(--amber)', emblemAsset: '../assets/keys/champion_key.webp', meta: '15 possible drops', crate: true },
+  { id: 'crusader_crate', name: 'Crusader Crate', tier: 'var(--success)', emblemAsset: '../assets/keys/crusader_key.webp', meta: '13 possible drops', crate: true },
+  { id: 'sentinel_crate', name: 'Sentinel Crate', tier: 'var(--text)', emblemAsset: '../assets/keys/sentinel_key.webp', meta: '13 possible drops', crate: true },
 ];
 
 const KIT_CRATE_DATA = {
@@ -1711,7 +1711,7 @@ const KIT_CRATE_DATA = {
         "ench": [],
         "chance": 7.692,
         "tier": T.cash,
-        "customAsset": "../assets/money.webp"
+        "customAsset": "../assets/misc/money.webp"
       },
       {
         "name": "Crusader Key",
@@ -1719,7 +1719,7 @@ const KIT_CRATE_DATA = {
         "ench": [],
         "chance": 7.692,
         "tier": T.key,
-        "customAsset": "../assets/crusader_key.webp"
+        "customAsset": "../assets/keys/crusader_key.webp"
       },
       {
         "name": "Rabbit Spawner",
@@ -1898,7 +1898,7 @@ const KIT_CRATE_DATA = {
         "ench": [],
         "chance": 7.692,
         "tier": T.cash,
-        "customAsset": "../assets/money.webp"
+        "customAsset": "../assets/misc/money.webp"
       },
       {
         "name": "Champion Key",
@@ -1906,7 +1906,7 @@ const KIT_CRATE_DATA = {
         "ench": [],
         "chance": 7.692,
         "tier": T.key,
-        "customAsset": "../assets/champion_key.webp"
+        "customAsset": "../assets/keys/champion_key.webp"
       },
       {
         "name": "Sheep Spawner",
@@ -2161,7 +2161,7 @@ const KIT_CRATE_DATA = {
         "ench": [],
         "chance": 6.667,
         "tier": T.cash,
-        "customAsset": "../assets/money.webp"
+        "customAsset": "../assets/misc/money.webp"
       },
       {
         "name": "Ascendant Key",
@@ -2169,7 +2169,7 @@ const KIT_CRATE_DATA = {
         "ench": [],
         "chance": 6.667,
         "tier": T.key,
-        "customAsset": "../assets/ascendant_key.webp"
+        "customAsset": "../assets/keys/ascendant_key.webp"
       },
       {
         "name": "Cow Spawner",
@@ -2448,7 +2448,7 @@ const KIT_CRATE_DATA = {
         "ench": [],
         "chance": 7.143,
         "tier": T.cash,
-        "customAsset": "../assets/money.webp"
+        "customAsset": "../assets/misc/money.webp"
       },
       {
         "name": "Seasonal Key",
@@ -2456,7 +2456,7 @@ const KIT_CRATE_DATA = {
         "ench": [],
         "chance": 7.143,
         "tier": T.key,
-        "customAsset": "../assets/immortal_key.png"
+        "customAsset": "../assets/keys/immortal_key.png"
       },
       {
         "name": "Skeleton Spawner",
@@ -2691,7 +2691,7 @@ const KIT_CRATE_DATA = {
         "ench": [],
         "chance": 8.333,
         "tier": T.cash,
-        "customAsset": "../assets/money.webp"
+        "customAsset": "../assets/misc/money.webp"
       },
       {
         "name": "Seasonal Key",
@@ -2699,7 +2699,7 @@ const KIT_CRATE_DATA = {
         "ench": [],
         "chance": 8.333,
         "tier": T.key,
-        "customAsset": "../assets/immortal_key.png"
+        "customAsset": "../assets/keys/immortal_key.png"
       },
       {
         "name": "Warden Spawner",
@@ -2757,7 +2757,7 @@ CARDS.forEach(c => {
   el.className = 'kit-card';
   el.style.setProperty('--tier', c.tier);
   el.innerHTML = `
-    ${c.crate ? '<span class="tag-crate">Crate</span>' : ''}
+    ${c.crate ? '<span class="tag-crate">Crate</span>' : '<span class="tag-rank">Rank</span>'}
     <div class="kit-emblem"><img src="${c.emblemAsset}" alt="${c.name}"></div>
     <h3>${c.name}</h3>
     <div class="kit-meta">${c.meta}</div>

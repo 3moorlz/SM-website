@@ -12,7 +12,7 @@ const RANKS = [
   {
     id: 'immortal',
     name: 'Immortal',
-    badge: 'assets/immortal.webp',
+    badge: 'assets/ranks/immortal.webp',
     accent: '#22d3ee',
     accentGlow: 'rgba(34, 211, 238, 0.4)',
     lifetimePrice: 19.99,
@@ -44,7 +44,7 @@ const RANKS = [
   {
     id: 'ascendant',
     name: 'Ascendant',
-    badge: 'assets/ascendant.webp',
+    badge: 'assets/ranks/ascendant.webp',
     accent: '#9333ea',
     accentGlow: 'rgba(147, 51, 234, 0.35)',
     lifetimePrice: 13.99,
@@ -76,7 +76,7 @@ const RANKS = [
   {
     id: 'champion',
     name: 'Champion',
-    badge: 'assets/champion.webp',
+    badge: 'assets/ranks/champion.webp',
     accent: '#f0c040',
     accentGlow: 'rgba(240, 192, 64, 0.35)',
     lifetimePrice: 9.99,
@@ -108,7 +108,7 @@ const RANKS = [
   {
     id: 'crusader',
     name: 'Crusader',
-    badge: 'assets/crusader.webp',
+    badge: 'assets/ranks/crusader.webp',
     accent: '#3ecf6e',
     accentGlow: 'rgba(62, 207, 110, 0.35)',
     lifetimePrice: 5.99,
@@ -137,7 +137,7 @@ const RANKS = [
   {
     id: 'sentinel',
     name: 'Sentinel',
-    badge: 'assets/sentinel.webp',
+    badge: 'assets/ranks/sentinel.webp',
     accent: '#a8b2c0',
     accentGlow: 'rgba(168, 178, 192, 0.35)',
     lifetimePrice: 2.99,
@@ -161,46 +161,45 @@ const RANKS = [
 ];
 
 const STAFF_MEMBERS = [
-  { role: 'Developer', name: 'UknUnc', head: 'UknUnc', icon: 'dev.webp' },
-  { role: 'Manager', name: 'Fruitifly', head: 'Fruitifly', icon: 'manager.webp' },
-  { role: 'Manager', name: 'Yehosy', head: 'Yehosy', icon: 'manager.webp' },
-  { role: 'Sr. Admin', name: 'Lifes_Tuff', head: 'Lifes_Tuff', icon: 'SrAdmin.webp' },
-  { role: 'Admin', name: 'FvsionNova', head: 'FvsionNova', icon: 'Admin.webp' },
-  { role: 'Admin', name: 'JustTheNon', head: 'JustTheNon', icon: 'Admin.webp' },
-  { role: 'Admin', name: 'IllusionsEU', head: 'IllusionsEU', icon: 'Admin.webp' },
-  { role: 'Admin', name: 'Nixeron_', head: 'Nixeron_', icon: 'Admin.webp' },
-  { role: 'Mod', name: 'BilliePotatoe', head: 'BilliePotatoe', icon: 'mod.webp' },
-  { role: 'Mod', name: 'AbleSquirrel', head: 'AbleSquirrel', icon: 'mod.webp' },
-  { role: 'Mod', title: 'Builders', name: 'Fritsyy', head: 'Fritsyy', icon: 'mod.webp' },
-  { role: 'Jr. Mod', name: 'Censorr_', head: 'Censorr_', icon: 'JrMod.webp' },
-  { role: 'Jr. Mod', title: 'Builders', name: 'RaccoonNyx', head: 'RaccoonNyx', icon: 'JrMod.webp' }
+  { role: 'Developer', name: 'UknUnc', head: 'UknUnc', icon: 'unused/dev.webp' },
+  { role: 'Manager', name: 'Fruitifly', head: 'Fruitifly', icon: 'unused/manager.webp' },
+  { role: 'Manager', name: 'Yehosy', head: 'Yehosy', icon: 'unused/manager.webp' },
+  { role: 'Sr. Admin', name: 'Lifes_Tuff', head: 'Lifes_Tuff', icon: 'unused/SrAdmin.webp' },
+  { role: 'Admin', name: 'FvsionNova', head: 'FvsionNova', icon: 'unused/Admin.webp' },
+  { role: 'Admin', name: 'JustTheNon', head: 'JustTheNon', icon: 'unused/Admin.webp' },
+  { role: 'Admin', name: 'Nixeron_', head: 'Nixeron_', icon: 'unused/Admin.webp' },
+  { role: 'Mod', name: 'BilliePotatoe', head: 'BilliePotatoe', icon: 'unused/mod.webp' },
+  { role: 'Mod', name: 'AbleSquirrel', head: 'AbleSquirrel', icon: 'unused/mod.webp' },
+  { role: 'Mod', title: 'Builders', name: 'Fritsyy', head: 'Fritsyy', icon: 'unused/mod.webp' },
+  { role: 'Jr. Mod', name: 'Censorr_', head: 'Censorr_', icon: 'unused/JrMod.webp' },
+  { role: 'Jr. Mod', title: 'Builders', name: 'RaccoonNyx', head: 'RaccoonNyx', icon: 'unused/JrMod.webp' }
 ];
 
 const COMPARISON_ROWS = [
   { label: 'Homes', values: ['14', '12', '9', '7', '5'] },
   { label: 'Auction Listings', values: ['40', '30', '25', '20', '15'] },
   { label: 'Order Queues', values: ['20', '15', '12', '10', '7'] },
-  { label: 'Chat Cooldown', values: ['None', 'None', 'None', 'None', 'Yes'] },
   { label: 'Streak Rewards & Kit', values: ['Immortal', 'Ascendant', 'Champion', 'Crusader', 'Sentinel'] },
   { label: 'Weekly {Placeholder} Crate Keys', values: ['10', '8', '6', '4', '2'] },
+  { label: 'Priority Queue', values: ['✓', '✓', '✓', '✓', '✓'] },
+  { label: 'Crate Quick Open', values: ['✓', '✓', '✓', '✓', '✓'] },
+  { label: 'Chat Cooldown', values: ['None', 'None', 'None', 'None', 'Yes'] },
   { label: 'Ender Chest', values: ['8 rows', '6 rows', '+2 rows', '+1 row', '—'] },
   { label: 'Streak Saver', values: ['Weekly', 'Bi-weekly', 'Monthly', 'Monthly', '—'] },
   { label: 'Auction Insta-buy', values: ['✓', '✓', '✓', '✓', '—'] },
   { label: 'Custom Name Color', values: ['✓', '✓', '✓', '—', '—'] },
-  { label: 'Priority Queue', values: ['✓', '✓', '✓', '✓', '✓'] },
-  { label: 'Crate Quick Open', values: ['✓', '✓', '✓', '✓', '✓'] },
 ];
 
 const KIT_PERKS = [
   { label: '/craft', values: [true, true, true, true, true] },
   { label: '/anvil', values: [true, true, true, true, true] },
+  { label: 'Priority Queue', values: [true, true, true, true, true] },
+  { label: 'Crate Quick Open', values: [true, true, true, true, true] },
   { label: '/ec', values: [true, true, true, true, false] },
-  { label: '/nickname', values: [true, true, true, false, false] },
   { label: 'No Chat Cooldown', values: [true, true, true, true, false] },
   { label: 'Auction Insta-buy', values: [true, true, true, true, false] },
   { label: 'Streak Saver', values: [true, true, true, true, false] },
-  { label: 'Priority Queue', values: [true, true, true, true, true] },
-  { label: 'Crate Quick Open', values: [true, true, true, true, true] },
+  { label: '/nickname', values: [true, true, true, false, false] },
 ];
 
 const HOME_FEATURES = [
@@ -213,21 +212,21 @@ const HOME_FEATURES = [
 ];
 
 const PATHWAY_RANKS = [
-  { id: 'server_lead', label: 'Server Lead', tier: 'lead', colorClass: 'rank-purple', icon: 'serverlead.webp', requiresTrial: false, overview: 'The top of the staff pathway. Server Leads set overall direction for the staff team and sign off on major decisions.' },
-  { id: 'promotional_manager', label: 'Promotional Manager', tier: 'management', colorClass: 'rank-blue', icon: 'manager.webp', requiresTrial: true, overview: 'Runs the staff promotion process — reviewing performance, running trials, and recommending rank changes.' },
-  { id: 'staff_manager', label: 'Staff Manager', tier: 'management', colorClass: 'rank-blue', icon: 'manager.webp', requiresTrial: true, overview: 'Manages the entire staff team\'s day-to-day operations, schedules, and internal standards.' },
-  { id: 'ticket_manager', label: 'Ticket Manager', tier: 'management', colorClass: 'rank-blue', icon: 'manager.webp', requiresTrial: true, overview: 'Owns the support ticket system end-to-end — staffing it, setting standards, and resolving escalations.' },
-  { id: 'manager', label: 'Manager', tier: 'management', colorClass: 'rank-blue', icon: 'manager.webp', requiresTrial: true, overview: 'Full management access. Oversees staff performance, training, and the overall health of the server.' },
-  { id: 'sr_admin', label: 'Sr. Admin', tier: 'admin', colorClass: 'rank-green', icon: 'SrAdmin.webp', requiresTrial: false, overview: 'The senior-most administrative rank before management. Runs day-to-day operations across the Admin and Mod teams.' },
-  { id: 'admin', label: 'Admin', tier: 'admin', colorClass: 'rank-green', icon: 'Admin.webp', requiresTrial: true, overview: 'Administrative access to server tools. Oversees moderation quality and handles escalations Mods can\'t resolve.' },
-  { id: 'sr_mod', label: 'Sr. Mod', tier: 'mod', colorClass: 'rank-orange', icon: 'SrMod.webp', requiresTrial: false, overview: 'Mentors the Mod team and takes point on harder enforcement calls and appeals.' },
-  { id: 'mod', label: 'Mod', tier: 'mod', colorClass: 'rank-orange', icon: 'mod.webp', requiresTrial: false, overview: 'Full moderation permissions. Enforces the rules, runs investigations, and keeps the server fair.' },
-  { id: 'jr_mod', label: 'Jr. Mod', tier: 'mod', colorClass: 'rank-orange', icon: 'JrMod.webp', requiresTrial: false, overview: 'Newly trusted with light moderation tools — basic chat and in-game rule enforcement.' },
-  { id: 'helper', label: 'Helper', tier: 'mod', colorClass: 'rank-orange', icon: 'Helper.webp', requiresTrial: false, overview: 'Frontline support in chat and the help queue. Helpers answer questions and flag issues for the Mod team.' },
-  { id: 'trainee', label: 'Trainee', tier: 'mod', colorClass: 'rank-orange', icon: 'staff.webp', requiresTrial: false, overview: 'The first step onto the team. Trainees learn the ropes under close supervision before earning full Helper permissions.' },
-  { id: 'informatics', label: 'Informatics', tier: 'dev', colorClass: 'rank-red', icon: 'informatics.webp', requiresTrial: true, overview: 'Handles server data, configs, and technical documentation that keep systems running smoothly.' },
-  { id: 'developer', label: 'Developer', tier: 'dev', colorClass: 'rank-red', icon: 'dev.webp', requiresTrial: true, overview: 'Builds and maintains the plugins, systems, and tools that power the server.' },
-  { id: 'builders', label: 'Builders', tier: 'special', colorClass: 'rank-teal', icon: 'builder.webp', requiresTrial: true, overview: 'A title, not a rank. Permissions come from whatever staff rank the person actually holds.' }
+  { id: 'server_lead', label: 'Server Lead', tier: 'lead', colorClass: 'rank-purple', icon: 'unused/serverlead.webp', requiresTrial: false, overview: 'The top of the staff pathway. Server Leads set overall direction for the staff team and sign off on major decisions.' },
+  { id: 'promotional_manager', label: 'Promotional Manager', tier: 'management', colorClass: 'rank-blue', icon: 'unused/manager.webp', requiresTrial: true, overview: 'Runs the staff promotion process — reviewing performance, running trials, and recommending rank changes.' },
+  { id: 'staff_manager', label: 'Staff Manager', tier: 'management', colorClass: 'rank-blue', icon: 'unused/manager.webp', requiresTrial: true, overview: 'Manages the entire staff team\'s day-to-day operations, schedules, and internal standards.' },
+  { id: 'ticket_manager', label: 'Ticket Manager', tier: 'management', colorClass: 'rank-blue', icon: 'unused/manager.webp', requiresTrial: true, overview: 'Owns the support ticket system end-to-end — staffing it, setting standards, and resolving escalations.' },
+  { id: 'manager', label: 'Manager', tier: 'management', colorClass: 'rank-blue', icon: 'unused/manager.webp', requiresTrial: true, overview: 'Full management access. Oversees staff performance, training, and the overall health of the server.' },
+  { id: 'sr_admin', label: 'Sr. Admin', tier: 'admin', colorClass: 'rank-green', icon: 'unused/SrAdmin.webp', requiresTrial: false, overview: 'The senior-most administrative rank before management. Runs day-to-day operations across the Admin and Mod teams.' },
+  { id: 'admin', label: 'Admin', tier: 'admin', colorClass: 'rank-green', icon: 'unused/Admin.webp', requiresTrial: true, overview: 'Administrative access to server tools. Oversees moderation quality and handles escalations Mods can\'t resolve.' },
+  { id: 'sr_mod', label: 'Sr. Mod', tier: 'mod', colorClass: 'rank-orange', icon: 'unused/SrMod.webp', requiresTrial: false, overview: 'Mentors the Mod team and takes point on harder enforcement calls and appeals.' },
+  { id: 'mod', label: 'Mod', tier: 'mod', colorClass: 'rank-orange', icon: 'unused/mod.webp', requiresTrial: false, overview: 'Full moderation permissions. Enforces the rules, runs investigations, and keeps the server fair.' },
+  { id: 'jr_mod', label: 'Jr. Mod', tier: 'mod', colorClass: 'rank-orange', icon: 'unused/JrMod.webp', requiresTrial: false, overview: 'Newly trusted with light moderation tools — basic chat and in-game rule enforcement.' },
+  { id: 'helper', label: 'Helper', tier: 'mod', colorClass: 'rank-orange', icon: 'unused/Helper.webp', requiresTrial: false, overview: 'Frontline support in chat and the help queue. Helpers answer questions and flag issues for the Mod team.' },
+  { id: 'trainee', label: 'Trainee', tier: 'mod', colorClass: 'rank-orange', icon: 'unused/support.webp', requiresTrial: false, overview: 'The first step onto the team. Trainees learn the ropes under close supervision before earning full Helper permissions.' },
+  { id: 'informatics', label: 'Informatics', tier: 'dev', colorClass: 'rank-red', icon: 'unused/informatics.webp', requiresTrial: true, overview: 'Handles server data, configs, and technical documentation that keep systems running smoothly.' },
+  { id: 'developer', label: 'Developer', tier: 'dev', colorClass: 'rank-red', icon: 'unused/dev.webp', requiresTrial: true, overview: 'Builds and maintains the plugins, systems, and tools that power the server.' },
+  { id: 'builders', label: 'Builders', tier: 'special', colorClass: 'rank-teal', icon: 'unused/builder.webp', requiresTrial: true, overview: 'A title, not a rank. Permissions come from whatever staff rank the person actually holds.' }
 ];
 
 const PATHWAY_EDGES = [
@@ -250,27 +249,27 @@ const PATHWAY_EDGES = [
 ];
 
 const KEYS = [
-  { id: 'sentinel', name: 'Sentinel Key', image: 'assets/sentinel_key.webp', packImage: 'assets/sentinelpack.png', singlePrice: 0.29, packPrice: 1.19, saveText: 'Save $0.26', singleId: 'd041b0b3-07b2-44a0-9b80-1cacae690d6b', packId: '0d037be7-6e50-4ff3-847d-b9be9cb1a04e' },
-  { id: 'crusader', name: 'Crusader Key', image: 'assets/crusader_key.webp', packImage: 'assets/crusaderpack.png', singlePrice: 0.79, packPrice: 3.39, saveText: 'Save $0.56', singleId: 'a87c1e80-bb2d-4dff-ad22-93a912ab6e21', packId: 'bad9f413-a1ed-4c48-9244-44c191cee941' },
-  { id: 'champion', name: 'Champion Key', image: 'assets/champion_key.webp', packImage: 'assets/championpack.png', singlePrice: 1.49, packPrice: 6.49, saveText: 'Save $0.96', singleId: '9e4a6932-9342-4b24-a9e1-c41b41e01ac7', packId: 'ab4bf262-0ea4-4da8-95ab-326848be2f3b' },
-  { id: 'ascendant', name: 'Ascendant Key', image: 'assets/ascendant_key.webp', packImage: 'assets/ascendantpack.png', singlePrice: 2.99, packPrice: 12.99, saveText: 'Save $1.96', singleId: 'e3c3c88f-1650-4de2-91f6-305376158544', packId: '946a5fa9-54fb-4e18-8fff-56a98ed2c213' },
-  { id: 'seasonal', name: 'Seasonal Key', image: 'assets/immortal_key.png', packImage: 'assets/seasonalpack.png', singlePrice: 5.99, packPrice: 24.99, saveText: 'Save $4.96', singleId: 'da4a57c5-9e42-471a-a106-69c16491bdf3', packId: 'cf314ba2-d41a-484a-8dde-f6fa73966a0c' }
+  { id: 'sentinel', name: 'Sentinel Key', image: 'assets/keys/sentinel_key.webp', packImage: 'assets/keys/sentinelpack.png', singlePrice: 0.29, packPrice: 1.19, saveText: 'Save $0.26', singleId: 'd041b0b3-07b2-44a0-9b80-1cacae690d6b', packId: '0d037be7-6e50-4ff3-847d-b9be9cb1a04e' },
+  { id: 'crusader', name: 'Crusader Key', image: 'assets/keys/crusader_key.webp', packImage: 'assets/keys/crusaderpack.png', singlePrice: 0.79, packPrice: 3.39, saveText: 'Save $0.56', singleId: 'a87c1e80-bb2d-4dff-ad22-93a912ab6e21', packId: 'bad9f413-a1ed-4c48-9244-44c191cee941' },
+  { id: 'champion', name: 'Champion Key', image: 'assets/keys/champion_key.webp', packImage: 'assets/keys/championpack.png', singlePrice: 1.49, packPrice: 6.49, saveText: 'Save $0.96', singleId: '9e4a6932-9342-4b24-a9e1-c41b41e01ac7', packId: 'ab4bf262-0ea4-4da8-95ab-326848be2f3b' },
+  { id: 'ascendant', name: 'Ascendant Key', image: 'assets/keys/ascendant_key.webp', packImage: 'assets/keys/ascendantpack.png', singlePrice: 2.99, packPrice: 12.99, saveText: 'Save $1.96', singleId: 'e3c3c88f-1650-4de2-91f6-305376158544', packId: '946a5fa9-54fb-4e18-8fff-56a98ed2c213' },
+  { id: 'seasonal', name: 'Seasonal Key', image: 'assets/keys/immortal_key.png', packImage: 'assets/keys/seasonalpack.png', singlePrice: 5.99, packPrice: 24.99, saveText: 'Save $4.96', singleId: 'da4a57c5-9e42-471a-a106-69c16491bdf3', packId: 'cf314ba2-d41a-484a-8dde-f6fa73966a0c' }
 ];
 
 const BUNDLES = [
-  { id: 'starter-bundle', name: 'Sentinel Bundle', price: 4.99, image: 'assets/starterbundle.png', value: '(Save $1.30) (Worth $6.29)', packageId: '6cc1e29b-c3ea-41f9-84f8-4a26a1e4dacb', items: ['10x Sentinel Keys', '5x Crusader Keys'] },
-  { id: 'warrior-bundle', name: 'Warrior Bundle', price: 9.99, image: 'assets/warriorbundle.png', value: '(Save $3.98) (Worth ~8,100 dashes)', packageId: 'd7d91f4b-ef9f-47e3-9f8e-3707199d2c28', items: ['10x Sentinel Keys', '10x Crusader Keys', '3x Champion Keys', '250 Dashes', '1x Rabbit Spawner'] },
-  { id: 'champion-bundle', name: 'Champion Bundle', price: 19.99, image: 'assets/championbundle.png', value: '(Save $9.37) (Worth ~16,850 Dashes)', packageId: '31c90fdb-fab1-4312-9d4d-93306f172159', items: ['10x Crusader Keys', '10x Champion Keys', '3x Ascendant Keys', '600 Dashes', '1x Sheep Spawner'] },
-  { id: 'ascendant-bundle', name: 'Ascendant Bundle', price: 34.99, image: 'assets/ascendantbundle.png', value: '(Save $17.90) (Worth ~32,200 Dashes)', packageId: '8d44c1b7-07e8-4e59-a96d-db6d37c9cb13', items: ['10x Champion Keys', '10x Ascendant Keys', '2x Seasonal Keys', '1.2k Dashes', '1x Cow Spawner'] },
-  { id: 'ultimate-bundle', name: 'Season 1 Ultimate Bundle', price: 49.99, image: 'assets/seasonalbundle.png', value: '(Save $36.03) (Worth ~84,500 Dashes) (Best value)', packageId: '7175b35d-16e3-4614-8ace-20fa884a139c', items: ['20x Crusader Keys', '15x Champion Keys', '10x Ascendant Keys', '3x Seasonal Keys', '2.5k Dashes', '1x Iron Golem Spawner'] }
+  { id: 'starter-bundle', name: 'Sentinel Bundle', price: 4.99, image: 'assets/misc/starterbundle.png', value: '(Save $1.30) (Worth $6.29)', packageId: '6cc1e29b-c3ea-41f9-84f8-4a26a1e4dacb', items: ['10x Sentinel Keys', '5x Crusader Keys'] },
+  { id: 'warrior-bundle', name: 'Warrior Bundle', price: 9.99, image: 'assets/misc/warriorbundle.png', value: '(Save $3.98) (Worth ~8,100 dashes)', packageId: 'd7d91f4b-ef9f-47e3-9f8e-3707199d2c28', items: ['10x Sentinel Keys', '10x Crusader Keys', '3x Champion Keys', '250 Dashes', '1x Rabbit Spawner'] },
+  { id: 'champion-bundle', name: 'Champion Bundle', price: 19.99, image: 'assets/misc/championbundle.png', value: '(Save $9.37) (Worth ~16,850 Dashes)', packageId: '31c90fdb-fab1-4312-9d4d-93306f172159', items: ['10x Crusader Keys', '10x Champion Keys', '3x Ascendant Keys', '600 Dashes', '1x Sheep Spawner'] },
+  { id: 'ascendant-bundle', name: 'Ascendant Bundle', price: 34.99, image: 'assets/misc/ascendantbundle.png', value: '(Save $17.90) (Worth ~32,200 Dashes)', packageId: '8d44c1b7-07e8-4e59-a96d-db6d37c9cb13', items: ['10x Champion Keys', '10x Ascendant Keys', '2x Seasonal Keys', '1.2k Dashes', '1x Cow Spawner'] },
+  { id: 'ultimate-bundle', name: 'Season 1 Ultimate Bundle', price: 49.99, image: 'assets/misc/seasonalbundle.png', value: '(Save $36.03) (Worth ~84,500 Dashes) (Best value)', packageId: '7175b35d-16e3-4614-8ace-20fa884a139c', items: ['20x Crusader Keys', '15x Champion Keys', '10x Ascendant Keys', '3x Seasonal Keys', '2.5k Dashes', '1x Iron Golem Spawner'] }
 ];
 
 const CRATES = [
-  { id: 'sentinel-crate', name: 'Sentinel Crate', image: 'assets/sentinel_key.webp' },
-  { id: 'crusader-crate', name: 'Crusader Crate', image: 'assets/crusader_key.webp' },
-  { id: 'champion-crate', name: 'Champion Crate', image: 'assets/champion_key.webp' },
-  { id: 'ascendant-crate', name: 'Ascendant Crate', image: 'assets/ascendant_key.webp' },
-  { id: 'seasonal-crate', name: 'Seasonal Crate', image: 'assets/immortal_key.png' },
+  { id: 'sentinel-crate', name: 'Sentinel Crate', image: 'assets/keys/sentinel_key.webp' },
+  { id: 'crusader-crate', name: 'Crusader Crate', image: 'assets/keys/crusader_key.webp' },
+  { id: 'champion-crate', name: 'Champion Crate', image: 'assets/keys/champion_key.webp' },
+  { id: 'ascendant-crate', name: 'Ascendant Crate', image: 'assets/keys/ascendant_key.webp' },
+  { id: 'seasonal-crate', name: 'Seasonal Crate', image: 'assets/keys/immortal_key.png' },
 ];
 
 const STORE_CATEGORIES = ['ranks', 'keys', 'bundles'];
