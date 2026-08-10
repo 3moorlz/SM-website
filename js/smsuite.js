@@ -35,10 +35,10 @@ document.addEventListener("DOMContentLoaded", () => {
       : `<span class="plugin-expand-hint">Coming Soon</span>`;
 
     card.innerHTML = `
-      <div class="plugin-card-header">
-        <h3 class="plugin-name">${displayName}</h3>
-        <div class="plugin-line"></div>
+      <div class="plugin-card-header" style="margin-bottom: 0.5rem; max-width: 65%;">
+        <h3 class="plugin-name" style="margin-bottom: 0; line-height: 1.2;">${displayName}</h3>
       </div>
+      <div class="plugin-line" style="margin-bottom: 3.5rem;"></div>
       <div class="plugin-body">
         <p class="plugin-tagline">${plugin.tagline}</p>
       </div>
@@ -52,7 +52,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (plugin.content) {
       card.addEventListener("click", () => {
         modalTitle.innerHTML = displayName;
-        modalContent.innerHTML = plugin.content;
+        
+        let contentHtml = plugin.content;
+        if (plugin.icon) {
+          const imgHtml = `<div style="float: right; margin-left: 2rem; margin-top: -0.5rem;"><img src="../${plugin.icon}" alt="icon" style="width: 200px; height: auto;" /></div>`;
+          contentHtml = contentHtml.replace('<ul>', imgHtml + '<ul>');
+        }
+        
+        modalContent.innerHTML = contentHtml;
         modal.classList.remove("hidden");
         // Simple animation
         setTimeout(() => modal.classList.add("active"), 10);

@@ -1041,8 +1041,8 @@
 
   
   function initSMSuiteModal() {
-    const smsuiteLinks = document.querySelectorAll('a[href*="smsuite.html"]');
-    if (smsuiteLinks.length === 0) return;
+    const smsuiteLinks = document.querySelectorAll('a[href*="smsuite"]');
+    if (smsuiteLinks.length === 0 && !window.location.pathname.includes('smsuite')) return;
     
     // Create Modal HTML
     const modalOverlay = document.createElement('div');
@@ -1096,23 +1096,33 @@
     
     // Continue navigates
     continueBtn.addEventListener('click', () => {
-      if (checkbox.checked && targetUrl) {
-        window.location.href = targetUrl;
+      if (checkbox.checked) {
+        localStorage.setItem('smsuiteAgreed', 'true');
+        modalOverlay.classList.remove('show');
+        if (targetUrl) {
+          window.location.href = targetUrl;
+        }
       }
     });
     
     // Intercept clicks
     smsuiteLinks.forEach(link => {
       link.addEventListener('click', (e) => {
-        // If they're already on the smsuite page, don't show the modal again if they click it?
-        // Wait, if they are on smsuite.html, the href might be just 'smsuite.html' or '#'.
-        if (window.location.pathname.includes('smsuite.html')) return;
+        if (window.location.pathname.includes('smsuite')) return;
+        if (localStorage.getItem('smsuiteAgreed') === 'true') return;
         
         e.preventDefault();
         targetUrl = link.getAttribute('href');
         modalOverlay.classList.add('show');
       });
     });
+
+    // Check if directly loaded without agreement
+    if (window.location.pathname.includes('smsuite') && localStorage.getItem('smsuiteAgreed') !== 'true') {
+      targetUrl = '';
+      modalOverlay.classList.add('show');
+      if (cancelBtn) cancelBtn.style.display = 'none';
+    }
   }
 
   function init() {

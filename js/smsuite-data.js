@@ -1,6 +1,7 @@
 const SMSUITE_DATA = [
   {
     id: "smcore",
+    icon: "assets/smsuite/smcore.png",
     name: "SMCore",
     version: "v1.2.0",
     isCore: true,
@@ -20,6 +21,7 @@ const SMSUITE_DATA = [
   },
   {
     id: "smaudit",
+    icon: "assets/smsuite/smai.png", 
     name: "SMAudit™",
     version: "v1.1.1",
     isCore: true,
@@ -39,6 +41,7 @@ const SMSUITE_DATA = [
   },
   {
     id: "smai",
+    icon: "assets/smsuite/smai.png",
     name: "SMAi",
     version: "v1.0.2", 
     isCore: true,
@@ -58,6 +61,7 @@ const SMSUITE_DATA = [
   },
   {
     id: "smcommands",
+    icon: "assets/smsuite/smsuite.png",
     name: "SMCommands",
     version: "v1.2.0",
     isCore: false,
@@ -75,6 +79,7 @@ const SMSUITE_DATA = [
   },
   {
     id: "smportals",
+    icon: "assets/smsuite/smportals.png",
     name: "SMPortals",
     version: "v1.2.0",
     isCore: false,
@@ -91,6 +96,7 @@ const SMSUITE_DATA = [
   },
   {
     id: "smdashshop",
+    icon: "assets/smsuite/smdashshop.png",
     name: "SMDashShop",
     version: "v1.2.0",
     isCore: false,
@@ -108,6 +114,7 @@ const SMSUITE_DATA = [
   },
   {
     id: "smcaveexplorer",
+    icon: "assets/smsuite/smcaveexplorer.png",
     name: "SMCaveExplorer",
     version: "v1.0.0",
     isCore: false,
@@ -124,6 +131,7 @@ const SMSUITE_DATA = [
   },
   {
     id: "smorders",
+    icon: "assets/smsuite/smorders.png",
     name: "SMOrders",
     version: "v1.2.0",
     isCore: false,
@@ -140,6 +148,7 @@ const SMSUITE_DATA = [
   },
   {
     id: "smauctions",
+    icon: "assets/smsuite/smauctions.png",
     name: "SMAuctions",
     version: "v1.2.0",
     isCore: false,
@@ -156,6 +165,7 @@ const SMSUITE_DATA = [
   },
   {
     id: "smstreaks",
+    icon: "assets/smsuite/smstreaks.png",
     name: "SMStreaks",
     version: "v1.0.0",
     isCore: false,
@@ -173,11 +183,12 @@ const SMSUITE_DATA = [
   },
   {
     id: "smenderchest",
+    icon: "assets/smsuite/smenderchest.png",
     name: "SMEnderChest",
     version: "v1.0.1",
     isCore: false,
     group: "player",
-    tagline: "for staff team to be able to easily view ender chests",
+    tagline: "For staff team to be able to easily view ender chests",
     content: `
       <p><strong>SMEnderChest</strong> takes the vanilla 27-slot Ender Chest and turns it into a fully progression-aware storage vault. As you rank up on the server, your private storage capacity naturally expands.</p>
       <p>The system is incredibly safe—if your rank changes or your capacity drops, it utilizes a protected overflow storage system to ensure your valuable items are never silently deleted or lost.</p>
@@ -190,6 +201,7 @@ const SMSUITE_DATA = [
   },
   {
     id: "smtutorial",
+    icon: "assets/smsuite/smtutorials.png",
     name: "SMTutorial",
     version: "v1.1.0",
     isCore: false,
@@ -207,6 +219,7 @@ const SMSUITE_DATA = [
   },
   {
     id: "smstaff",
+    icon: "assets/smsuite/smstaff.png",
     name: "SMStaff",
     version: "v1.2.1",
     isCore: false,
@@ -225,6 +238,7 @@ const SMSUITE_DATA = [
   },
   {
     id: "smadmin",
+    icon: "assets/smsuite/smadmin.png",
     name: "SMAdmin",
     version: "v1.0.0",
     isCore: false,
@@ -252,7 +266,8 @@ const SMSUITE_DATA = [
   },
   {
     id: "smeconomy",
-    name: "SMEconomy",
+    icon: "assets/smsuite/smsuite.png",
+    name: "SMEconomy™",
     version: "Coming Soon",
     isCore: false,
     group: "upcoming",

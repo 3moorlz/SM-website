@@ -3660,3 +3660,157 @@ a.support-card:hover {
 .lb-rank-3 .lb-pos { color: #CD7F32; }
 .lb-rank-3 .lb-name { color: #CD7F32; }
 .lb-rank-3 .lb-score { color: #CD7F32; }
+
+/* --- SMSuite Top Nav Popup & Mobile Fixes --- */
+@media (min-width: 901px) {
+  .top-nav .nav-link.page-smsuite {
+    position: absolute;
+    top: -12px;
+    right: 0;
+    width: 30px;
+    height: 4px;
+    padding: 0 !important;
+    border-radius: 4px;
+    background: var(--purple-glow) !important;
+    border: none !important;
+    box-shadow: 0 0 10px rgba(168,85,247,0.8);
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .top-nav .nav-link.page-smsuite .glow-text {
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .top-nav .nav-link.page-smsuite:hover {
+    top: -45px;
+    width: 120px;
+    height: auto;
+    padding: 0.5rem 1rem !important;
+    background: rgba(10, 10, 12, 0.95) !important;
+    border: 1px solid var(--purple-glow) !important;
+  }
+  .top-nav .nav-link.page-smsuite:hover .glow-text {
+    opacity: 1;
+  }
+}
+/* Fix Mobile Nav Spinning Trail */
+.mobile-nav .nav-link.active::before,
+.mobile-nav .nav-link.active::after,
+.mobile-nav .page-smsuite::before,
+.mobile-nav .page-smsuite::after {
+  display: none !important;
+  animation: none !important;
+}
+.mobile-nav .page-smsuite {
+  box-shadow: none !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+.plugin-card:hover .card-hero-img { transform: scale(1.05) !important; }
+
+
+
+
+@media (min-width: 901px) {
+  .nav-staff-wrapper .page-smsuite {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 4px;
+    padding: 0 !important;
+    border-radius: 4px;
+    background: var(--purple-glow) !important;
+    border: none !important;
+    box-shadow: 0 0 10px rgba(168,85,247,0.8);
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 10;
+  }
+  .nav-staff-wrapper .page-smsuite .glow-text {
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .nav-staff-wrapper .page-smsuite:hover {
+    top: -50px;
+    width: 120px;
+    height: auto;
+    padding: 0.5rem 1rem !important;
+    background: rgba(10, 10, 12, 0.95) !important;
+    border: 1px solid var(--purple-glow) !important;
+  }
+  .nav-staff-wrapper .page-smsuite:hover .glow-text {
+    opacity: 1;
+  }
+}
+
+
+
+
+
+@media (min-width: 901px) {
+  .nav-staff-wrapper a[href*="smsuite.html"] {
+    position: absolute !important;
+    top: -15px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 30px !important;
+    height: 4px !important;
+    padding: 0 !important;
+    border-radius: 4px !important;
+    background: var(--purple-glow) !important;
+    border: none !important;
+    box-shadow: 0 0 10px rgba(168,85,247,0.8) !important;
+    overflow: hidden !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    z-index: 10 !important;
+    color: transparent !important;
+  }
+  .nav-staff-wrapper a[href*="smsuite.html"]:hover {
+    top: -50px !important;
+    width: 140px !important;
+    height: auto !important;
+    padding: 0.5rem 1rem !important;
+    background: rgba(10, 10, 12, 0.95) !important;
+    border: 1px solid var(--purple-glow) !important;
+    color: var(--text) !important;
+  }
+}
+
+
+
+
+
+@media (min-width: 901px) {
+  .nav-staff-wrapper a[href*="smsuite.html"] {
+    position: absolute !important;
+    top: 100% !important;
+    margin-top: 5px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 30px !important;
+    height: 4px !important;
+    padding: 0 !important;
+    border-radius: 4px !important;
+    background: var(--purple-glow) !important;
+    border: none !important;
+    box-shadow: 0 0 10px rgba(168,85,247,0.8) !important;
+    overflow: hidden !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    z-index: 100 !important;
+    color: transparent !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  .nav-staff-wrapper a[href*="smsuite.html"]:hover {
+    width: 140px !important;
+    height: 40px !important;
+    padding: 0.5rem 1rem !important;
+    background: rgba(10, 10, 12, 0.95) !important;
+    border: 1px solid var(--purple-glow) !important;
+    color: var(--text) !important;
+  }
+}

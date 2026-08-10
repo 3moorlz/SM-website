@@ -27,10 +27,10 @@ window.openStaffModal = function(rankObj) {
     content.innerHTML = '<p style="color: #888; font-style: italic; width: 100%; text-align: center;">None</p>';
   } else {
     content.innerHTML = members.map(m => `
-      <div style="display: flex; align-items: center; gap: 1.5rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 1rem 2rem; width: 100%; justify-content: flex-start; margin-bottom: 0.5rem;">
-        <img src="https://mc-heads.net/avatar/${m.head || m.name}/64" alt="${m.name} head" style="width: 48px; height: 48px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.5);">
-        <img src="../assets/${m.icon || 'default.webp'}" alt="${m.role} icon" style="height: 32px; object-fit: contain;">
-        <div style="font-family: var(--font-display, sans-serif); font-weight: 700; font-size: 1.3rem; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">${m.name}</div>
+      <div style="display: flex; align-items: center; gap: 1rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0.75rem 1rem; width: 100%; justify-content: flex-start; margin-bottom: 0.5rem; overflow-wrap: anywhere;">
+        <img src="https://mc-heads.net/avatar/${m.head || m.name}/64" alt="${m.name} head" style="width: 48px; height: 48px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.5); flex-shrink: 0;">
+        <img src="../assets/${m.icon || 'default.webp'}" alt="${m.role} icon" style="height: 32px; object-fit: contain; flex-shrink: 0;">
+        <div style="font-family: var(--font-display, sans-serif); font-weight: 700; font-size: 1.1rem; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); word-break: break-word;">${m.name}</div>
       </div>
     `).join('');
   }
@@ -69,6 +69,7 @@ window.openStaffModal = function(rankObj) {
            });
            
            h.addEventListener('mouseenter', (e) => {
+             if (!window.matchMedia('(hover: hover)').matches) return; // Prevent tooltip on touch devices
              if (!tooltip) return;
              
              let tooltipHtml = `<strong style="font-family: var(--font-display, sans-serif); letter-spacing: 0.5px;">${label}</strong>`;
