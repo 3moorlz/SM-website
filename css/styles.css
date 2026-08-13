@@ -2962,7 +2962,9 @@ a.support-card:hover {
 
   .card-grid {
     display: grid;
-    grid-template-columns: repeat(3, 220px);
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    max-width: 800px;
+    margin: 0 auto;
     justify-content: center;
     gap: 0.85rem;
   }
@@ -3138,7 +3140,7 @@ a.support-card:hover {
   .demo-head span { font-size: 0.78rem; color: var(--text-muted); }
 
 .dash-grid { display: flex !important; flex-wrap: wrap !important; justify-content: center !important; gap: 1rem !important; max-width: 900px; margin: 0 auto; }
-.dash-card { flex: 0 1 270px; background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+.dash-card { flex: 0 1 200px; background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
 
 
 /* Legal Modal for SMSuite */
@@ -3486,6 +3488,28 @@ a.support-card:hover {
 .coming-soon-card {
   opacity: 0.6;
   cursor: default;
+}
+
+/* Original dark transparent SMSuite buttons */
+.smsuite-locked-card {
+  opacity: 0.6;
+  background: rgba(10, 5, 20, 0.3) !important;
+  border-color: rgba(139, 92, 246, 0.2) !important;
+  pointer-events: none;
+  cursor: default;
+  box-shadow: none !important;
+}
+.smsuite-locked-card .card-badge {
+  background: rgba(139, 92, 246, 0.15) !important;
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.smsuite-smai-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  position: relative;
+  z-index: 2;
 }
 .coming-soon-card:hover {
   transform: none;

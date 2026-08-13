@@ -1,12 +1,9 @@
-
-
 .pathway-image-container {
   position: relative;
-  max-width: 1200px;
+  max-width: 1600px;
   margin: 0 auto;
   width: 100%;
 }
-
 .pathway-main-img {
   width: 100%;
   height: auto;
@@ -14,7 +11,6 @@
   user-select: none;
   -webkit-user-drag: none;
 }
-
 .pathway-hotspot {
   position: absolute;
   display: block;
@@ -24,14 +20,12 @@
   border: none;
   transition: box-shadow 0.3s ease, background-color 0.3s ease;
   z-index: 50;
+  -webkit-tap-highlight-color: transparent;
 }
-
 .pathway-hotspot:hover {
-  
   box-shadow: 0 0 20px rgba(168, 85, 247, 0.6), inset 0 0 10px rgba(168, 85, 247, 0.3);
   background-color: rgba(168, 85, 247, 0.05);
 }
-
 .pathway-tooltip {
   position: fixed;
   background: rgba(15, 15, 20, 0.95);
@@ -51,7 +45,22 @@
   line-height: 1.4;
   white-space: nowrap;
 }
-
 .pathway-tooltip.hidden {
   display: none !important;
+}
+@media (pointer: coarse) {
+  .pathway-tooltip {
+    display: none !important;
+  }
+  .pathway-hotspot:hover {
+    box-shadow: none;
+    background-color: transparent;
+  }
+}
+@media (max-width: 600px) {
+  #staff-modal .modal-panel {
+    width: 94vw;
+    padding: 1.25rem;
+    max-height: 80vh;
+  }
 }

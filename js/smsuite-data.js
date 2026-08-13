@@ -21,9 +21,9 @@ const SMSUITE_DATA = [
   },
   {
     id: "smaudit",
-    icon: "assets/smsuite/smai.png", 
+    icon: "assets/smsuite/smaudit.png", 
     name: "SMAudit™",
-    version: "v1.1.1",
+    version: "v1.2.0",
     isCore: true,
     group: "core",
     tagline: "Keeps a detailed log of everything happening on the server.",
@@ -36,19 +36,19 @@ const SMSUITE_DATA = [
         <li><code>/smaudit incidents</code> &mdash; List recent server incidents.</li>
         <li><code>/smaudit incident &lt;id&gt;</code> &mdash; Inspect a specific incident.</li>
         <li><code>/smaudit retry</code> &mdash; Retry failed delivery events.</li>
+        <li><code>/smaudit routes</code> &mdash; View configured audit streams.</li>
       </ul>
     `
   },
   {
     id: "smai",
     icon: "assets/smsuite/smai.png",
-    name: "SMAi",
-    version: "v1.0.2", 
+    name: "SMAi<sup style=\"font-size: 0.6em; font-weight: 700; margin-left: 0.05rem;\">SM</sup>",
     isCore: true,
     group: "core",
     tagline: "Our handmade AI system that detects server and plugin issues and automatically fixes them.",
     content: `
-      <p><strong>SMAi</strong> is our completely handmade AI caretaker that constantly monitors the health of the server. It actively detects server anomalies, identifies plugin issues, and automatically executes safe fixes before they escalate.</p>
+      <p><strong>SMAi<sup style="font-size: 0.6em; font-weight: 700; margin-left: 0.05rem;">SM</sup></strong> is our completely handmade AI caretaker that constantly monitors the health of the server. It actively detects server anomalies, identifies plugin issues, and automatically executes safe fixes before they escalate.</p>
       <p>Instead of just logging errors, SMAi understands how our plugins interact. If a transaction fails or a critical task stalls, SMAi correlates the data, identifies the root cause, and coordinates a safe, reversible repair workflow to automatically fix it without human intervention.</p>
       <p><strong>Features:</strong></p>
       <ul>
@@ -61,7 +61,7 @@ const SMSUITE_DATA = [
   },
   {
     id: "smcommands",
-    icon: "assets/smsuite/smsuite.png",
+    icon: "assets/smsuite/smcommands.png",
     name: "SMCommands",
     version: "v1.2.0",
     isCore: false,
@@ -72,7 +72,6 @@ const SMSUITE_DATA = [
       <p>When you teleport, this system ensures you are safely routed and protected during warmups. It’s fully integrated with our audit systems to ensure you never lose out on safe travel due to server restarts or issues.</p>
       <p><strong>Commands:</strong></p>
       <ul>
-
         <li><code>/pit</code> &mdash; Teleport directly to the Pit.</li>
       </ul>
     `
@@ -133,7 +132,7 @@ const SMSUITE_DATA = [
     id: "smorders",
     icon: "assets/smsuite/smorders.png",
     name: "SMOrders",
-    version: "v1.2.0",
+    version: "v1.3.0",
     isCore: false,
     group: "player",
     tagline: "Request the exact items you need, and let others fill the order.",
@@ -150,7 +149,7 @@ const SMSUITE_DATA = [
     id: "smauctions",
     icon: "assets/smsuite/smauctions.png",
     name: "SMAuctions",
-    version: "v1.2.0",
+    version: "v1.3.0",
     isCore: false,
     group: "player",
     tagline: "A custom made auction house system",
@@ -203,7 +202,7 @@ const SMSUITE_DATA = [
     id: "smtutorial",
     icon: "assets/smsuite/smtutorials.png",
     name: "SMTutorial",
-    version: "v1.1.0",
+    version: "v1.2.0",
     isCore: false,
     group: "player",
     tagline: "An interactive guide to get you started on the server.",
@@ -214,6 +213,7 @@ const SMSUITE_DATA = [
       <ul>
         <li><code>/tutorial start</code> &mdash; Begin the interactive guide.</li>
         <li><code>/tutorial resume</code> &mdash; Pick up where you left off.</li>
+        <li><code>/smtutorial bindnpc</code> &mdash; Bind the tutorial to an NPC (Admin).</li>
       </ul>
     `
   },
@@ -262,6 +262,34 @@ const SMSUITE_DATA = [
     isCore: false,
     group: "upcoming",
     tagline: "Our custom built anti-cheat system.",
+    content: null
+  },
+  {
+    id: "smfluxbridge",
+    icon: "assets/smsuite/SMFluxBridge.png",
+    name: "SMFluxBridge",
+    version: "v1.2.2",
+    isCore: false,
+    group: "communicators",
+    tagline: "Seamlessly connects our in-game systems with the web store and external APIs.",
+    content: `
+      <p><strong>SMFluxBridge</strong> is our reliable third-party bridge between SpearMace SMP and FluxStore. It ensures purchases are delivered safely and subscriptions stay in sync.</p>
+      <p>It includes a robust Discord integration for securely linking your Minecraft account to Discord to receive subscription reminders and roles.</p>
+      <p><strong>Commands:</strong></p>
+      <ul>
+        <li><code>/subscription</code> &mdash; View synchronized status and live renewal timer.</li>
+        <li><code>/discordlink</code> &mdash; Securely link your Minecraft account to Discord.</li>
+      </ul>
+    `
+  },
+  {
+    id: "smessentials",
+    icon: "",
+    name: "SMEssentials™",
+    version: "Coming Soon",
+    isCore: false,
+    group: "upcoming",
+    tagline: "The essential suite of commands, homes, and spawn tools custom-built for SpearMace.",
     content: null
   },
   {

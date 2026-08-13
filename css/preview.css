@@ -1,4 +1,3 @@
-
   .card-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -75,7 +74,6 @@
     padding: 2px 7px;
     border-radius: 20px;
   }
-
   .demo-shell {
     background: var(--bg-panel);
     border: 1px solid var(--border);
@@ -108,7 +106,6 @@
   .demo-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 1rem; }
   .demo-head h3 { font-family: var(--font-display); font-size: 1.05rem; }
   .demo-head span { font-size: 0.78rem; color: var(--text-muted); }
-
   .slot-grid {
     display: grid;
     grid-template-columns: repeat(9, 1fr);
@@ -150,7 +147,6 @@
   }
   .slot.empty { cursor: default; }
   .slot.empty:hover { border-color: var(--border); background: rgba(255,255,255,0.03); }
-
   #tooltip {
     position: fixed;
     z-index: 999999;
@@ -172,7 +168,6 @@
   #tooltip .t-chance { color: var(--purple-glow); font-size: 0.76rem; margin-top: 4px; }
   #tooltip .t-qty { color: var(--text-muted); font-size: 0.72rem; margin-top: 4px; }
   #tooltip .t-custom { color: var(--soon); font-size: 0.68rem; margin-top: 6px; font-style: italic; }
-
   .callout {
     margin-top: 1.5rem;
     font-size: 0.78rem;

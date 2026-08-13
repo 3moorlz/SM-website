@@ -49,11 +49,11 @@ const CARDS = [
   { id: 'crusader_kit', name: 'Crusader Kit', tier: 'var(--success)', emblemAsset: '../assets/ranks/crusader_banner.png', meta: '13 items', crate: false },
   { id: 'sentinel_kit', name: 'Sentinel Kit', tier: 'var(--text)', emblemAsset: '../assets/ranks/sentinel_banner.png', meta: '14 items', crate: false },
   { id: 'member_kit', name: 'Member Kit', tier: 'var(--iron)', emblemAsset: '../assets/ranks/member.png', meta: '14 items', crate: false },
-  { id: 'seasonal_crate', name: 'Seasonal Crate', tier: 'var(--cyan)', emblemAsset: '../assets/keys/immortal_key.png', meta: '12 possible drops', crate: true },
-  { id: 'ascendant_crate', name: 'Ascendant Crate', tier: 'var(--purple-mid)', emblemAsset: '../assets/keys/ascendant_key.webp', meta: '14 possible drops', crate: true },
-  { id: 'champion_crate', name: 'Champion Crate', tier: 'var(--amber)', emblemAsset: '../assets/keys/champion_key.webp', meta: '15 possible drops', crate: true },
-  { id: 'crusader_crate', name: 'Crusader Crate', tier: 'var(--success)', emblemAsset: '../assets/keys/crusader_key.webp', meta: '13 possible drops', crate: true },
-  { id: 'sentinel_crate', name: 'Sentinel Crate', tier: 'var(--text)', emblemAsset: '../assets/keys/sentinel_key.webp', meta: '13 possible drops', crate: true },
+  { id: 'seasonal_crate', name: 'Seasonal Crate', tier: 'var(--cyan)', emblemAsset: '../assets/keys/seasonal_key.png', meta: '12 possible items', crate: true },
+  { id: 'ascendant_crate', name: 'Ascendant Crate', tier: 'var(--purple-mid)', emblemAsset: '../assets/keys/ascendant_key.webp', meta: '14 possible items', crate: true },
+  { id: 'champion_crate', name: 'Champion Crate', tier: 'var(--amber)', emblemAsset: '../assets/keys/champion_key.webp', meta: '15 possible items', crate: true },
+  { id: 'crusader_crate', name: 'Crusader Crate', tier: 'var(--success)', emblemAsset: '../assets/keys/crusader_key.webp', meta: '13 possible items', crate: true },
+  { id: 'sentinel_crate', name: 'Sentinel Crate', tier: 'var(--text)', emblemAsset: '../assets/keys/sentinel_key.webp', meta: '13 possible items', crate: true },
 ];
 
 const KIT_CRATE_DATA = {
@@ -571,11 +571,28 @@ const KIT_CRATE_DATA = {
         "fallbackId": "trident"
       },
       {
-        "name": "Iron Pickaxe (Efficiency 3, Fortune 2, Unbreaking 2, Mending_",
+        "name": "Iron Pickaxe",
         "qty": 1,
-        "ench": [],
+        "ench": [
+          [
+            "Efficiency",
+            "III"
+          ],
+          [
+            "Fortune",
+            "II"
+          ],
+          [
+            "Unbreaking",
+            "II"
+          ],
+          [
+            "Mending",
+            ""
+          ]
+        ],
         "tier": T.iron,
-        "id": "iron_pickaxe_(efficiency_3,_fortune_2,_unbreaking_2,_mending_"
+        "id": "iron_pickaxe"
       },
       {
         "name": "Iron Axe",
@@ -2456,7 +2473,7 @@ const KIT_CRATE_DATA = {
         "ench": [],
         "chance": 7.143,
         "tier": T.key,
-        "customAsset": "../assets/keys/immortal_key.png"
+        "customAsset": "../assets/keys/seasonal_key.png"
       },
       {
         "name": "Skeleton Spawner",
@@ -2631,7 +2648,7 @@ const KIT_CRATE_DATA = {
         "id": "netherite_sword"
       },
       {
-        "name": "Netherite Axe8.333%Netherite Spear (Lunge 3, Sharpness 5, Fire Aspect 2, Knockback 1, Looting 3, Unbreaking3, Mending)",
+        "name": "Netherite Axe",
         "qty": 1,
         "ench": [
           [
@@ -2645,6 +2662,43 @@ const KIT_CRATE_DATA = {
           [
             "Efficiency",
             "V"
+          ],
+          [
+            "Unbreaking",
+            "III"
+          ],
+          [
+            "Mending",
+            ""
+          ]
+        ],
+        "chance": 8.333,
+        "tier": T.netherite,
+        "id": "netherite_axe"
+      },
+      {
+        "name": "Netherite Spear",
+        "qty": 1,
+        "ench": [
+          [
+            "Lunge",
+            "III"
+          ],
+          [
+            "Sharpness",
+            "V"
+          ],
+          [
+            "Fire Aspect",
+            "II"
+          ],
+          [
+            "Knockback",
+            "I"
+          ],
+          [
+            "Looting",
+            "III"
           ],
           [
             "Unbreaking",
@@ -2699,7 +2753,7 @@ const KIT_CRATE_DATA = {
         "ench": [],
         "chance": 8.333,
         "tier": T.key,
-        "customAsset": "../assets/keys/immortal_key.png"
+        "customAsset": "../assets/keys/seasonal_key.png"
       },
       {
         "name": "Warden Spawner",

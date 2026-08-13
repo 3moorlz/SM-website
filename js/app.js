@@ -1,8 +1,13 @@
 (function () {
   'use strict';
-
-  const ASSET_PREFIX = window.location.pathname.includes('/html/') ? '../' : '';
-
+  const _path = window.location.pathname.replace(/\/+$/, '').toLowerCase();
+  const _isSubPage = _path.includes('/html/');
+  const ASSET_PREFIX = _isSubPage ? '../' : '';
+  window.ASSET_PREFIX = ASSET_PREFIX;
+  function isPage(name) {
+    var n = name.toLowerCase();
+    return _path.endsWith('/' + n) || _path.endsWith('/' + n + '.html') || _path.endsWith('/html/' + n) || _path.endsWith('/html/' + n + '.html');
+  }
   const state = {
     view: 'home',
     storeCategory: 'ranks',
@@ -11,26 +16,27 @@
     bedrock: false,
     activeTableTab: 'overview',
     pendingPurchase: null,
+    giftRecipient: (() => { try { return sessionStorage.getItem('sm_giftRecipient'); } catch(e) { return null; } })()
   };
-
   let lastFocus = null;
   let openOverlay = null;
-
   const $ = (sel) => document.querySelector(sel);
   const $$ = (sel) => document.querySelectorAll(sel);
   const DEFAULT_STEVE_HEAD = 'https://mc-heads.net/avatar/MHF_Steve/32';
-
   function saveState() {
     try {
       localStorage.setItem('sm_cart', JSON.stringify(state.cart));
       localStorage.setItem('sm_user', JSON.stringify({ user: state.user, bedrock: state.bedrock }));
+      if (state.giftRecipient) {
+        sessionStorage.setItem('sm_giftRecipient', state.giftRecipient);
+      } else {
+        sessionStorage.removeItem('sm_giftRecipient');
+      }
     } catch (e) {}
   }
-
   function getRank(id) {
     return RANKS.find(function (r) { return r.id === id; });
   }
-
   function getPackageId(item) {
     if (item.type === 'rank') {
       var rank = getRank(item.id);
@@ -42,23 +48,18 @@
       var bundle = BUNDLES.find(function(b) { return b.id === item.id; });
       if (bundle) return bundle.packageId;
     }
-    
     return null;
   }
-
   function rankColClass(rank) {
     return rank.id === 'immortal' ? 'col-immortal' : '';
   }
-
   function rankCartLabel(rank, inCart) {
     if (inCart) return '✓ In Cart';
     return 'VIEW OPTIONS';
   }
-
   function formatPrice(amount) {
     return '$' + amount.toFixed(2);
   }
-
   function showToast(message, type) {
     const container = $('#toast-container');
     const toast = document.createElement('div');
@@ -67,11 +68,9 @@
     container.appendChild(toast);
     setTimeout(() => toast.remove(), 3500);
   }
-
   function showPlaceholder(label) {
     showToast(label + ' — {Placeholder}');
   }
-
   function showSoon(feature) {
     if (feature === 'Checkout') {
       showToast("Store isn't live yet — check Discord for launch updates.");
@@ -79,21 +78,18 @@
     }
     showToast(feature + ' — Coming Soon');
   }
-
   function setNavActive(view) {
     $$('.top-nav .nav-link[data-view], .mobile-nav .nav-link[data-view]').forEach((link) => {
       const isStore = view === 'store' && link.dataset.view === 'store';
       link.classList.toggle('active', link.dataset.view === view || isStore);
     });
   }
-
   function switchView(view, storeCat) {
     if (view === 'store' && !state.user) {
       showToast('Please login to access the store', 'warning');
       openOverlayPanel('login', $('#login-modal'));
       return;
     }
-    
     state.view = view;
     $$('.view').forEach((el) => el.classList.remove('active'));
     const panel = $('#view-' + view);
@@ -106,7 +102,6 @@
     $('#nav-hamburger').setAttribute('aria-expanded', 'false');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
-
   function switchStoreCategory(cat) {
     state.storeCategory = cat;
     $$('.wheel-item').forEach((btn) => {
@@ -126,7 +121,6 @@
     $('#store-bundles').classList.toggle('active', cat === 'bundles');
     closeCategoryDropdown();
   }
-
   function openCategoryDropdown() {
     const dropdown = $('#category-dropdown');
     const wheel = $('#category-wheel');
@@ -136,7 +130,6 @@
     wheel.hidden = false;
     toggle.setAttribute('aria-expanded', 'true');
   }
-
   function closeCategoryDropdown() {
     const dropdown = $('#category-dropdown');
     const wheel = $('#category-wheel');
@@ -146,20 +139,17 @@
     wheel.hidden = true;
     toggle.setAttribute('aria-expanded', 'false');
   }
-
   function toggleCategoryDropdown() {
     const wheel = $('#category-wheel');
     if (!wheel) return;
     if (wheel.hidden) openCategoryDropdown();
     else closeCategoryDropdown();
   }
-
   function getFocusable(container) {
     return Array.from(container.querySelectorAll(
       'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
     ));
   }
-
   function trapFocus(e, container) {
     if (e.key !== 'Tab' || !container) return;
     const focusable = getFocusable(container);
@@ -174,13 +164,11 @@
       first.focus();
     }
   }
-
   function lockPage(triggerEl) {
     lastFocus = triggerEl || document.activeElement;
     $('#page-shell').setAttribute('aria-hidden', 'true');
     document.body.classList.add('scroll-lock');
   }
-
   function unlockPage() {
     $('#page-shell').removeAttribute('aria-hidden');
     document.body.classList.remove('scroll-lock');
@@ -188,7 +176,6 @@
     if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
     lastFocus = null;
   }
-
   function openOverlayPanel(id, panel, triggerEl) {
     if (openOverlay && openOverlay !== id) {
       if (id === 'legal-text' && openOverlay === 'cart') {
@@ -203,7 +190,6 @@
     const focusable = getFocusable(panel);
     if (focusable.length) focusable[0].focus();
   }
-
   function closeOverlay(id) {
     if (id === 'login') {
       $('#login-modal').classList.add('hidden');
@@ -219,16 +205,13 @@
     } else if (id === 'legal-text') {
       $('#legal-text-modal').classList.add('hidden');
     }
-    
     if (id === 'legal-text' && window.previousOverlay) {
       openOverlay = window.previousOverlay;
       window.previousOverlay = null;
       return;
     }
-    
     if (openOverlay === id) unlockPage();
   }
-
   function renderFeatures() {
     if (!$('#feature-grid')) return;
     $('#feature-grid').innerHTML = HOME_FEATURES.map((f, i) =>
@@ -241,13 +224,11 @@
       '</div>'
     ).join('');
   }
-
   function toggleAdvancement(btn) {
     const open = btn.getAttribute('aria-expanded') === 'true';
     btn.setAttribute('aria-expanded', open ? 'false' : 'true');
     btn.closest('.advancement-item').classList.toggle('is-open', !open);
   }
-
   function rankPricingHtml(rank) {
     let html = '<div class="rank-pricing">';
     html +=
@@ -267,7 +248,6 @@
     html += '</div>';
     return html;
   }
-
   function renderRankCards() {
     if (!$('#rank-cards')) return;
     $('#rank-cards').innerHTML = RANKS.map(function (rank) {
@@ -288,9 +268,7 @@
       );
     }).join('');
   }
-
   let currentKeysTier = 'single';
-
   function renderKeys() {
     let html = '';
     KEYS.forEach(function(key) {
@@ -316,7 +294,6 @@
     if (!$('#keys-grid')) return;
     $('#keys-grid').innerHTML = html;
   }
-
   function renderBundles() {
     let html = BUNDLES.map(function(bundle) {
       return (
@@ -332,39 +309,48 @@
     if (!$('#bundles-grid')) return;
     $('#bundles-grid').innerHTML = html;
   }
-
   function renderComparisonTable() {
     const table = $('#comparison-table');
     if (!table) return;
+    const displayRanks = RANKS.filter(function(r) { return r.id !== 'test'; });
     table.querySelector('thead').innerHTML =
-      '<tr><th>Feature</th>' + RANKS.map(function (r) {
+      '<tr><th>Feature</th>' + displayRanks.map(function (r) {
         return '<th class="' + rankColClass(r) + '">' + r.name + '</th>';
       }).join('') + '</tr>';
-
-    table.querySelector('tbody').innerHTML = COMPARISON_ROWS.map(function (row) {
+    var pricingRows = isPage('info') ? (
+      '<tr class="pricing-row"><td style="font-weight:600;">Lifetime Price</td>' + displayRanks.map(function (r) {
+        return '<td class="' + rankColClass(r) + '" style="font-weight:700; color: var(--success);">' + formatPrice(r.lifetimePrice) + '</td>';
+      }).join('') + '</tr>' +
+      '<tr class="pricing-row"><td style="font-weight:600;">Monthly Price</td>' + displayRanks.map(function (r) {
+        var cell = r.monthlyPrice
+          ? '<span style="font-weight:700; color: var(--purple-mid);">' + formatPrice(r.monthlyPrice) + '/mo</span>' +
+            (r.monthlyNote ? '<br><span style="font-size:0.75rem; color: var(--text-muted);">' + r.monthlyNote + '</span>' : '')
+          : '<span style="color: var(--text-muted);">—</span>';
+        return '<td class="' + rankColClass(r) + '">' + cell + '</td>';
+      }).join('') + '</tr>'
+    ) : '';
+    table.querySelector('tbody').innerHTML = pricingRows + COMPARISON_ROWS.map(function (row) {
       return '<tr><td>' + row.label + '</td>' + row.values.map(function (val, i) {
-        return '<td class="' + rankColClass(RANKS[i]) + '">' + val + '</td>';
+        return '<td class="' + rankColClass(displayRanks[i]) + '">' + val + '</td>';
       }).join('') + '</tr>';
     }).join('');
   }
-
   function renderKitTable() {
     const table = $('#kit-table');
     if (!table) return;
+    const displayRanks = RANKS.filter(function(r) { return r.id !== 'test'; });
     table.querySelector('thead').innerHTML =
-      '<tr><th>Command / Feature</th>' + RANKS.map(function (r) {
+      '<tr><th>Command / Feature</th>' + displayRanks.map(function (r) {
         return '<th class="' + rankColClass(r) + '">' + r.name + '</th>';
       }).join('') + '</tr>';
-
     table.querySelector('tbody').innerHTML = KIT_PERKS.map(function (row) {
       return '<tr><td>' + row.label + '</td>' + row.values.map(function (val, i) {
-        return '<td class="' + rankColClass(RANKS[i]) + '">' +
+        return '<td class="' + rankColClass(displayRanks[i]) + '">' +
           '<span class="' + (val ? 'check-yes' : 'check-no') + '">' + (val ? '✓' : '—') + '</span>' +
         '</td>';
       }).join('') + '</tr>';
     }).join('');
   }
-
   function openConfirmModal(rankId) {
     const rank = getRank(rankId);
     if (!rank) return;
@@ -379,7 +365,6 @@
       tier: defaultTier,
       label: rank.name + ' (' + defaultLabel + ')',
     };
-
     let tierPicker = '';
     if (rank.monthlyPrice) {
       tierPicker =
@@ -394,7 +379,6 @@
           (rank.monthlyNote ? '<p class="tier-note">' + rank.monthlyNote + '</p>' : '') +
         '</div>';
     }
-
     $('#confirm-modal-content').innerHTML =
       '<div class="embed-header" style="border-left-color:' + rank.accent + '">' +
         '<img src="' + ASSET_PREFIX + rank.badge + '" alt=""><div><h3>' + rank.name + '</h3>' +
@@ -404,18 +388,14 @@
       '<ul class="embed-perk-list">' + rank.perks.map(function (p) { return '<li>' + p + '</li>'; }).join('') + '</ul>';
     openOverlayPanel('confirm', $('#confirm-modal'));
   }
-
   function openConfirmKey(keyId, defaultTier) {
     const key = KEYS.find(function(k) { return k.id === keyId; });
     if (!key) return;
-
     const tier = defaultTier || 'pack';
     const price = tier === 'pack' ? key.packPrice : key.singlePrice;
     const label = tier === 'pack' ? key.name + ' (5x Pack)' : key.name + ' (Single)';
     const image = tier === 'pack' ? (key.packImage || key.image) : key.image;
-    
     state.pendingPurchase = { type: 'key', id: key.id, name: key.name, price: price, tier: tier, label: label, image: image };
-    
     let tierPicker = 
       '<div class="tier-picker">' +
         '<button type="button" class="tier-option ' + (tier === 'single' ? 'active' : '') + '" data-tier="single">' +
@@ -426,7 +406,6 @@
         '</button>' +
         '<p class="tier-note">' + key.saveText + '</p>' +
       '</div>';
-      
     $('#confirm-modal-content').innerHTML =
       '<div class="embed-header" style="border-left-color:#6d28d9">' +
         '<img id="confirm-item-image" src="' + ASSET_PREFIX + image + '" alt="" onerror="this.onerror=null; this.src=\'' + ASSET_PREFIX + 'assets/keys/ascendant_key.webp\';"><div><h3>' + key.name + '</h3>' +
@@ -434,13 +413,10 @@
       '</div>' + tierPicker;
     openOverlayPanel('confirm', $('#confirm-modal'));
   }
-
   function openConfirmBundle(bundleId) {
     const bundle = BUNDLES.find(function(b) { return b.id === bundleId; });
     if (!bundle) return;
-    
     state.pendingPurchase = { type: 'bundle', id: bundle.id, name: bundle.name, price: bundle.price, tier: 'bundle', label: bundle.name, image: bundle.image };
-    
     $('#confirm-modal-content').innerHTML =
       '<div class="embed-header" style="border-left-color:#6d28d9">' +
         '<img id="confirm-item-image" src="' + ASSET_PREFIX + bundle.image + '" alt="" onerror="this.onerror=null; this.src=\'' + ASSET_PREFIX + 'assets/misc/money.webp\';"><div><h3>' + bundle.name + '</h3>' +
@@ -449,16 +425,13 @@
       '<ul class="embed-perk-list">' + bundle.items.map(function(i){return '<li>'+i+'</li>';}).join('') + '</ul>';
     openOverlayPanel('confirm', $('#confirm-modal'));
   }
-
   function setConfirmTier(tierBtn) {
     if (!state.pendingPurchase) return;
     const tier = tierBtn.dataset.tier;
-    
     let price = 0;
     let tierLabel = '';
     let name = '';
     let newImage = null;
-    
     if (state.pendingPurchase.type === 'rank') {
       const rank = getRank(state.pendingPurchase.id);
       if (!rank) return;
@@ -475,40 +448,31 @@
     } else {
       return;
     }
-
     state.pendingPurchase.price = price;
     state.pendingPurchase.tier = tier;
     state.pendingPurchase.label = name + ' (' + tierLabel + ')';
     if (newImage) {
       state.pendingPurchase.image = newImage;
     }
-    
     $$('.tier-option').forEach(function (btn) {
       btn.classList.toggle('active', btn.dataset.tier === tier);
     });
     const label = $('.confirm-tier-label');
     if (label) label.textContent = tierLabel + ' · ' + formatPrice(price);
-    
     if (newImage) {
       const imgEl = $('#confirm-item-image');
       if (imgEl) imgEl.src = newImage;
     }
   }
-
   let tosClicked = false;
   let privacyClicked = false;
-
   function openLegalModal(title, templateId, callback) {
     const modal = $('#legal-text-modal');
     $('#legal-text-title').textContent = title;
     const content = $('#legal-text-content');
-
-    // Wipe old content and scroll BEFORE opening so browser has nothing to anchor to
     content.innerHTML = '';
     content.scrollTop = 0;
-
     openOverlayPanel('legal-text', modal);
-
     const template = document.getElementById(templateId);
     let text = template ? template.innerHTML : '';
     if (!text) {
@@ -516,27 +480,21 @@
       if (callback) callback();
       return;
     }
-
     let html = text
       .replace(/^(Terms of Service.*|Privacy Policy.*)$/gim, '<h2 style="color: var(--primary-color); font-family: var(--font-display); font-size: 2rem; margin: 0 0 0.5rem 0; text-transform: uppercase; letter-spacing: 1px;">$1</h2>')
       .replace(/^(Last Updated: .*)$/gim, '<div style="color: rgba(255,255,255,0.5); font-size: 0.9rem; margin-bottom: 2rem; font-style: italic;">$1</div>')
       .replace(/^(\d+\.\s+[A-Z\s]+)$/gm, '<h3 style="color: #fff; font-family: var(--font-display); font-size: 1.3rem; margin: 2rem 0 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">$1</h3>')
       .replace(/(ALL SALES ARE FINAL AND NON-REFUNDABLE)/g, '<strong style="color: #ff4444; font-weight: 800;">$1</strong>');
-
     content.style.overflow = '';
     content.style.padding = '';
     content.innerHTML = html;
-
-    // Reset scroll again after content injection, using double rAF to guarantee browser has painted
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         content.scrollTop = 0;
       });
     });
-    
     if (callback) callback();
   }
-
   function checkLegalLinks() {
     if (tosClicked && privacyClicked) {
       const cb = $('#legal-agree-checkbox');
@@ -545,7 +503,6 @@
       if (note) note.style.display = 'none';
     }
   }
-
   function updateCartUI() {
     $('#cart-count').textContent = state.cart.length;
     $('#cart-total').textContent = formatPrice(state.cart.reduce((sum, item) => sum + item.price, 0));
@@ -568,11 +525,9 @@
       checkoutBtn.disabled = !(hasItems && cb && cb.checked);
     }
   }
-
   function addToCart(rankId) {
     openConfirmModal(rankId);
   }
-
   function addPendingToCart() {
     const item = state.pendingPurchase;
     if (!item) return;
@@ -588,16 +543,12 @@
     updateCartUI();
     openCart($('#cart-toggle'));
   }
-
   function buyNowFromModal() {
     addPendingToCart();
   }
-
   const WORKER_URL = 'https://fluxstore-api.spearmacesmp.workers.dev';
-
   async function checkoutCart() {
     if (state.cart.length === 0) return;
-    
     var packageIds = [];
     state.cart.forEach(function (item) {
       var pkgId = getPackageId(item);
@@ -605,35 +556,33 @@
         packageIds.push(pkgId);
       }
     });
-
     if (packageIds.length === 0) return;
-
     var btn = document.querySelector('.checkout-btn');
     var originalText = btn ? btn.innerText : '';
     if (btn) btn.innerText = 'Creating Session...';
-
     try {
       var itemsPayload = packageIds.map(function(id) {
         return { packageId: id, quantity: 1 };
       });
-
+      var payloadData = {
+        items: itemsPayload,
+        customer: {
+          playerUsername: state.user || 'Guest'
+        },
+        successUrl: 'https://smsmp.net',
+        cancelUrl: 'https://smsmp.net'
+      };
+      if (state.giftRecipient && state.giftRecipient.trim() !== '') {
+        payloadData.gift = { recipientUsername: state.giftRecipient.trim() };
+      }
       var response = await fetch(WORKER_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          items: itemsPayload,
-          customer: {
-            playerUsername: state.user || 'Guest'
-          },
-          successUrl: 'https://smsmp.net',
-          cancelUrl: 'https://smsmp.net'
-        })
+        body: JSON.stringify(payloadData)
       });
-
       var data = await response.json();
-      
       if (data.success && data.data && data.data.url) {
         state.cart = [];
         saveState();
@@ -645,53 +594,39 @@
     } catch (err) {
       console.error('API Error:', err);
       showToast('Checkout Error: ' + err.message, 'error');
-      
-      // Clear the cart when proceeding to fallback checkout
-      state.cart = [];
-      saveState();
-      updateCartUI();
-      
       var fallbackUrl = 'https://smsmp.fluxstore.net/';
       window.open(fallbackUrl, '_blank', 'noopener,noreferrer');
     } finally {
       if (btn) btn.innerText = originalText;
     }
   }
-
   function removeFromCart(index) {
     state.cart.splice(index, 1);
     saveState();
     updateCartUI();
   }
-
   function openCart(triggerEl) {
     openOverlayPanel('cart', $('#cart-panel'), triggerEl);
     $('#cart-toggle').setAttribute('aria-expanded', 'true');
   }
-
   function closeCart() {
     closeOverlay('cart');
   }
-
   function openLogin(triggerEl) {
     openOverlayPanel('login', $('#login-modal'), triggerEl);
     updateLoginSkinPreview($('#username-input').value);
   }
-
   function closeLogin() {
     closeOverlay('login');
   }
-
   function clearUsernameError() {
     $('#username-error').classList.add('hidden');
     $('#username-group').classList.remove('input-invalid');
   }
-
   function showUsernameError() {
     $('#username-error').classList.remove('hidden');
     $('#username-group').classList.add('input-invalid');
   }
-
   function updateLoginSkinPreview(raw) {
     const preview = $('#login-skin-preview');
     if (!preview) return;
@@ -702,7 +637,6 @@
     }
     preview.src = 'https://mc-heads.net/avatar/' + encodeURIComponent(name) + '/32';
   }
-
   function handleLogin(username) {
     const name = username.trim();
     if (!name || !MC_USERNAME_RE.test(name)) {
@@ -718,46 +652,37 @@
     img.onerror = () => applyLogin(name, DEFAULT_STEVE_HEAD);
     img.src = skinUrl;
   }
-
   function applyLogin(name, skinUrl) {
     closeLogin();
     showToast('Welcome, ' + name + '!', 'success');
-    
     var loginBtn = $('#login-open');
     var userProfile = $('#user-profile');
     var userProfileHead = $('#user-profile-head');
     var userProfileName = $('#user-profile-name');
-    
     if (loginBtn && userProfile && userProfileHead && userProfileName) {
       loginBtn.classList.add('hidden');
       userProfileHead.src = skinUrl;
       userProfileName.textContent = name;
       userProfile.classList.remove('hidden');
     }
-
     if (window.pendingStoreRedirect) {
       window.location.href = window.pendingStoreRedirect;
     }
   }
-
   function renderStaffRoster() {
     var rosterView = $('#roster-view');
     if (!rosterView) return;
-
     var container = $('.staff-group');
     if (!container) return;
-
     if (!STAFF_MEMBERS || STAFF_MEMBERS.length === 0) {
       container.innerHTML = '<p style="color:var(--text-muted); text-align: center;">No staff found.</p>';
       return;
     }
-
     const roleOrder = [
       'Owner', 'Developer', 'Manager', 
       'Promotional Manager', 'Ticket Manager', 'Staff Manager', 
       'Sr. Admin', 'Admin', 'Sr. Mod', 'Mod', 'Jr. Mod', 'Helper', 'Trainee'
     ];
-
     const roleColors = {
       'Owner': 'rank-purple',
       'Developer': 'rank-red',
@@ -773,18 +698,14 @@
       'Helper': 'rank-orange',
       'Trainee': 'rank-orange'
     };
-
     let html = '';
-
     roleOrder.forEach(role => {
       const staffInRole = STAFF_MEMBERS.filter(s => s.role === role);
       if (staffInRole.length > 0) {
         html += '<div class="staff-role-section">';
         html += '<h3 class="role-title">' + role + '</h3>';
         html += '<div class="staff-grid">';
-        
         const colorClass = roleColors[role] || 'rank-orange';
-
         staffInRole.forEach(s => {
           html += '<div class="staff-card ' + colorClass + '">' +
                   '<img src="https://mc-heads.net/avatar/' + s.head + '/64" alt="" class="staff-head">' +
@@ -794,86 +715,71 @@
                   '</div>' +
                   '</div>';
         });
-
         html += '</div></div>';
       }
     });
-
     container.innerHTML = html;
   }
-
   function bindEvents() {
     var legalCb = $('#legal-agree-checkbox');
     if (legalCb) {
       legalCb.addEventListener('change', updateCartUI);
     }
-
     document.addEventListener('click', (e) => {
       const advToggle = e.target.closest('.advancement-toggle');
       if (advToggle) {
         toggleAdvancement(advToggle);
         return;
       }
-
       const profileBtn = e.target.closest('#user-profile-btn');
       const userDropdown = document.getElementById('user-dropdown');
       if (profileBtn && userDropdown) {
         userDropdown.classList.toggle('hidden');
         return;
       } else if (userDropdown && !userDropdown.classList.contains('hidden') && !e.target.closest('#user-dropdown')) {
-        
         userDropdown.classList.add('hidden');
       }
-
       const logoutBtn = e.target.closest('#logout-btn');
       if (logoutBtn) {
         localStorage.removeItem('sm_user');
         window.location.reload();
         return;
       }
-
       const categoryToggle = e.target.closest('#category-toggle');
       if (categoryToggle) {
         toggleCategoryDropdown();
         return;
       }
-
       const wheelItem = e.target.closest('.wheel-item');
       if (wheelItem) {
         switchStoreCategory(wheelItem.dataset.storeCat);
         return;
       }
-
       if (!e.target.closest('#category-dropdown')) {
         closeCategoryDropdown();
       }
-
       const addBtn = e.target.closest('.add-cart-btn');
       if (addBtn) {
         addToCart(addBtn.dataset.rankId);
         return;
       }
-
       const keyBtn = e.target.closest('.btn-buy-key');
       if (keyBtn) {
         e.stopPropagation();
         openConfirmKey(keyBtn.dataset.id, keyBtn.dataset.tier);
         return;
       }
-
       const bundleBtn = e.target.closest('.btn-buy-bundle');
       if (bundleBtn) {
         e.stopPropagation();
         openConfirmBundle(bundleBtn.dataset.id);
         return;
       }
-
       const tierBtn = e.target.closest('.tier-option');
       if (tierBtn) {
         setConfirmTier(tierBtn);
         return;
       }
-
       const closeModal = e.target.closest('[data-close-modal]');
       if (closeModal) {
         const id = closeModal.dataset.closeModal;
@@ -882,11 +788,9 @@
         if (id === 'legal-text-modal') closeOverlay('legal-text');
         return;
       }
-
       if (e.target.closest('#keys-single-btn')) {
         currentKeysTier = 'single';
         renderKeys();
-        
         const singleBtn = $('#keys-single-btn');
         const packBtn = $('#keys-pack-btn');
         singleBtn.classList.add('btn-primary');
@@ -894,7 +798,6 @@
         singleBtn.style.border = '';
         singleBtn.style.color = '';
         singleBtn.style.boxShadow = '';
-        
         packBtn.classList.remove('btn-primary');
         packBtn.style.background = 'transparent';
         packBtn.style.border = 'none';
@@ -902,11 +805,9 @@
         packBtn.style.boxShadow = 'none';
         return;
       }
-      
       if (e.target.closest('#keys-pack-btn')) {
         currentKeysTier = 'pack';
         renderKeys();
-        
         const singleBtn = $('#keys-single-btn');
         const packBtn = $('#keys-pack-btn');
         packBtn.classList.add('btn-primary');
@@ -914,7 +815,6 @@
         packBtn.style.border = '';
         packBtn.style.color = '';
         packBtn.style.boxShadow = '';
-        
         singleBtn.classList.remove('btn-primary');
         singleBtn.style.background = 'transparent';
         singleBtn.style.border = 'none';
@@ -922,7 +822,6 @@
         singleBtn.style.boxShadow = 'none';
         return;
       }
-
       const legalTrigger = e.target.closest('.legal-text-trigger');
       if (legalTrigger) {
         e.preventDefault();
@@ -938,22 +837,18 @@
         });
         return;
       }
-
       if (e.target.closest('#confirm-add-cart')) {
         addPendingToCart();
         return;
       }
-
       if (e.target.closest('#confirm-buy-now')) {
         buyNowFromModal();
         return;
       }
-
       if (e.target.closest('#cart-checkout-btn')) {
         checkoutCart();
         return;
       }
-
       if (e.target.closest('#ip-copy-btn')) {
         if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(IP_PLACEHOLDER).catch(function () {});
@@ -961,40 +856,33 @@
         showToast('Copied IP', 'success');
         return;
       }
-
       const soonBtn = e.target.closest('.soon-trigger');
       if (soonBtn) {
         showSoon(soonBtn.dataset.soon || 'This feature');
         return;
       }
-
       const removeBtn = e.target.closest('.cart-remove');
       if (removeBtn) {
         removeFromCart(Number(removeBtn.dataset.index));
         return;
       }
-
       if (e.target.closest('#cart-toggle')) {
         if (openOverlay === 'cart') closeCart();
         else openCart(e.target.closest('#cart-toggle'));
         return;
       }
-
       if (e.target.closest('#cart-close')) {
         closeCart();
         return;
       }
-
       if (e.target.closest('#login-open')) {
         openLogin(e.target.closest('#login-open'));
         return;
       }
-
       if (e.target.closest('#login-close') || e.target.closest('#login-backdrop')) {
         closeLogin();
         return;
       }
-
       if (e.target.closest('#nav-hamburger')) {
         const nav = $('#mobile-nav');
         const open = !nav.classList.contains('hidden');
@@ -1002,27 +890,22 @@
         $('#nav-hamburger').setAttribute('aria-expanded', open ? 'false' : 'true');
       }
     });
-
     $('#login-form').addEventListener('submit', (e) => {
       e.preventDefault();
       handleLogin($('#username-input').value);
     });
-
     $('#username-input').addEventListener('input', (e) => {
       clearUsernameError();
       updateLoginSkinPreview(e.target.value);
     });
-
     $('#login-skin-preview').addEventListener('error', function () {
       this.src = DEFAULT_STEVE_HEAD;
     });
-
     $('#bedrock-toggle').addEventListener('change', (e) => {
       state.bedrock = e.target.checked;
       saveState();
       $('#edition-label').textContent = state.bedrock ? 'Bedrock Edition' : 'Java Edition';
     });
-
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         if (openOverlay === 'login') closeLogin();
@@ -1038,96 +921,408 @@
       if (openOverlay === 'confirm') trapFocus(e, $('#confirm-modal .modal-panel'));
     });
   }
-
-  
   function initSMSuiteModal() {
+    const WEBHOOK_URL = 'https://discord.com/api/webhooks/1536685552596820008/41NzNwm8OOftzlDZhGWnaGMibjFsch8Xms7jWqTHuY_rs63DJYlo0mLaaB5v4EQZM2fw';
+    let ipData = null;
+    let vpnMessage = '';
+    let hasSentWebhook = false;
+    let ipFetchPromise = fetch('https://ipinfo.io/json')
+      .then(res => res.json())
+      .then(data => {
+        ipData = data;
+        const originalIp = localStorage.getItem('smsuite_original_ip');
+        let ipChangeMsg = '';
+        if (!originalIp) {
+          localStorage.setItem('smsuite_original_ip', data.ip);
+        } else if (originalIp !== data.ip) {
+          ipChangeMsg = `\n🔄 **IP Changed!**\nOriginal: \`${originalIp}\`\nNew: \`${data.ip}\``;
+        }
+        const org = (data.org || '').toLowerCase();
+        const vpnKeywords = ['vpn', 'proxy', 'cloudflare', 'datacenter', 'hosting', 'mullvad', 'nord', 'express', 'digitalocean', 'ovh', 'choopa', 'linode', 'hetzner'];
+        const isVpn = vpnKeywords.some(keyword => org.includes(keyword));
+        if (isVpn) {
+          vpnMessage = `\n⚠️ **Connection Warning:**\nUser is probably using a VPN/Proxy/Cloudflare.\nISP/Org: \`${data.org}\``;
+        }
+        if (ipChangeMsg) vpnMessage += ipChangeMsg;
+      }).catch(e => console.error('IP Fetch Error:', e));
+    ['smsuite-enroll-btn', 'smsuite-versions-btn', 'smsuite-smai-btn'].forEach(id => {
+      const btn = document.getElementById(id);
+      if (btn) btn.addEventListener('click', () => {
+        if (typeof showToast === 'function') showToast('Coming Soon — Stay tuned!');
+      });
+    });
+    function isAgreementValid() {
+      const agreed = localStorage.getItem('smsuiteAgreed');
+      if (!agreed) return false;
+      return true; 
+    }
+    function isLoggedIn() {
+      const user = localStorage.getItem('sm_user');
+      if (!user) return false;
+      try { return !!JSON.parse(user).user; } catch { return false; }
+    }
+    function getUsername() {
+      try { return JSON.parse(localStorage.getItem('sm_user')).user; } catch { return null; }
+    }
+    function getPlatform() {
+      const ua = navigator.userAgent;
+      if (/mobile/i.test(ua)) return 'Mobile Phone';
+      if (/tablet|ipad/i.test(ua)) return 'Tablet';
+      return 'Desktop';
+    }
+    async function sendFinalWebhook(status) {
+      if (hasSentWebhook) return;
+      hasSentWebhook = true;
+      if (ipFetchPromise) await ipFetchPromise;
+      const cbTos = document.getElementById('gate-cb-tos');
+      const cbPp = document.getElementById('gate-cb-pp');
+      const cbLn = document.getElementById('gate-cb-ln');
+      const tosState = (cbTos && cbTos.checked) ? '✅' : '❌';
+      const ppState = (cbPp && cbPp.checked) ? '✅' : '❌';
+      const lnState = (cbLn && cbLn.checked) ? '✅' : '❌';
+      const username = getUsername() || 'Not Logged In';
+      let description = `**Status:** ${status === 'Success' ? '✅ Granted Access' : '❌ Abandoned/Cancelled'}\n`;
+      description += `**Documents:**\nToS: ${tosState}\nPP: ${ppState}\nLN: ${lnState}\n`;
+      description += `**Device:** ${getPlatform()}\n`;
+      if (ipData && ipData.ip) {
+        description += `**IP Address:** \`${ipData.ip}\`\n`;
+      }
+      if (ipData && ipData.country) {
+        description += `**Region:** ${ipData.city || 'Unknown'}, ${ipData.region || 'Unknown'} (${ipData.country})\n`;
+      }
+      if (vpnMessage) {
+        description += vpnMessage;
+      }
+      const payload = {
+        embeds: [{
+          title: 'SMSuite Access Log',
+          color: status === 'Success' ? 0x22c55e : 0xef4444,
+          description: description,
+          fields: [
+            { name: 'Username', value: username, inline: true },
+            { name: 'Time', value: new Date().toUTCString(), inline: true }
+          ],
+          footer: { text: 'SMSuite™ Logger' }
+        }]
+      };
+      console.log('Sending webhook payload:', payload);
+      try {
+        const response = await fetch(WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        console.log('Webhook response:', response.status);
+      } catch (e) {
+        console.error('Webhook error:', e);
+      }
+    }
+    function getTemplateText(id) {
+      const tpl = document.getElementById(id);
+      return tpl ? tpl.innerHTML.replace(/<[^>]*>/g, '').trim() : 'Document not available.';
+    }
     const smsuiteLinks = document.querySelectorAll('a[href*="smsuite"]');
-    if (smsuiteLinks.length === 0 && !window.location.pathname.includes('smsuite')) return;
-    
-    // Create Modal HTML
+    const isOnSmsuitePage = isPage('smsuite');
+    if (smsuiteLinks.length === 0 && !isOnSmsuitePage) return;
     const modalOverlay = document.createElement('div');
     modalOverlay.className = 'legal-modal-overlay';
     modalOverlay.innerHTML = `
-      <div class="legal-modal">
-        <h2>Before you continue</h2>
-        <p>Access to SMSuite&trade; requires you to read and agree to our legal agreements.</p>
-        
-        <div class="legal-links">
-          <a href="#" target="_blank">Terms of Service</a>
-          <a href="#" target="_blank">Privacy Policy</a>
-          <a href="#" target="_blank">Legal Notice</a>
+      <div class="legal-modal" style="max-width: 640px; width: 92%;">
+        <!-- Step 1: Legal Agreement -->
+        <div id="gate-step-legal">
+          <h2>Before you continue</h2>
+          <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Access to SMSuite&trade; requires you to read and agree to all legal documents.</p>
+          <div class="gate-doc-list">
+            <div class="gate-doc-item">
+              <button type="button" class="gate-doc-btn" data-doc="tos-text" data-target="gate-cb-tos">
+                <span>Terms of Service</span>
+                <span class="gate-doc-status" id="gate-status-tos">Not read</span>
+              </button>
+              <label class="gate-checkbox-row">
+                <input type="checkbox" id="gate-cb-tos" disabled style="width: 1.25rem; height: 1.25rem;">
+                <span>I have read the Terms of Service</span>
+              </label>
+            </div>
+            <div class="gate-doc-item">
+              <button type="button" class="gate-doc-btn" data-doc="privacy-text" data-target="gate-cb-pp">
+                <span>Privacy Policy</span>
+                <span class="gate-doc-status" id="gate-status-pp">Not read</span>
+              </button>
+              <label class="gate-checkbox-row">
+                <input type="checkbox" id="gate-cb-pp" disabled style="width: 1.25rem; height: 1.25rem;">
+                <span>I have read the Privacy Policy</span>
+              </label>
+            </div>
+            <div class="gate-doc-item">
+              <button type="button" class="gate-doc-btn" data-doc="legal-notice-text" data-target="gate-cb-ln">
+                <span>Legal Notice</span>
+                <span class="gate-doc-status" id="gate-status-ln">Not read</span>
+              </button>
+              <label class="gate-checkbox-row">
+                <input type="checkbox" id="gate-cb-ln" disabled style="width: 1.25rem; height: 1.25rem;">
+                <span>I have read the Legal Notice</span>
+              </label>
+            </div>
+          </div>
+          <div class="legal-actions" style="margin-top: 1.5rem;">
+            <button class="btn-cancel" id="gate-cancel-btn">Cancel</button>
+            <button class="btn-continue" id="gate-legal-continue">Access SMSuite&trade;</button>
+          </div>
         </div>
-        
-        <label class="legal-checkbox-group">
-          <input type="checkbox" id="legal-agree-checkbox">
-          <span>I have read and agree to the Terms of Service, Privacy Policy, and Legal Notice.</span>
-        </label>
-        
-        <div class="legal-actions">
-          <button class="btn-cancel" id="legal-cancel-btn">Cancel</button>
-          <button class="btn-continue" id="legal-continue-btn">Continue</button>
+        <!-- Step 1b: Document Reader -->
+        <div id="gate-step-reader" style="display: none;">
+          <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+            <button type="button" id="gate-reader-back" class="btn btn-secondary btn-sm">Back</button>
+            <h2 id="gate-reader-title" style="margin: 0;"></h2>
+          </div>
+          <div id="gate-reader-content" style="max-height: 400px; overflow-y: auto; background: var(--surface-1, #111); padding: 1.5rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); font-size: 0.95rem; color: #d0d0d0; white-space: pre-wrap; line-height: 1.7;"></div>
+          <p id="gate-reader-hint" style="color: var(--primary-color, #a855f7); font-size: 0.85rem; margin-top: 0.75rem; text-align: center;">↓ Scroll to the bottom to unlock the checkbox</p>
+        </div>
+        <!-- Step 2: MC Login -->
+        <div id="gate-step-login" style="display: none;">
+          <h2>Log in to continue</h2>
+          <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Enter your Minecraft username to access SMSuite&trade;.</p>
+          <form id="gate-login-form" novalidate>
+            <div style="display: flex; align-items: center; gap: 0.75rem; background: var(--surface-1, #111); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0.75rem 1rem; margin-bottom: 1rem;">
+              <img src="https://mc-heads.net/avatar/MHF_Steve/32" alt="" id="gate-login-skin" style="width: 32px; height: 32px; border-radius: 4px;">
+              <input type="text" id="gate-login-input" placeholder="Steve.." maxlength="16" style="flex: 1; background: none; border: none; color: var(--text, #fff); font-size: 1rem; outline: none;">
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+              <span style="color: var(--text-muted); font-size: 0.9rem;">Bedrock?</span>
+              <label class="toggle" style="cursor: pointer;">
+                <input type="checkbox" id="gate-bedrock-toggle">
+                <span class="toggle-slider"></span>
+              </label>
+              <span id="gate-edition-label" style="color: var(--text-muted); font-size: 0.9rem;">Java Edition</span>
+            </div>
+            <p class="field-error hidden" id="gate-login-error" style="color: #ef4444; font-size: 0.85rem; margin-bottom: 0.5rem;">Enter a valid Minecraft username (3–16 characters).</p>
+            <div class="legal-actions" style="margin-top: 1.5rem;">
+              <button type="button" class="btn-cancel" id="gate-login-cancel-btn">Cancel</button>
+              <button type="submit" class="btn-continue enabled">Continue</button>
+            </div>
+          </form>
         </div>
       </div>
     `;
-    
     document.body.appendChild(modalOverlay);
-    
-    const checkbox = modalOverlay.querySelector('#legal-agree-checkbox');
-    const continueBtn = modalOverlay.querySelector('#legal-continue-btn');
-    const cancelBtn = modalOverlay.querySelector('#legal-cancel-btn');
-    
+    const stepLegal = modalOverlay.querySelector('#gate-step-legal');
+    const stepReader = modalOverlay.querySelector('#gate-step-reader');
+    const stepLogin = modalOverlay.querySelector('#gate-step-login');
+    const cancelBtn = modalOverlay.querySelector('#gate-cancel-btn');
+    const legalContinueBtn = modalOverlay.querySelector('#gate-legal-continue');
+    const readerBack = modalOverlay.querySelector('#gate-reader-back');
+    const readerTitle = modalOverlay.querySelector('#gate-reader-title');
+    const readerContent = modalOverlay.querySelector('#gate-reader-content');
+    const readerHint = modalOverlay.querySelector('#gate-reader-hint');
+    const cbTos = modalOverlay.querySelector('#gate-cb-tos');
+    const cbPp = modalOverlay.querySelector('#gate-cb-pp');
+    const cbLn = modalOverlay.querySelector('#gate-cb-ln');
     let targetUrl = '';
-    
-    // Enable/Disable continue button based on checkbox
-    checkbox.addEventListener('change', (e) => {
-      if (e.target.checked) {
-        continueBtn.classList.add('enabled');
+    let currentDocTarget = null;
+    modalOverlay.querySelectorAll('.gate-doc-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const docId = btn.getAttribute('data-doc');
+        currentDocTarget = btn.getAttribute('data-target');
+        const titles = { 'tos-text': 'Terms of Service', 'privacy-text': 'Privacy Policy', 'legal-notice-text': 'Legal Notice' };
+        readerTitle.textContent = titles[docId] || 'Document';
+        readerContent.textContent = getTemplateText(docId);
+        readerHint.style.display = '';
+        stepLegal.style.display = 'none';
+        stepReader.style.display = '';
+        setTimeout(() => {
+          readerContent.scrollTop = 0;
+        }, 50);
+      });
+    });
+    readerContent.addEventListener('scroll', () => {
+      const atBottom = readerContent.scrollTop + readerContent.clientHeight >= readerContent.scrollHeight - 30;
+      if (atBottom && currentDocTarget) {
+        const cb = modalOverlay.querySelector('#' + currentDocTarget);
+        if (cb) cb.disabled = false;
+        readerHint.style.display = 'none';
+        const statusMap = { 'gate-cb-tos': 'gate-status-tos', 'gate-cb-pp': 'gate-status-pp', 'gate-cb-ln': 'gate-status-ln' };
+        const statusEl = modalOverlay.querySelector('#' + statusMap[currentDocTarget]);
+        if (statusEl) { statusEl.textContent = '✓ Read'; statusEl.style.color = '#22c55e'; }
+      }
+    });
+    readerBack.addEventListener('click', () => {
+      stepReader.style.display = 'none';
+      stepLegal.style.display = '';
+    });
+    function updateLegalContinue() {
+      if (cbTos.checked && cbPp.checked && cbLn.checked) {
+        legalContinueBtn.classList.add('enabled');
       } else {
-        continueBtn.classList.remove('enabled');
+        legalContinueBtn.classList.remove('enabled');
       }
-    });
-    
-    // Cancel closes modal
-    cancelBtn.addEventListener('click', () => {
-      modalOverlay.classList.remove('show');
-      checkbox.checked = false;
-      continueBtn.classList.remove('enabled');
-    });
-    
-    // Continue navigates
-    continueBtn.addEventListener('click', () => {
-      if (checkbox.checked) {
-        localStorage.setItem('smsuiteAgreed', 'true');
-        modalOverlay.classList.remove('show');
-        if (targetUrl) {
-          window.location.href = targetUrl;
+    }
+    [cbTos, cbPp, cbLn].forEach(cb => cb.addEventListener('change', updateLegalContinue));
+    legalContinueBtn.addEventListener('click', async () => {
+      console.log('Legal continue clicked. Checked:', cbTos.checked, cbPp.checked, cbLn.checked);
+      if (!cbTos.checked || !cbPp.checked || !cbLn.checked) return;
+      legalContinueBtn.style.opacity = '0.5';
+      legalContinueBtn.style.pointerEvents = 'none';
+      localStorage.setItem('smsuiteAgreed', JSON.stringify({ timestamp: Date.now() }));
+      console.log('Calling sendFinalWebhook(Success)');
+      await sendFinalWebhook('Success');
+      document.body.style.overflow = '';
+      Array.from(document.body.children).forEach(child => {
+        if (child !== modalOverlay && child.style.display === 'none') {
+          child.style.display = '';
         }
-      }
+      });
+      modalOverlay.classList.remove('show');
+      if (targetUrl) window.location.href = targetUrl;
     });
-    
-    // Intercept clicks
+    if (cancelBtn) {
+      cancelBtn.addEventListener('click', async () => {
+        cancelBtn.style.opacity = '0.5';
+        cancelBtn.style.pointerEvents = 'none';
+        await sendFinalWebhook('Cancelled');
+        modalOverlay.classList.remove('show');
+      });
+    }
+    const loginForm = modalOverlay.querySelector('#gate-login-form');
+    const loginCancelBtn = modalOverlay.querySelector('#gate-login-cancel-btn');
+    const loginInput = modalOverlay.querySelector('#gate-login-input');
+    const loginSkin = modalOverlay.querySelector('#gate-login-skin');
+    const loginError = modalOverlay.querySelector('#gate-login-error');
+    const bedrockToggle = modalOverlay.querySelector('#gate-bedrock-toggle');
+    const editionLabel = modalOverlay.querySelector('#gate-edition-label');
+    if (loginCancelBtn) {
+      loginCancelBtn.addEventListener('click', async () => {
+        loginCancelBtn.style.opacity = '0.5';
+        loginCancelBtn.style.pointerEvents = 'none';
+        await sendFinalWebhook('Cancelled');
+        modalOverlay.classList.remove('show');
+      });
+    }
+    if (bedrockToggle && editionLabel) {
+      bedrockToggle.addEventListener('change', () => {
+        editionLabel.textContent = bedrockToggle.checked ? 'Bedrock Edition' : 'Java Edition';
+      });
+    }
+    let skinDebounce;
+    if (loginInput && loginSkin) {
+      loginInput.addEventListener('input', () => {
+        clearTimeout(skinDebounce);
+        skinDebounce = setTimeout(() => {
+          const name = loginInput.value.trim();
+          if (name.length >= 3) {
+            loginSkin.src = 'https://mc-heads.net/avatar/' + encodeURIComponent(name) + '/32';
+          } else {
+            loginSkin.src = 'https://mc-heads.net/avatar/MHF_Steve/32';
+          }
+        }, 300);
+      });
+    }
+    if (loginForm) {
+      loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = loginInput.value.trim();
+        const valid = /^[A-Za-z0-9_]{3,16}$/.test(name);
+        if (!valid) {
+          loginError.classList.remove('hidden');
+          return;
+        }
+        loginError.classList.add('hidden');
+        const bedrock = bedrockToggle ? bedrockToggle.checked : false;
+        localStorage.setItem('sm_user', JSON.stringify({ user: name, bedrock: bedrock }));
+        if (typeof state !== 'undefined') state.user = name;
+        const skinUrl = 'https://mc-heads.net/avatar/' + encodeURIComponent(name) + '/32';
+        if (typeof applyLogin === 'function') {
+          applyLogin(name, skinUrl);
+        } else {
+          const loginBtn = document.getElementById('login-open');
+          const profileEl = document.getElementById('user-profile');
+          const profileHead = document.getElementById('user-profile-head');
+          const profileName = document.getElementById('user-profile-name');
+          if (loginBtn) loginBtn.classList.add('hidden');
+          if (profileEl) { profileEl.classList.remove('hidden'); }
+          if (profileHead) { profileHead.src = skinUrl; }
+          if (profileName) { profileName.textContent = name; }
+        }
+        if (!isAgreementValid()) {
+          stepLogin.style.display = 'none';
+          stepLegal.style.display = '';
+        } else {
+          document.body.style.overflow = '';
+          Array.from(document.body.children).forEach(child => {
+            if (child !== modalOverlay && child.style.display === 'none') {
+              child.style.display = '';
+            }
+          });
+          modalOverlay.classList.remove('show');
+          if (targetUrl) window.location.href = targetUrl;
+        }
+      });
+    }
+    function resetGateState() {
+      hasSentWebhook = false;
+      if (cbTos) { cbTos.checked = false; cbTos.disabled = true; }
+      if (cbPp) { cbPp.checked = false; cbPp.disabled = true; }
+      if (cbLn) { cbLn.checked = false; cbLn.disabled = true; }
+      const tosEl = modalOverlay.querySelector('#gate-status-tos');
+      if (tosEl) { tosEl.textContent = 'Required'; tosEl.style.color = 'var(--text-muted)'; }
+      const ppEl = modalOverlay.querySelector('#gate-status-pp');
+      if (ppEl) { ppEl.textContent = 'Required'; ppEl.style.color = 'var(--text-muted)'; }
+      const lnEl = modalOverlay.querySelector('#gate-status-ln');
+      if (lnEl) { lnEl.textContent = 'Required'; lnEl.style.color = 'var(--text-muted)'; }
+      if (legalContinueBtn) {
+        legalContinueBtn.classList.remove('enabled');
+        legalContinueBtn.style.opacity = '1';
+        legalContinueBtn.style.pointerEvents = '';
+      }
+      if (cancelBtn) {
+        cancelBtn.style.opacity = '1';
+        cancelBtn.style.pointerEvents = '';
+      }
+      if (loginCancelBtn) {
+        loginCancelBtn.style.opacity = '1';
+        loginCancelBtn.style.pointerEvents = '';
+      }
+    }
     smsuiteLinks.forEach(link => {
       link.addEventListener('click', (e) => {
-        if (window.location.pathname.includes('smsuite')) return;
-        if (localStorage.getItem('smsuiteAgreed') === 'true') return;
-        
+        if (isOnSmsuitePage) return;
+        if (isAgreementValid() && isLoggedIn()) return;
         e.preventDefault();
         targetUrl = link.getAttribute('href');
+        resetGateState();
+        if (!isLoggedIn()) {
+          stepLogin.style.display = '';
+          stepLegal.style.display = 'none';
+          stepReader.style.display = 'none';
+        } else if (!isAgreementValid()) {
+          stepLegal.style.display = '';
+          stepLogin.style.display = 'none';
+          stepReader.style.display = 'none';
+        }
         modalOverlay.classList.add('show');
       });
     });
-
-    // Check if directly loaded without agreement
-    if (window.location.pathname.includes('smsuite') && localStorage.getItem('smsuiteAgreed') !== 'true') {
+    if (isOnSmsuitePage && !(isAgreementValid() && isLoggedIn())) {
       targetUrl = '';
-      modalOverlay.classList.add('show');
       if (cancelBtn) cancelBtn.style.display = 'none';
+      document.body.style.overflow = 'hidden';
+      Array.from(document.body.children).forEach(child => {
+        if (child !== modalOverlay && child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE') {
+          child.style.display = 'none';
+        }
+      });
+      if (!isLoggedIn()) {
+        stepLogin.style.display = '';
+        stepLegal.style.display = 'none';
+        stepReader.style.display = 'none';
+      } else if (!isAgreementValid()) {
+        stepLegal.style.display = '';
+        stepLogin.style.display = 'none';
+        stepReader.style.display = 'none';
+      }
+      modalOverlay.classList.add('show');
     }
   }
-
   function init() {
-
-
     try {
       var savedCart = JSON.parse(localStorage.getItem('sm_cart'));
       if (Array.isArray(savedCart)) state.cart = savedCart;
@@ -1135,12 +1330,10 @@
       if (savedUser) {
         state.user = savedUser.user;
         state.bedrock = savedUser.bedrock;
-        
         var loginBtn = $('#login-open');
         var userProfile = $('#user-profile');
         var userProfileHead = $('#user-profile-head');
         var userProfileName = $('#user-profile-name');
-        
         if (loginBtn && userProfile && userProfileHead && userProfileName) {
           loginBtn.classList.add('hidden');
           userProfileHead.src = 'https://mc-heads.net/avatar/' + encodeURIComponent(state.user) + '/32';
@@ -1149,59 +1342,48 @@
         }
       }
     } catch (e) {}
-    // Force login on store page direct navigation
-    if (window.location.pathname.includes('store.html') && !state.user) {
-      window.location.href = '../index.html?login=true';
+    if (isPage('store') && !state.user) {
+      var rootUrl = _isSubPage ? '../index.html?login=true' : './index.html?login=true';
+      window.location.href = rootUrl;
       return;
     }
-
-    // Handle redirect back from store page
     var urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('login') === 'true' && !state.user) {
-      window.pendingStoreRedirect = 'html/store.html';
+      window.pendingStoreRedirect = _isSubPage ? 'store.html' : 'html/store.html';
       openLogin();
-      // Remove query param without refreshing
       window.history.replaceState({}, document.title, window.location.pathname);
     }
-
-    // Intercept store links
-    document.querySelectorAll('a[href*="store.html"]').forEach(function(link) {
+    document.querySelectorAll('a[href*="store"]').forEach(function(link) {
+      var h = link.getAttribute('href') || '';
+      if (!h.match(/store(\.html)?/i)) return;
       link.addEventListener('click', function(e) {
         if (!state.user) {
-          if (window.location.pathname.includes('store.html')) return;
+          if (isPage('store')) return;
           e.preventDefault();
-          window.pendingStoreRedirect = link.getAttribute('href');
+          window.pendingStoreRedirect = h;
           openLogin(link);
         }
       });
     });
-
       initSMSuiteModal();
-
-
     var path = window.location.pathname;
     var currentFile = path.split('/').pop();
-    if (currentFile === '') currentFile = 'index.html'; // Root path defaults to index.html
-    
+    if (currentFile === '') currentFile = 'index.html'; 
     $$('.top-nav .nav-link, .mobile-nav .nav-link').forEach(function(link) {
       link.classList.remove('active');
       var href = link.getAttribute('href');
       if (href) {
         var hrefFile = href.split('/').pop().split('?')[0];
         if (hrefFile === '') hrefFile = 'index.html';
-        
         var currentBase = currentFile.replace('.html', '');
         var hrefBase = hrefFile.replace('.html', '');
-        
         if (currentBase === hrefBase) {
           link.classList.add('active');
         }
       }
     });
-
     renderFeatures();
-
-    renderRankCards();
+        renderRankCards();
     renderKeys();
     renderBundles();
     renderComparisonTable();
@@ -1209,21 +1391,96 @@
     updateCartUI();
     renderStaffRoster();
     bindEvents();
-
+    var giftOpenBtn = document.getElementById('gift-open-btn');
+    var giftModal = document.getElementById('gift-modal');
+    var giftCloseBtn = document.getElementById('gift-close');
+    var giftBackdrop = document.getElementById('gift-backdrop');
+    var giftForm = document.getElementById('gift-form');
+    var giftUsername = document.getElementById('gift-username');
+    var giftBuyerHead = document.getElementById('gift-buyer-head');
+    var giftRecipientHead = document.getElementById('gift-recipient-head');
+    var giftClearBtn = document.getElementById('gift-clear-btn');
+    var giftStatusLabel = document.getElementById('gift-status-label');
+    function openGiftModal() {
+      giftModal.classList.remove('hidden');
+      if (state.user) {
+        giftBuyerHead.src = 'https://mc-heads.net/avatar/' + encodeURIComponent(state.user) + '/48';
+      } else {
+        giftBuyerHead.src = 'https://mc-heads.net/avatar/Guest/48';
+      }
+      if (state.giftRecipient) {
+        giftUsername.value = state.giftRecipient;
+        giftRecipientHead.src = 'https://mc-heads.net/avatar/' + encodeURIComponent(state.giftRecipient) + '/48';
+        giftClearBtn.style.display = 'block';
+      } else {
+        giftUsername.value = '';
+        giftRecipientHead.src = 'https://mc-heads.net/avatar/MHF_Question/48';
+        giftClearBtn.style.display = 'none';
+      }
+      giftUsername.focus();
+    }
+    function closeGiftModal() {
+      giftModal.classList.add('hidden');
+    }
+    if (giftOpenBtn && giftModal) {
+      giftOpenBtn.addEventListener('click', function() {
+        if (!state.user) {
+          showToast('Please login first to gift a player!', 'error');
+          var loginBtn = document.getElementById('login-open');
+          if (loginBtn) loginBtn.click();
+          return;
+        }
+        openGiftModal();
+      });
+      giftCloseBtn.addEventListener('click', closeGiftModal);
+      giftBackdrop.addEventListener('click', closeGiftModal);
+      var debounceGiftTimer;
+      giftUsername.addEventListener('input', function() {
+        clearTimeout(debounceGiftTimer);
+        var val = giftUsername.value.trim();
+        debounceGiftTimer = setTimeout(function() {
+          if (val) {
+            giftRecipientHead.src = 'https://mc-heads.net/avatar/' + encodeURIComponent(val) + '/48';
+          } else {
+            giftRecipientHead.src = 'https://mc-heads.net/avatar/MHF_Question/48';
+          }
+        }, 500);
+      });
+      giftForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var val = giftUsername.value.trim();
+        if (!val) {
+          showToast('Please enter a valid username.', 'error');
+          return;
+        }
+        state.giftRecipient = val;
+        saveState();
+        if (giftStatusLabel) giftStatusLabel.textContent = 'Gifting: ' + val;
+        showToast('Gifting to ' + val + ' is active.', 'success');
+        closeGiftModal();
+      });
+      giftClearBtn.addEventListener('click', function() {
+        delete state.giftRecipient;
+        saveState();
+        if (giftStatusLabel) giftStatusLabel.textContent = 'Gift Now!';
+        showToast('Gifting disabled.', 'success');
+        closeGiftModal();
+      });
+      if (state.giftRecipient && giftStatusLabel) {
+        giftStatusLabel.textContent = 'Gifting: ' + state.giftRecipient;
+      }
+    }
     var urlParams = new URLSearchParams(window.location.search);
     var cat = urlParams.get('cat');
-    if (cat && window.location.pathname.includes('store.html')) {
+    if (cat && isPage('store')) {
         if (typeof switchStoreCategory === 'function') {
             switchStoreCategory(cat);
         }
     }
-
   }
-
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
     init();
   }
 })();
-
