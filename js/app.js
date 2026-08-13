@@ -1037,7 +1037,6 @@
             <div class="gate-doc-item">
               <button type="button" class="gate-doc-btn" data-doc="tos-text" data-target="gate-cb-tos">
                 <span>Terms of Service</span>
-                <span class="gate-doc-status" id="gate-status-tos">Not read</span>
               </button>
               <label class="gate-checkbox-row">
                 <input type="checkbox" id="gate-cb-tos" disabled style="width: 1.25rem; height: 1.25rem;">
@@ -1047,7 +1046,6 @@
             <div class="gate-doc-item">
               <button type="button" class="gate-doc-btn" data-doc="privacy-text" data-target="gate-cb-pp">
                 <span>Privacy Policy</span>
-                <span class="gate-doc-status" id="gate-status-pp">Not read</span>
               </button>
               <label class="gate-checkbox-row">
                 <input type="checkbox" id="gate-cb-pp" disabled style="width: 1.25rem; height: 1.25rem;">
@@ -1057,7 +1055,6 @@
             <div class="gate-doc-item">
               <button type="button" class="gate-doc-btn" data-doc="legal-notice-text" data-target="gate-cb-ln">
                 <span>Legal Notice</span>
-                <span class="gate-doc-status" id="gate-status-ln">Not read</span>
               </button>
               <label class="gate-checkbox-row">
                 <input type="checkbox" id="gate-cb-ln" disabled style="width: 1.25rem; height: 1.25rem;">
@@ -1118,6 +1115,7 @@
     const cbLn = modalOverlay.querySelector('#gate-cb-ln');
     let targetUrl = '';
     let currentDocTarget = null;
+    const docReadState = { 'gate-cb-tos': false, 'gate-cb-pp': false, 'gate-cb-ln': false };
     modalOverlay.querySelectorAll('.gate-doc-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const docId = btn.getAttribute('data-doc');
@@ -1141,11 +1139,9 @@
     readerContent.addEventListener('scroll', () => {
       const atBottom = readerContent.scrollTop + readerContent.clientHeight >= readerContent.scrollHeight - 30;
       if (atBottom && currentDocTarget) {
+        docReadState[currentDocTarget] = true;
         const cb = modalOverlay.querySelector('#' + currentDocTarget);
         if (cb) cb.disabled = false;
-        const statusMap = { 'gate-cb-tos': 'gate-status-tos', 'gate-cb-pp': 'gate-status-pp', 'gate-cb-ln': 'gate-status-ln' };
-        const statusEl = modalOverlay.querySelector('#' + statusMap[currentDocTarget]);
-        if (statusEl) { statusEl.textContent = '\u2713 Read'; statusEl.style.color = '#22c55e'; }
       }
     });
     readerBack.addEventListener('click', () => {
@@ -1265,12 +1261,9 @@
       if (cbTos) { cbTos.checked = false; cbTos.disabled = true; }
       if (cbPp) { cbPp.checked = false; cbPp.disabled = true; }
       if (cbLn) { cbLn.checked = false; cbLn.disabled = true; }
-      const tosEl = modalOverlay.querySelector('#gate-status-tos');
-      if (tosEl) { tosEl.textContent = 'Not read'; tosEl.style.color = 'var(--text-muted)'; }
-      const ppEl = modalOverlay.querySelector('#gate-status-pp');
-      if (ppEl) { ppEl.textContent = 'Not read'; ppEl.style.color = 'var(--text-muted)'; }
-      const lnEl = modalOverlay.querySelector('#gate-status-ln');
-      if (lnEl) { lnEl.textContent = 'Not read'; lnEl.style.color = 'var(--text-muted)'; }
+      docReadState['gate-cb-tos'] = false;
+      docReadState['gate-cb-pp'] = false;
+      docReadState['gate-cb-ln'] = false;
       if (legalContinueBtn) {
         legalContinueBtn.classList.remove('enabled');
         legalContinueBtn.style.opacity = '1';
