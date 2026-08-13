@@ -292,7 +292,6 @@ a {
   justify-content: center;
 }
 
-
 .nav-link {
   font-family: var(--font-display);
   font-size: 0.95rem;
@@ -324,7 +323,6 @@ a {
   border-color: transparent;
 }
 
-/* The spinning premium dual-trail */
 .nav-link.active::before {
   content: '';
   position: absolute;
@@ -342,12 +340,11 @@ a {
   filter: blur(2px);
 }
 
-/* The inner glassy core */
 .nav-link.active::after {
   content: '';
   position: absolute;
   inset: 1px;
-  background: rgba(15, 15, 20, 0.92); /* Deep dark background */
+  background: rgba(15, 15, 20, 0.92); 
   border-radius: 0;
   z-index: -1;
   box-shadow: inset 0 0 24px rgba(139, 92, 246, 0.15);
@@ -358,7 +355,6 @@ a {
   to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-/* --- SMSuite Page Navigation Override --- */
 .page-smsuite .top-nav {
   border-bottom: 2px solid rgba(139, 92, 246, 0.8);
   box-shadow: 0 4px 15px rgba(139, 92, 246, 0.2);
@@ -369,7 +365,7 @@ a {
 
 .page-smsuite .nav-link {
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  margin-bottom: -2px; /* Overlaps bottom border */
+  margin-bottom: -2px; 
   border: 2px solid transparent;
   padding: 0.55rem 0.85rem;
 }
@@ -384,7 +380,7 @@ a {
 
 .page-smsuite .nav-link.active::before,
 .page-smsuite .nav-link.active::after {
-  display: none; /* Hide the spinning trail on SMSuite page */
+  display: none; 
 }
 
 .hero-stage {
@@ -2231,7 +2227,6 @@ a.support-card:hover {
   flex: 1;
 }
 
-
 .rank-featured {
   border-width: 2px;
   border-color: var(--rank-accent);
@@ -2969,13 +2964,11 @@ a.support-card:hover {
     gap: 0.85rem;
   }
 
-  /* Make the first item in each grid span all columns as a banner */
   #kitsGrid .kit-card:first-child,
   #cratesGrid .kit-card:first-child {
     grid-column: 1 / -1;
   }
-  
-  /* Give the banner emblem more room to breathe */
+
   #kitsGrid .kit-card:first-child .kit-emblem,
   #cratesGrid .kit-card:first-child .kit-emblem {
     height: 160px;
@@ -2990,7 +2983,6 @@ a.support-card:hover {
     object-fit: contain;
   }
 
-  /* Make the title larger for the banners */
   #kitsGrid .kit-card:first-child h3,
   #cratesGrid .kit-card:first-child h3 {
     font-size: 1.35rem;
@@ -3142,12 +3134,10 @@ a.support-card:hover {
 .dash-grid { display: flex !important; flex-wrap: wrap !important; justify-content: center !important; gap: 1rem !important; max-width: 900px; margin: 0 auto; }
 .dash-card { flex: 0 1 200px; background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
 
-
-/* Legal Modal for SMSuite */
 .legal-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.85); /* Solid dark overlay without blur */
+  background: rgba(0, 0, 0, 0.85); 
   z-index: 9999;
   display: flex;
   align-items: center;
@@ -3163,12 +3153,12 @@ a.support-card:hover {
 }
 
 .legal-modal {
-  background: #0f0f13; /* Solid dark color instead of translucent surface */
+  background: #0f0f13; 
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: 2rem;
   width: min(90%, 500px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Standard deep shadow */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); 
   transform: translateY(20px);
   transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1);
   position: relative;
@@ -3262,19 +3252,22 @@ a.support-card:hover {
 }
 
 .btn-cancel {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.05);
   color: var(--text-muted);
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius);
   font-family: var(--font-display);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   cursor: pointer;
-  padding: 0.5rem 1rem;
-  transition: color 0.2s;
+  padding: 0.65rem 1.25rem;
+  transition: all 0.2s ease;
 }
 
 .btn-cancel:hover {
+  background: rgba(255, 255, 255, 0.1);
   color: #fff;
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .btn-continue {
@@ -3350,7 +3343,6 @@ a.support-card:hover {
   }
 }
 
-/* === SM SUITE PAGE === */
 .smsuite-page {
   max-width: 1200px;
   margin: 4rem auto;
@@ -3484,13 +3476,11 @@ a.support-card:hover {
   color: rgba(255, 255, 255, 0.3);
 }
 
-/* Coming Soon overrides */
 .coming-soon-card {
   opacity: 0.6;
   cursor: default;
 }
 
-/* Original dark transparent SMSuite buttons */
 .smsuite-locked-card {
   opacity: 0.6;
   background: rgba(10, 5, 20, 0.3) !important;
@@ -3538,7 +3528,6 @@ a.support-card:hover {
   font-size: 0.9rem;
 }
 
-/* SMSuite Modal Typography Overrides */
 .smsuite-modal-panel {
   max-width: 850px;
   width: 95%;
@@ -3593,7 +3582,6 @@ a.support-card:hover {
   border: 1px solid rgba(139, 92, 246, 0.2);
 }
 
-/* === LEADERBOARDS PAGE === */
 .leaderboards-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -3613,8 +3601,8 @@ a.support-card:hover {
 }
 
 .leaderboard-card {
-  background: var(--surface-1); /* Very dark background */
-  border: 1px solid rgba(139, 92, 246, 0.3); /* Subtle purple outline */
+  background: var(--surface-1); 
+  border: 1px solid rgba(139, 92, 246, 0.3); 
   border-radius: var(--radius);
   padding: 1.5rem;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -3640,13 +3628,13 @@ a.support-card:hover {
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem; /* Spacing between the blocks */
+  gap: 0.5rem; 
 }
 
 .lb-list li {
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.03); /* Lighter block background */
+  background: rgba(255, 255, 255, 0.03); 
   padding: 0.75rem 1rem;
   border-radius: 6px;
   font-family: var(--font-sans);
@@ -3672,7 +3660,6 @@ a.support-card:hover {
   font-family: var(--font-mono);
 }
 
-/* Top 3 styling highlights */
 .lb-rank-1 .lb-pos { color: #FFD700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
 .lb-rank-1 .lb-name { color: #FFD700; }
 .lb-rank-1 .lb-score { color: #FFD700; }
@@ -3685,7 +3672,6 @@ a.support-card:hover {
 .lb-rank-3 .lb-name { color: #CD7F32; }
 .lb-rank-3 .lb-score { color: #CD7F32; }
 
-/* --- SMSuite Top Nav Popup & Mobile Fixes --- */
 @media (min-width: 901px) {
   .top-nav .nav-link.page-smsuite {
     position: absolute;
@@ -3717,7 +3703,7 @@ a.support-card:hover {
     opacity: 1;
   }
 }
-/* Fix Mobile Nav Spinning Trail */
+
 .mobile-nav .nav-link.active::before,
 .mobile-nav .nav-link.active::after,
 .mobile-nav .page-smsuite::before,
@@ -3732,9 +3718,6 @@ a.support-card:hover {
 }
 
 .plugin-card:hover .card-hero-img { transform: scale(1.05) !important; }
-
-
-
 
 @media (min-width: 901px) {
   .nav-staff-wrapper .page-smsuite {
@@ -3770,10 +3753,6 @@ a.support-card:hover {
   }
 }
 
-
-
-
-
 @media (min-width: 901px) {
   .nav-staff-wrapper a[href*="smsuite.html"] {
     position: absolute !important;
@@ -3802,10 +3781,6 @@ a.support-card:hover {
     color: var(--text) !important;
   }
 }
-
-
-
-
 
 @media (min-width: 901px) {
   .nav-staff-wrapper a[href*="smsuite.html"] {
@@ -3837,4 +3812,70 @@ a.support-card:hover {
     border: 1px solid var(--purple-glow) !important;
     color: var(--text) !important;
   }
+}
+
+.gate-doc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.gate-doc-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.gate-doc-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  color: #fff;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  width: 100%;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.gate-doc-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.gate-doc-status {
+  font-size: 0.85rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.gate-checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  cursor: pointer;
+  user-select: none;
+  padding-left: 0.25rem;
+}
+
+.gate-checkbox-row input[type="checkbox"] {
+  cursor: pointer;
+  accent-color: var(--purple-glow);
+}
+
+.gate-checkbox-row input[type="checkbox"]:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }

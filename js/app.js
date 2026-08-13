@@ -483,7 +483,8 @@
     let html = text
       .replace(/^(Terms of Service.*|Privacy Policy.*)$/gim, '<h2 style="color: var(--primary-color); font-family: var(--font-display); font-size: 2rem; margin: 0 0 0.5rem 0; text-transform: uppercase; letter-spacing: 1px;">$1</h2>')
       .replace(/^(Last Updated: .*)$/gim, '<div style="color: rgba(255,255,255,0.5); font-size: 0.9rem; margin-bottom: 2rem; font-style: italic;">$1</div>')
-      .replace(/^(\d+\.\s+[A-Z\s]+)$/gm, '<h3 style="color: #fff; font-family: var(--font-display); font-size: 1.3rem; margin: 2rem 0 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">$1</h3>')
+      .replace(/^(\d+\.\s+[^\n:]+)$/gm, '<h3 style="color: #fff; font-family: var(--font-display); font-size: 1.3rem; margin: 2rem 0 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.5px;">$1</h3>')
+      .replace(/^(\d+\.\d+\.\s+[^:]+:)/gm, '<strong style="color: #fff; font-weight: 700; display: inline-block; margin-top: 0.5rem;">$1</strong>')
       .replace(/(ALL SALES ARE FINAL AND NON-REFUNDABLE)/g, '<strong style="color: #ff4444; font-weight: 800;">$1</strong>');
     content.style.overflow = '';
     content.style.padding = '';
@@ -1065,18 +1066,17 @@
             </div>
           </div>
           <div class="legal-actions" style="margin-top: 1.5rem;">
-            <button class="btn-cancel" id="gate-cancel-btn">Cancel</button>
+            <button class="btn-cancel" id="gate-cancel-btn">Back</button>
             <button class="btn-continue" id="gate-legal-continue">Access SMSuite&trade;</button>
           </div>
         </div>
         <!-- Step 1b: Document Reader -->
         <div id="gate-step-reader" style="display: none;">
           <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-            <button type="button" id="gate-reader-back" class="btn btn-secondary btn-sm">Back</button>
+            <button type="button" id="gate-reader-back" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 0.4rem 0.9rem; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">&larr; Back</button>
             <h2 id="gate-reader-title" style="margin: 0;"></h2>
           </div>
           <div id="gate-reader-content" style="max-height: 400px; overflow-y: auto; background: var(--surface-1, #111); padding: 1.5rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); font-size: 0.95rem; color: #d0d0d0; white-space: pre-wrap; line-height: 1.7;"></div>
-          <p id="gate-reader-hint" style="color: var(--primary-color, #a855f7); font-size: 0.85rem; margin-top: 0.75rem; text-align: center;">↓ Scroll to the bottom to unlock the checkbox</p>
         </div>
         <!-- Step 2: MC Login -->
         <div id="gate-step-login" style="display: none;">
@@ -1097,7 +1097,7 @@
             </div>
             <p class="field-error hidden" id="gate-login-error" style="color: #ef4444; font-size: 0.85rem; margin-bottom: 0.5rem;">Enter a valid Minecraft username (3–16 characters).</p>
             <div class="legal-actions" style="margin-top: 1.5rem;">
-              <button type="button" class="btn-cancel" id="gate-login-cancel-btn">Cancel</button>
+              <button type="button" class="btn-cancel" id="gate-login-cancel-btn">Back</button>
               <button type="submit" class="btn-continue enabled">Continue</button>
             </div>
           </form>
@@ -1113,7 +1113,6 @@
     const readerBack = modalOverlay.querySelector('#gate-reader-back');
     const readerTitle = modalOverlay.querySelector('#gate-reader-title');
     const readerContent = modalOverlay.querySelector('#gate-reader-content');
-    const readerHint = modalOverlay.querySelector('#gate-reader-hint');
     const cbTos = modalOverlay.querySelector('#gate-cb-tos');
     const cbPp = modalOverlay.querySelector('#gate-cb-pp');
     const cbLn = modalOverlay.querySelector('#gate-cb-ln');
@@ -1125,8 +1124,13 @@
         currentDocTarget = btn.getAttribute('data-target');
         const titles = { 'tos-text': 'Terms of Service', 'privacy-text': 'Privacy Policy', 'legal-notice-text': 'Legal Notice' };
         readerTitle.textContent = titles[docId] || 'Document';
-        readerContent.textContent = getTemplateText(docId);
-        readerHint.style.display = '';
+        const rawText = getTemplateText(docId);
+        readerContent.innerHTML = rawText
+          .replace(/^(Terms of Service.*|Privacy Policy.*)$/gim, '<h2 style="color: var(--primary-color); font-family: var(--font-display); font-size: 1.5rem; margin: 0 0 0.5rem 0; text-transform: uppercase; letter-spacing: 1px;">$1</h2>')
+          .replace(/^(Last Updated: .*)$/gim, '<div style="color: rgba(255,255,255,0.5); font-size: 0.85rem; margin-bottom: 1.5rem; font-style: italic;">$1</div>')
+          .replace(/^(\d+\.\s+[^\n:]+)$/gm, '<h3 style="color: #fff; font-family: var(--font-display); font-size: 1.15rem; margin: 1.5rem 0 0.4rem 0; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.3rem; text-transform: uppercase; letter-spacing: 0.5px;">$1</h3>')
+          .replace(/^(\d+\.\d+\.\s+[^:]+:)/gm, '<strong style="color: #fff; font-weight: 700; display: inline-block; margin-top: 0.5rem;">$1</strong>')
+          .replace(/(ALL SALES ARE FINAL AND NON-REFUNDABLE)/g, '<strong style="color: #ff4444; font-weight: 800;">$1</strong>');
         stepLegal.style.display = 'none';
         stepReader.style.display = '';
         setTimeout(() => {
@@ -1139,10 +1143,9 @@
       if (atBottom && currentDocTarget) {
         const cb = modalOverlay.querySelector('#' + currentDocTarget);
         if (cb) cb.disabled = false;
-        readerHint.style.display = 'none';
         const statusMap = { 'gate-cb-tos': 'gate-status-tos', 'gate-cb-pp': 'gate-status-pp', 'gate-cb-ln': 'gate-status-ln' };
         const statusEl = modalOverlay.querySelector('#' + statusMap[currentDocTarget]);
-        if (statusEl) { statusEl.textContent = '✓ Read'; statusEl.style.color = '#22c55e'; }
+        if (statusEl) { statusEl.textContent = '\u2713 Read'; statusEl.style.color = '#22c55e'; }
       }
     });
     readerBack.addEventListener('click', () => {
@@ -1263,11 +1266,11 @@
       if (cbPp) { cbPp.checked = false; cbPp.disabled = true; }
       if (cbLn) { cbLn.checked = false; cbLn.disabled = true; }
       const tosEl = modalOverlay.querySelector('#gate-status-tos');
-      if (tosEl) { tosEl.textContent = 'Required'; tosEl.style.color = 'var(--text-muted)'; }
+      if (tosEl) { tosEl.textContent = 'Not read'; tosEl.style.color = 'var(--text-muted)'; }
       const ppEl = modalOverlay.querySelector('#gate-status-pp');
-      if (ppEl) { ppEl.textContent = 'Required'; ppEl.style.color = 'var(--text-muted)'; }
+      if (ppEl) { ppEl.textContent = 'Not read'; ppEl.style.color = 'var(--text-muted)'; }
       const lnEl = modalOverlay.querySelector('#gate-status-ln');
-      if (lnEl) { lnEl.textContent = 'Required'; lnEl.style.color = 'var(--text-muted)'; }
+      if (lnEl) { lnEl.textContent = 'Not read'; lnEl.style.color = 'var(--text-muted)'; }
       if (legalContinueBtn) {
         legalContinueBtn.classList.remove('enabled');
         legalContinueBtn.style.opacity = '1';
