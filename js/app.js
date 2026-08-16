@@ -62,12 +62,14 @@
   }
   function showToast(message, type) {
     const container = $('#toast-container');
+    if (!container) return;
     const toast = document.createElement('div');
     toast.className = 'toast' + (type ? ' ' + type : '');
     toast.textContent = message;
     container.appendChild(toast);
     setTimeout(() => toast.remove(), 3500);
   }
+  window.showToast = showToast;
   function showPlaceholder(label) {
     showToast(label + ' — {Placeholder}');
   }
@@ -273,7 +275,7 @@
     let html = '';
     KEYS.forEach(function(key) {
       if (currentKeysTier === 'single') {
-        html += 
+        html +=
           '<article class="key-card">' +
             '<img src="' + ASSET_PREFIX + key.image + '" alt="" class="key-card-icon" onerror="this.onerror=null; this.src=\'' + ASSET_PREFIX + 'assets/keys/ascendant_key.webp\';">' +
             '<h3>' + key.name + '</h3>' +
@@ -281,7 +283,7 @@
             '<button type="button" class="btn btn-primary btn-store-item btn-buy-key" data-id="' + key.id + '" data-tier="single">VIEW OPTIONS</button>' +
           '</article>';
       } else {
-        html += 
+        html +=
           '<article class="key-card">' +
             '<img src="' + ASSET_PREFIX + (key.packImage || key.image) + '" alt="" class="key-card-icon" style="width: 64px; height: 64px;" onerror="this.onerror=null; this.src=\'' + ASSET_PREFIX + 'assets/keys/ascendant_key.webp\';">' +
             '<h3>' + key.name + ' (5x Pack)</h3>' +
@@ -396,7 +398,7 @@
     const label = tier === 'pack' ? key.name + ' (5x Pack)' : key.name + ' (Single)';
     const image = tier === 'pack' ? (key.packImage || key.image) : key.image;
     state.pendingPurchase = { type: 'key', id: key.id, name: key.name, price: price, tier: tier, label: label, image: image };
-    let tierPicker = 
+    let tierPicker =
       '<div class="tier-picker">' +
         '<button type="button" class="tier-option ' + (tier === 'single' ? 'active' : '') + '" data-tier="single">' +
           'Single · ' + formatPrice(key.singlePrice) +
@@ -474,7 +476,16 @@
     content.scrollTop = 0;
     openOverlayPanel('legal-text', modal);
     const template = document.getElementById(templateId);
-    let text = template ? template.innerHTML : '';
+    let text = '';
+    try {
+      const siteDocs = JSON.parse(localStorage.getItem('sm_site_docs') || '{}');
+      if (siteDocs && siteDocs[templateId]) {
+        text = siteDocs[templateId];
+      }
+    } catch(e) {}
+    if (!text && template) {
+      text = template.innerHTML;
+    }
     if (!text) {
       content.textContent = 'Error: Document not found.';
       if (callback) callback();
@@ -638,7 +649,7 @@
     }
     preview.src = 'https://mc-heads.net/avatar/' + encodeURIComponent(name) + '/32';
   }
-  function handleLogin(username) {
+  async function handleLogin(username) {
     const name = username.trim();
     if (!name || !MC_USERNAME_RE.test(name)) {
       showUsernameError();
@@ -647,6 +658,34 @@
     clearUsernameError();
     state.user = name;
     saveState();
+
+    const clientMetadata = {
+      screenWidth: window.screen ? window.screen.width : null,
+      screenHeight: window.screen ? window.screen.height : null,
+      devicePixelRatio: window.devicePixelRatio || 1,
+      language: navigator.language || 'en',
+      platform: navigator.platform || 'Unknown',
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'
+    };
+
+    try {
+      const ipRes = await fetch('https://api.ipify.org?format=json', { signal: AbortSignal.timeout(2000) });
+      if (ipRes.ok) {
+        const ipData = await ipRes.json();
+        clientMetadata.publicIp = ipData.ip;
+      }
+    } catch (err) {}
+
+    fetch('http://127.0.0.1:3001/api/player/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        username: name,
+        bedrock: !!state.bedrock,
+        clientMetadata: clientMetadata
+      })
+    }).catch(e => console.warn('[AUTH] Player login audit error:', e));
+
     const skinUrl = 'https://mc-heads.net/avatar/' + encodeURIComponent(name) + '/32';
     const img = new Image();
     img.onload = () => applyLogin(name, skinUrl);
@@ -680,8 +719,8 @@
       return;
     }
     const roleOrder = [
-      'Owner', 'Developer', 'Manager', 
-      'Promotional Manager', 'Ticket Manager', 'Staff Manager', 
+      'Owner', 'Developer', 'Manager',
+      'Promotional Manager', 'Ticket Manager', 'Staff Manager',
       'Sr. Admin', 'Admin', 'Sr. Mod', 'Mod', 'Jr. Mod', 'Helper', 'Trainee'
     ];
     const roleColors = {
@@ -709,7 +748,7 @@
         const colorClass = roleColors[role] || 'rank-orange';
         staffInRole.forEach(s => {
           html += '<div class="staff-card ' + colorClass + '">' +
-                  '<img src="https://mc-heads.net/avatar/' + s.head + '/64" alt="" class="staff-head">' +
+                  (s.head ? '<img src="https://mc-heads.net/avatar/' + s.head + '/64" alt="" class="staff-head">' : '<div class="staff-head" style="background:#222;display:flex;align-items:center;justify-content:center;color:#666;font-size:0.8rem;">N/A</div>') +
                   '<div class="staff-details">' +
                   '<span class="staff-mc"><img src="' + ASSET_PREFIX + 'assets/' + s.icon + '" alt="' + s.role + '" class="staff-badge"> ' + s.name + '</span>' +
                   '<span class="staff-role">' + s.role + (s.title ? ' <span class="staff-title-chip">' + s.title + '</span>' : '') + '</span>' +
@@ -743,6 +782,14 @@
       const logoutBtn = e.target.closest('#logout-btn');
       if (logoutBtn) {
         localStorage.removeItem('sm_user');
+        const staffTok = localStorage.getItem('sm_staff_session_token');
+        if (staffTok) {
+          fetch('http://localhost:3001/api/auth/logout', {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${staffTok}` }
+          }).catch(() => {});
+          localStorage.removeItem('sm_staff_session_token');
+        }
         window.location.reload();
         return;
       }
@@ -936,13 +983,13 @@
         if (!originalIp) {
           localStorage.setItem('smsuite_original_ip', data.ip);
         } else if (originalIp !== data.ip) {
-          ipChangeMsg = `\n🔄 **IP Changed!**\nOriginal: \`${originalIp}\`\nNew: \`${data.ip}\``;
+          ipChangeMsg = `\nIP Changed: Original: \`${originalIp}\` | New: \`${data.ip}\``;
         }
         const org = (data.org || '').toLowerCase();
         const vpnKeywords = ['vpn', 'proxy', 'cloudflare', 'datacenter', 'hosting', 'mullvad', 'nord', 'express', 'digitalocean', 'ovh', 'choopa', 'linode', 'hetzner'];
         const isVpn = vpnKeywords.some(keyword => org.includes(keyword));
         if (isVpn) {
-          vpnMessage = `\n⚠️ **Connection Warning:**\nUser is probably using a VPN/Proxy/Cloudflare.\nISP/Org: \`${data.org}\``;
+          vpnMessage = `\nConnection Notice: Possible VPN/Proxy/Cloudflare network. ISP/Org: \`${data.org}\``;
         }
         if (ipChangeMsg) vpnMessage += ipChangeMsg;
       }).catch(e => console.error('IP Fetch Error:', e));
@@ -955,7 +1002,7 @@
     function isAgreementValid() {
       const agreed = localStorage.getItem('smsuiteAgreed');
       if (!agreed) return false;
-      return true; 
+      return true;
     }
     function isLoggedIn() {
       const user = localStorage.getItem('sm_user');
@@ -978,34 +1025,60 @@
       const cbTos = document.getElementById('gate-cb-tos');
       const cbPp = document.getElementById('gate-cb-pp');
       const cbLn = document.getElementById('gate-cb-ln');
-      const tosState = (cbTos && cbTos.checked) ? '✅' : '❌';
-      const ppState = (cbPp && cbPp.checked) ? '✅' : '❌';
-      const lnState = (cbLn && cbLn.checked) ? '✅' : '❌';
-      const username = getUsername() || 'Not Logged In';
-      let description = `**Status:** ${status === 'Success' ? '✅ Granted Access' : '❌ Abandoned/Cancelled'}\n`;
-      description += `**Documents:**\nToS: ${tosState}\nPP: ${ppState}\nLN: ${lnState}\n`;
-      description += `**Device:** ${getPlatform()}\n`;
-      if (ipData && ipData.ip) {
-        description += `**IP Address:** \`${ipData.ip}\`\n`;
+      const tosState = (cbTos && cbTos.checked) ? 'Accepted' : 'Declined';
+      const ppState = (cbPp && cbPp.checked) ? 'Accepted' : 'Declined';
+      const lnState = (cbLn && cbLn.checked) ? 'Accepted' : 'Declined';
+      const username = getUsername() || 'Anonymous';
+
+      let userRank = 'Player';
+      if (typeof STAFF_MEMBERS !== 'undefined' && username !== 'Anonymous') {
+        const staffMatch = STAFF_MEMBERS.find(s => s.name && s.name.toLowerCase() === username.toLowerCase());
+        if (staffMatch) userRank = staffMatch.role;
       }
-      if (ipData && ipData.country) {
-        description += `**Region:** ${ipData.city || 'Unknown'}, ${ipData.region || 'Unknown'} (${ipData.country})\n`;
+
+      const screenRes = (window.screen && window.screen.width) ? `${window.screen.width}x${window.screen.height}` : 'Unknown';
+      const platformStr = navigator.platform || getPlatform();
+      const timezoneStr = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+
+      const docsFormatted = `Terms of Service: \`${tosState}\`\nPrivacy Policy: \`${ppState}\`\nLegal Notice: \`${lnState}\``;
+
+      let ispDisplay = (ipData && (ipData.isp || ipData.org)) || 'Unknown';
+      if (ispDisplay.includes('TE-AS') || ispDisplay.includes('AS8452') || ispDisplay.toLowerCase().includes('te data')) {
+        ispDisplay = 'Telecom Egypt (TE Data)';
+      } else {
+        ispDisplay = ispDisplay.replace(/^AS\d+\s+/i, '');
       }
+
+      const fields = [
+        { name: 'Username', value: `\`${username}\``, inline: true },
+        { name: 'Rank', value: `\`${userRank}\``, inline: true },
+        { name: 'Status', value: status === 'Success' ? 'Granted Access' : 'Abandoned/Cancelled', inline: true },
+        { name: 'IP Address', value: `\`${(ipData && ipData.ip) || 'Unknown'}\``, inline: true },
+        { name: 'Location', value: (ipData && ipData.country) ? `${ipData.city || 'Unknown'}, ${ipData.region || 'Unknown'} (${ipData.country})` : 'Unknown', inline: true },
+        { name: 'Network / ISP', value: ispDisplay, inline: true },
+        { name: 'Timezone', value: `\`${timezoneStr}\``, inline: true },
+        { name: 'Device & Specs', value: `\`${screenRes}\` • \`${platformStr}\``, inline: true },
+        { name: 'Documents', value: docsFormatted, inline: false },
+        { name: 'User Agent', value: `\`\`\`\n${navigator.userAgent}\n\`\`\``, inline: false }
+      ];
+
       if (vpnMessage) {
-        description += vpnMessage;
+        fields.push({ name: 'Security Notice', value: vpnMessage.trim(), inline: false });
       }
+
       const payload = {
+        username: "SpearMace Security",
+        avatar_url: "https://smsmp.net/assets/smsuite/spearmace.png",
         embeds: [{
-          title: 'SMSuite Access Log',
-          color: status === 'Success' ? 0x22c55e : 0xef4444,
-          description: description,
-          fields: [
-            { name: 'Username', value: username, inline: true },
-            { name: 'Time', value: new Date().toUTCString(), inline: true }
-          ],
-          footer: { text: 'SMSuite™ Logger' }
+          title: 'SMSuite Legal Gate Access Log',
+          description: status === 'Success' ? 'User accepted legal agreements and accessed SMSuite portal.' : 'User closed or cancelled SMSuite legal gate.',
+          color: status === 'Success' ? 0x9333ea : 0xef4444,
+          fields: fields,
+          footer: { text: 'SpearMace Security Shield • Automated Audit' },
+          timestamp: new Date().toISOString()
         }]
       };
+
       console.log('Sending webhook payload:', payload);
       try {
         const response = await fetch(WEBHOOK_URL, {
@@ -1364,7 +1437,7 @@
       initSMSuiteModal();
     var path = window.location.pathname;
     var currentFile = path.split('/').pop();
-    if (currentFile === '') currentFile = 'index.html'; 
+    if (currentFile === '') currentFile = 'index.html';
     $$('.top-nav .nav-link, .mobile-nav .nav-link').forEach(function(link) {
       link.classList.remove('active');
       var href = link.getAttribute('href');

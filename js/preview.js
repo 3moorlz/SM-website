@@ -1,4 +1,3 @@
-
 const T = { iron: 'var(--iron)', copper: 'var(--copper)', diamond: 'var(--diamond)', netherite: 'var(--netherite)', amber: 'var(--amber)', cash: 'var(--success)', key: 'var(--purple-mid)', cyan: 'var(--cyan)' };
 
 const ITEM_API = 'https://api.minecraftitems.xyz/api/item';
@@ -32,13 +31,13 @@ function slotMedia(entry) {
     'netherite_upgrade': 'netherite_upgrade_smithing_template',
     'chainmail_armor': 'chainmail_chestplate',
   };
-  
+
   if (f.includes('spawner')) {
     f = 'spawner';
   } else if (overrides[f]) {
     f = overrides[f];
   }
-  
+
   return `<img src="../assets/kitscrates/${f}.png" alt="${entry.name}" loading="lazy" onerror="this.parentElement.classList.add('img-missing')">`;
 }
 
@@ -2828,7 +2827,7 @@ CARDS.forEach(c => {
   el.addEventListener('click', () => {
     openModal(c.id);
   });
-  
+
   if (c.crate && cratesGrid) {
     cratesGrid.appendChild(el);
   } else if (!c.crate && kitsGrid) {
@@ -2840,7 +2839,7 @@ function openModal(key) {
   const modal = document.getElementById(`${key}-modal`);
   if (!modal) return;
   modal.classList.remove('hidden');
-  
+
   const grid = modal.querySelector(`[data-slot-grid="${key}"]`);
   if (grid.innerHTML.trim() === '') {
     renderGrid(key, grid);
@@ -2870,7 +2869,7 @@ function renderGrid(key, gridEl) {
   const d = KIT_CRATE_DATA[key];
   gridEl.innerHTML = '';
   const totalSlots = Math.max(18, Math.ceil(d.items.length / 9) * 9);
-  
+
   for (let i = 0; i < totalSlots; i++) {
     const item = d.items[i];
     const slot = document.createElement('div');
@@ -2910,7 +2909,7 @@ function showTip(item, slot) {
   }
 
   tooltip.innerHTML = html;
-  
+
   const r = slot.getBoundingClientRect();
   let top = r.top - 8;
   let left = r.left + r.width / 2;
@@ -2918,7 +2917,7 @@ function showTip(item, slot) {
   tooltip.style.top = top + 'px';
   tooltip.style.transform = 'translate(-50%, -100%)';
   tooltip.classList.add('show');
-  
+
   requestAnimationFrame(() => {
     const tr = tooltip.getBoundingClientRect();
     if (tr.left < 8) tooltip.style.left = (8 + tr.width/2) + 'px';

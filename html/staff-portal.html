@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff Portal — SM SMP</title>
+  <meta name="description" content="Spear Mace SMP. Where your work is rewarded on a Minecraft server built around grinding, PvP, and a player-run economy.">
+  
+  <meta name="theme-color" content="#6d28d9">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Staff Portal — SM SMP">
+  <meta property="og:description" content="Spear Mace SMP. Where your work is rewarded.">
+  <meta property="og:image" content="https://smsmp.net/assets/smsuite/spearmace.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://smsmp.net/assets/smsuite/spearmace.png">
+  <meta property="og:url" content="https://smsmp.net">
+  <meta name="thumbnail" content="https://smsmp.net/assets/smsuite/spearmace.png">
+  <link rel="icon" href="../assets/misc/favicon.ico" sizes="32x32">
+  <link rel="icon" href="../assets/misc/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../assets/misc/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="../assets/smsuite/spearmace.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Russo+One&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css?v=5">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "SM SMP",
+    "url": "https://smsmp.net/",
+    "image": "https://smsmp.net/assets/smsuite/spearmace.png",
+    "description": "Spear Mace SMP. Where your work is rewarded on a Minecraft server built around grinding, PvP, and a player-run economy."
+  }
+  </script>
+  <style>
+    /* Notepad Style Editor */
+    .npp-window {
+      background: #111118;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .npp-tab-bar {
+      background: #0b0b10;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      padding: 6px 8px 0 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      overflow-x: auto;
+    }
+    .npp-tab {
+      background: #161622;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: none;
+      border-radius: 6px 6px 0 0;
+      color: #94a3b8;
+      padding: 6px 14px;
+      font-size: 0.82rem;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+    .npp-tab:hover {
+      background: #1f1f30;
+      color: #e2e8f0;
+    }
+    .npp-tab.active {
+      background: #111118;
+      color: #38bdf8;
+      border-color: rgba(56, 189, 248, 0.4);
+      border-top: 2px solid #38bdf8;
+      font-weight: 600;
+    }
+    .npp-toolbar {
+      background: #13131c;
+      padding: 8px 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .npp-editor-container {
+      display: flex;
+      min-height: 480px;
+      background: #111118;
+      position: relative;
+    }
+    .npp-line-numbers {
+      width: 48px;
+      background: #0b0b10;
+      color: #475569;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      padding: 12px 6px 12px 0;
+      text-align: right;
+      user-select: none;
+      border-right: 1px solid rgba(255, 255, 255, 0.06);
+      overflow: hidden;
+      white-space: pre-wrap;
+    }
+    .npp-textarea {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #f1f5f9;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      padding: 12px 16px;
+      resize: none;
+      outline: none;
+      tab-size: 2;
+      white-space: pre-wrap;
+      word-break: break-word;
+      overflow: auto;
+    }
+    .npp-status-bar {
+      background: #08080c;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 4px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #64748b;
+      font-size: 0.75rem;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+    }
+  </style>
+</head>
+<body>
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <div id="page-shell">
+    <header class="hero">
+      <div class="hero-bg" aria-hidden="true">
+        <div class="hero-bg-glow"></div>
+        <div class="hero-bg-fade"></div>
+      </div>
+
+      <div class="hero-topbar">
+        <button type="button" class="nav-hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+          <span></span><span></span><span></span>
+        </button>
+
+        <nav class="top-nav" id="top-nav">
+          <a href="../index.html" class="nav-link">Home</a>
+          <a href="store.html" class="nav-link">Store</a>
+          <a href="staff.html" class="nav-link">Staff</a>
+          <a href="smsuite.html" class="nav-link">SMSuite&trade;</a>
+          <a href="leaderboards.html" class="nav-link">Leaderboards</a>
+          <a href="info.html" class="nav-link">Info</a>
+        </nav>
+
+        <nav class="mobile-nav hidden" id="mobile-nav">
+          <a href="../index.html" class="nav-link">Home</a>
+          <a href="store.html" class="nav-link">Store</a>
+          <a href="staff.html" class="nav-link">Staff</a>
+          <a href="smsuite.html" class="nav-link">SMSuite&trade;</a>
+          <a href="leaderboards.html" class="nav-link">Leaderboards</a>
+          <a href="info.html" class="nav-link">Info</a>
+        </nav>
+
+        <div class="hero-actions">
+          <button type="button" class="cart-toggle hero-action" id="cart-toggle" aria-label="Open cart" aria-expanded="false" aria-controls="cart-panel">
+            <span class="cart-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart">
+                <circle cx="8" cy="21" r="1"/>
+                <circle cx="19" cy="21" r="1"/>
+                <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+              </svg>
+            </span>
+            <span class="cart-count" id="cart-count">0</span>
+          </button>
+          <button type="button" class="btn btn-primary btn-sm" id="login-open" aria-haspopup="dialog">Login</button>
+          <div class="user-profile-container hidden" id="user-profile" style="position: relative;">
+            <button type="button" class="hero-action user-profile-btn" id="user-profile-btn" style="display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 0.8rem; font-size: 0.95rem; background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text); cursor: pointer;">
+              <img src="" alt="" class="user-profile-head" id="user-profile-head" style="width: 24px; height: 24px; border-radius: 4px;">
+              <span class="user-profile-name" id="user-profile-name" style="font-weight: 600;"></span>
+            </button>
+            <div class="user-dropdown hidden" id="user-dropdown">
+              <a href="staff-portal.html" class="btn btn-primary btn-sm btn-block">Staff Portal</a>
+              <button type="button" class="btn btn-primary btn-sm btn-block" id="logout-btn">Logout</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-stage">
+        <button type="button" class="info-card ip-card" id="ip-copy-btn">
+          <span class="card-badge badge-live">Copy IP</span>
+          <img src="../assets/misc/ip.webp" alt="" class="card-icon-img">
+          <div class="card-body">
+            <strong>IP Address</strong>
+            <span class="ip-placeholder">play.smsmp.net</span>
+          </div>
+        </button>
+
+        <div class="hero-brand">
+          <div class="hero-brand-ring" aria-hidden="true"></div>
+          <img src="../assets/smsuite/smstaff.png" alt="SMStaff™ — Staff Portal" class="hero-logo-img" style="max-width: 220px; width: 100%; aspect-ratio: 1 / 1; object-fit: contain; border-radius: 50%; background: #080313; box-sizing: border-box;">
+          <p class="hero-tagline">Authorized Staff Portal</p>
+        </div>
+
+        <a href="https://discord.smsmp.net/" class="info-card discord-card" target="_blank" rel="noopener noreferrer">
+          <span class="card-badge badge-live">Join Us</span>
+          <img src="../assets/misc/connect.webp" alt="" class="card-icon-img">
+          <div class="card-body">
+            <strong>Discord</strong>
+            <span>Click to join!</span>
+          </div>
+        </a>
+      </div>
+    </header>
+
+    <main class="container" style="max-width: 1250px; margin: 0 auto; padding: 2rem 1rem;">
+      
+      <!-- Portal content will only be accessible if valid session exists -->
+      <div id="portal-logged-in" class="hidden">
+        
+        <!-- Live Staged Push Countdown Notification Banner -->
+        <div id="exec-pending-push-banner" class="hidden" style="background: rgba(234,179,8,0.15); border: 1px solid rgba(234,179,8,0.4); border-radius: 8px; padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;">
+          <div>
+            <div style="font-weight: 600; color: #fde047; font-size: 0.95rem;">Live Update Pending</div>
+            <div style="color: #cbd5e1; font-size: 0.85rem; margin-top: 0.2rem;">
+              Changes to "<span id="pending-doc-name" style="color: #fff; font-weight: 600;">Document</span>" will deploy in <span id="pending-timer-display" style="color: #38bdf8; font-family: monospace; font-size: 1rem; font-weight: 700;">29:59</span>.
+            </div>
+          </div>
+          <div style="display: flex; gap: 0.6rem;">
+            <button type="button" id="pending-deploy-now-btn" class="btn btn-primary btn-sm" style="padding: 0.4rem 0.85rem;">Deploy Now</button>
+            <button type="button" id="pending-cancel-btn" class="btn btn-secondary btn-sm" style="padding: 0.4rem 0.85rem;">Cancel</button>
+          </div>
+        </div>
+
+        <!-- Staff Profile Banner -->
+        <div class="staff-profile-banner" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; background: var(--surface-1, #0f0f15); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 1.5rem 2rem; margin-bottom: 2rem;">
+          <div style="display: flex; align-items: center; gap: 1.25rem;">
+            <img id="staff-avatar" src="https://mc-heads.net/avatar/MHF_Steve/100" alt="Staff Avatar" style="width: 80px; height: 80px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.5);">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+                <img id="staff-rank-icon" src="" alt="Rank Icon" style="height: 28px; object-fit: contain; display: none;" onerror="this.style.display='none';">
+                <h2 id="staff-discord-id" style="font-family: var(--font-display); font-size: 1.4rem; color: #fff; margin: 0;">Staff Member</h2>
+                <span id="staff-rank-badge" style="font-size: 0.8rem; padding: 0.25rem 0.75rem; border-radius: 6px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: none;"></span>
+                <span id="staff-branch-chip" style="font-size: 0.75rem; background: rgba(255,255,255,0.12); color: #e2e8f0; padding: 0.2rem 0.55rem; border-radius: 4px; border: 1px solid rgba(255,255,255,0.15); display: none;"></span>
+              </div>
+              <div id="staff-mc-username" style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.3rem;">Minecraft: Linked Account</div>
+            </div>
+          </div>
+          <div>
+            <button id="portal-logout-btn" class="btn btn-secondary" style="padding: 0.6rem 1.25rem; font-size: 0.9rem;">Log Out</button>
+          </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="portal-tabs" style="display: flex; gap: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 2rem; align-items: center; flex-wrap: wrap;">
+          <button class="portal-tab active" data-tab="resources" style="background: none; border: none; border-bottom: 3px solid var(--purple-glow); color: #fff; font-family: var(--font-display); font-size: 1.1rem; padding: 0.75rem 1.25rem; cursor: pointer;">Staff Resources</button>
+          <button class="portal-tab" data-tab="schedule" style="background: none; border: none; border-bottom: 3px solid transparent; color: var(--text-muted); font-family: var(--font-display); font-size: 1.1rem; padding: 0.75rem 1.25rem; cursor: pointer;">Shift Schedule</button>
+          <button class="portal-tab hidden" id="executive-tab-btn" data-tab="executive" style="background: none; border: none; border-bottom: 3px solid transparent; color: var(--text-muted); font-family: var(--font-display); font-size: 1.1rem; padding: 0.75rem 1.25rem; cursor: pointer; display: none;">Management</button>
+        </div>
+
+        <!-- Tab 1: Resources Content -->
+        <div id="tab-resources" class="portal-tab-content">
+          <div style="display: grid; grid-template-columns: 240px 1fr; gap: 2rem;">
+            <aside class="resources-sidebar" style="background: var(--surface-1, #0f0f15); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
+              <div style="font-family: var(--font-display); font-size: 0.85rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; margin-bottom: 0.75rem; padding-left: 0.5rem;">Categories</div>
+              <ul id="resource-nav-list" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.4rem;">
+                <li><button class="res-nav-btn active" data-section="handbook">Handbook</button></li>
+                <li><button class="res-nav-btn" data-section="rules">General Rules</button></li>
+                <li><button class="res-nav-btn" data-section="permissions">Permissions &amp; Commands</button></li>
+                <li><button class="res-nav-btn" data-section="plugins">Rank Inheritance</button></li>
+              </ul>
+            </aside>
+            
+            <div id="resource-articles-container" class="resources-main" style="display: flex; flex-direction: column; gap: 1.5rem;">
+              <!-- Rendered Articles -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 2: Shift Schedule Content -->
+        <div id="tab-schedule" class="portal-tab-content hidden">
+          <!-- Schedule Header Bar -->
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem; background: var(--surface-1, #0f0f15); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem 1.5rem;">
+            <div>
+              <h3 style="font-family: var(--font-display); font-size: 1.2rem; color: #fff; margin: 0;">Shift Calendar</h3>
+              <div id="schedule-timezone-label" style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">Times shown in your local timezone</div>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 1rem;">
+              <div class="btn-group" style="display: inline-flex; background: rgba(255,255,255,0.05); border-radius: 6px; padding: 0.2rem;">
+                <button class="cal-view-btn active" data-view="week" style="background: var(--purple-glow); color: #fff; border: none; padding: 0.35rem 0.85rem; border-radius: 4px; font-size: 0.85rem; cursor: pointer;">Week</button>
+                <button class="cal-view-btn" data-view="month" style="background: none; color: var(--text-muted); border: none; padding: 0.35rem 0.85rem; border-radius: 4px; font-size: 0.85rem; cursor: pointer;">Month</button>
+              </div>
+
+              <!-- Date Nav Controls -->
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <button id="cal-prev-btn" class="btn btn-secondary btn-sm" style="padding: 0.35rem 0.75rem;">&larr;</button>
+                <span id="cal-date-range-label" style="font-family: var(--font-display); font-size: 0.95rem; color: #fff; min-width: 160px; text-align: center;">Current Week</span>
+                <button id="cal-next-btn" class="btn btn-secondary btn-sm" style="padding: 0.35rem 0.75rem;">&rarr;</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Calendar Grid -->
+          <div id="calendar-grid-container" class="calendar-grid" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.75rem;">
+            <!-- Days rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- Tab 3: Management Panel (Rice, Vaporeon & Kalz only) -->
+        <div id="tab-executive" class="portal-tab-content hidden">
+          <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+            
+            <!-- Management Sub-tabs Header -->
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; background: var(--surface-1, #0f0f15); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 1.25rem 1.5rem;">
+              <div>
+                <h3 style="font-family: var(--font-display); font-size: 1.25rem; color: #fff; margin: 0;">Management Panel</h3>
+              </div>
+              <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                <button type="button" class="btn btn-sm btn-primary exec-subtab-btn active" data-subtab="codes">Staff Codes &amp; Ranks</button>
+                <button type="button" class="btn btn-sm btn-secondary exec-subtab-btn" data-subtab="docs">Document Editor</button>
+                <button type="button" class="btn btn-sm btn-secondary exec-subtab-btn" data-subtab="changelog">Changelogs</button>
+              </div>
+            </div>
+
+            <!-- Subtab 1: Staff Codes & Ranks Manager (Default Active) -->
+            <div id="exec-subtab-codes" class="exec-subtab-content">
+              <div style="background: var(--surface-1, #0f0f15); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem;">
+                
+                <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+                  <div>
+                    <h4 style="font-family: var(--font-display); font-size: 1.15rem; color: #fff; margin: 0;">Staff Codes &amp; Ranks</h4>
+                  </div>
+                  <button type="button" id="exec-add-staff-btn" class="btn btn-primary">+ Add Staff Member</button>
+                </div>
+
+                <div style="overflow-x: auto;">
+                  <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem;">
+                    <thead>
+                      <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: var(--text-muted);">
+                        <th style="padding: 0.75rem;">Staff Member</th>
+                        <th style="padding: 0.75rem;">Minecraft IGN</th>
+                        <th style="padding: 0.75rem;">Rank</th>
+                        <th style="padding: 0.75rem;">Code</th>
+                        <th style="padding: 0.75rem; text-align: right;">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="exec-staff-tbody">
+                      <!-- Rendered dynamically -->
+                    </tbody>
+                  </table>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Subtab 2: Document Editor -->
+            <div id="exec-subtab-docs" class="exec-subtab-content hidden">
+              <div style="display: grid; grid-template-columns: 280px 1fr; gap: 1.5rem;">
+                
+                <!-- Document List Sidebar -->
+                <div style="background: var(--surface-1, #0f0f15); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; max-height: 750px; overflow-y: auto;">
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-family: var(--font-display); font-size: 0.85rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px;">Documents</span>
+                    <button type="button" id="exec-new-doc-btn" class="btn btn-primary btn-sm" style="font-size: 0.75rem; padding: 0.2rem 0.5rem;">+ New</button>
+                  </div>
+
+                  <!-- Category Filter for Docs -->
+                  <select id="exec-doc-category-filter" style="width: 100%; background: #161622; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 0.4rem 0.6rem; color: #fff; font-size: 0.85rem;">
+                    <option value="all">All Documents</option>
+                    <option value="core">The Core</option>
+                    <option value="player">Player Systems</option>
+                    <option value="staff">Staff &amp; Operations</option>
+                    <option value="communicators">3rd Party Communicators</option>
+                    <option value="legal">Legal (TOS, PP, Legal Notice)</option>
+                  </select>
+
+                  <input type="text" id="exec-doc-search" placeholder="Search files..." style="width: 100%; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 0.4rem 0.6rem; color: #fff; font-size: 0.85rem; box-sizing: border-box;">
+                  
+                  <ul id="exec-doc-list" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.35rem;">
+                    <!-- Rendered document list items -->
+                  </ul>
+                </div>
+
+                <!-- Notepad Style Code Editor Window -->
+                <div class="npp-window">
+                  <!-- Open File Tabs Strip -->
+                  <div class="npp-tab-bar" id="npp-tab-bar">
+                    <!-- Tab buttons rendered dynamically -->
+                  </div>
+
+                  <!-- Menu & Actions Toolbar -->
+                  <div class="npp-toolbar">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; flex: 1;">
+                      <input type="text" id="exec-doc-title-input" placeholder="File Title" style="background: #0b0b10; border: 1px solid rgba(255,255,255,0.15); border-radius: 4px; padding: 0.4rem 0.75rem; color: #fff; font-size: 0.88rem; font-weight: 600; min-width: 220px;">
+                      
+                      <select id="exec-doc-section-select" style="background: #0b0b10; border: 1px solid rgba(255,255,255,0.15); border-radius: 4px; padding: 0.4rem 0.6rem; color: #cbd5e1; font-size: 0.85rem;">
+                        <optgroup label="The Core">
+                          <option value="core">The Core</option>
+                        </optgroup>
+                        <optgroup label="Player Systems">
+                          <option value="player">Player Systems</option>
+                        </optgroup>
+                        <optgroup label="Staff &amp; Operations">
+                          <option value="staff">Staff &amp; Operations</option>
+                        </optgroup>
+                        <optgroup label="3rd Party Communicators">
+                          <option value="communicators">3rd Party Communicators</option>
+                        </optgroup>
+                        <optgroup label="Legal Policies">
+                          <option value="legal">Legal Policy</option>
+                        </optgroup>
+                      </select>
+                    </div>
+
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                      <button type="button" id="exec-push-doc-btn" class="btn btn-primary btn-sm" style="padding: 0.35rem 0.9rem; font-size: 0.85rem;">Push to Live</button>
+                      <button type="button" id="exec-delete-doc-btn" class="btn btn-secondary btn-sm" style="padding: 0.35rem 0.6rem; font-size: 0.8rem;" title="Delete File">Delete</button>
+                    </div>
+                  </div>
+
+                  <!-- Editor Area with Line Numbers -->
+                  <div class="npp-editor-container">
+                    <div class="npp-line-numbers" id="npp-line-numbers">1</div>
+                    <textarea id="exec-doc-content-textarea" class="npp-textarea" spellcheck="false" placeholder="Write markdown or text content here..."></textarea>
+                  </div>
+
+                  <!-- Status Bar -->
+                  <div class="npp-status-bar">
+                    <div id="npp-cursor-pos">Ln: 1, Col: 1</div>
+                    <div id="npp-char-count">Chars: 0 | Lines: 1</div>
+                    <div>UTF-8</div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <!-- Subtab 3: Changelogs -->
+            <div id="exec-subtab-changelog" class="exec-subtab-content hidden">
+              <div style="background: var(--surface-1, #0f0f15); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1.5rem; display: flex; flex-direction: column; gap: 1.5rem;">
+                
+                <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 1rem;">
+                  <div>
+                    <h4 style="font-family: var(--font-display); font-size: 1.15rem; color: #fff; margin: 0;">Plugin &amp; Server Changelogs</h4>
+                  </div>
+                  <button type="button" id="exec-add-build-btn" class="btn btn-primary">+ Add New Build</button>
+                </div>
+
+                <!-- Plugin Selector with SMSuite Categories -->
+                <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                  <label style="font-size: 0.9rem; color: var(--text-muted); font-weight: 500;">Select Plugin / System:</label>
+                  <select id="exec-changelog-plugin-select" style="background: #161622; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 0.5rem 0.85rem; color: #fff; font-size: 0.95rem;">
+                    <optgroup label="The Core">
+                      <option value="smcore">SMCore</option>
+                      <option value="smaudit">SMAudit™</option>
+                      <option value="smai">SMAi</option>
+                    </optgroup>
+                    <optgroup label="Player Systems">
+                      <option value="smpvp">SMPvP™</option>
+                      <option value="smcommands">SMCommands</option>
+                      <option value="smauctions">SMAuctions</option>
+                      <option value="smorders">SMOrders</option>
+                      <option value="smclaims">SMClaims</option>
+                      <option value="smskills">SMSkills</option>
+                      <option value="smeconomy">SMEconomy</option>
+                    </optgroup>
+                    <optgroup label="Staff &amp; Operations">
+                      <option value="smstaff">SMStaff™</option>
+                      <option value="smreports">SMReports</option>
+                    </optgroup>
+                    <optgroup label="3rd Party Communicators">
+                      <option value="smfluxbridge">SMFluxBridge</option>
+                    </optgroup>
+                    <optgroup label="Server Builds">
+                      <option value="server">SpearMace Server Builds</option>
+                    </optgroup>
+                  </select>
+                </div>
+
+                <!-- Builds List Container -->
+                <div id="exec-builds-list-container" style="display: flex; flex-direction: column; gap: 1rem;">
+                  <!-- Rendered build items -->
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+    <!-- Shift Modals -->
+    <div id="signup-modal-overlay" class="modal-overlay hidden" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 10000;">
+      <div style="background: #111118; border: 1px solid rgba(139,92,246,0.4); border-radius: 12px; padding: 2rem; max-width: 460px; width: 90%;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+          <h3 style="font-family: var(--font-display); font-size: 1.3rem; color: #fff; margin: 0;">Set Shift / Task</h3>
+          <button id="signup-close-btn" style="background: none; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer;">&times;</button>
+        </div>
+
+        <form id="form-shift-signup">
+          <label style="display: block; font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.4rem; font-weight: 500;">Enter Task</label>
+          <input type="text" id="signup-task-input" placeholder="e.g. In-Game Moderation, Ticket Support, Discord Chat..." required style="width: 100%; background: var(--surface-1, #181824); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 0.75rem 1rem; color: #fff; font-size: 0.92rem; outline: none; margin-bottom: 1.2rem; box-sizing: border-box;">
+
+          <label style="display: block; font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.4rem; font-weight: 500;">Select Date(s)</label>
+          <div style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
+            <input type="date" id="signup-date-picker" style="flex: 1; background: var(--surface-1, #181824); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 0.7rem 0.9rem; color: #fff; font-size: 0.92rem; outline: none; box-sizing: border-box; color-scheme: dark;">
+            <button type="button" id="signup-add-date-btn" class="btn" style="background: rgba(139,92,246,0.2); border: 1px solid rgba(139,92,246,0.4); color: #c084fc; padding: 0.7rem 1rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">+ Add Date</button>
+          </div>
+          <div id="signup-dates-chips" style="display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.2rem; min-height: 28px;">
+            <!-- Chips for selected dates -->
+          </div>
+
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.4rem;">
+            <label style="font-size: 0.88rem; color: var(--text-muted); font-weight: 500;">Time Slot</label>
+            <span id="signup-tz-label" style="font-size: 0.75rem; color: #38bdf8;"></span>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.5rem;">
+            <div>
+              <span style="font-size: 0.78rem; color: var(--text-muted); display: block; margin-bottom: 0.2rem;">Start Time</span>
+              <input type="text" id="signup-start-time" placeholder="e.g. 14:00 or 2:00 PM" required style="width: 100%; background: var(--surface-1, #181824); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 0.7rem 0.9rem; color: #fff; font-size: 0.92rem; outline: none; box-sizing: border-box;">
+            </div>
+            <div>
+              <span style="font-size: 0.78rem; color: var(--text-muted); display: block; margin-bottom: 0.2rem;">Finish Time</span>
+              <input type="text" id="signup-finish-time" placeholder="e.g. 16:00 or 4:00 PM" required style="width: 100%; background: var(--surface-1, #181824); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 0.7rem 0.9rem; color: #fff; font-size: 0.92rem; outline: none; box-sizing: border-box;">
+            </div>
+          </div>
+          <div id="signup-time-error" style="color: #ef4444; font-size: 0.78rem; margin-bottom: 1.25rem; display: none;">Invalid time format. Use 12-hour (e.g. 2:00 PM) or 24-hour (e.g. 14:00).</div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.85rem; font-weight: 600;">Confirm &amp; Set Shift</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Confirm Modal Overlay -->
+    <div id="confirm-modal-overlay" class="modal-overlay hidden" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 10000;">
+      <div style="background: #111118; border: 1px solid rgba(139,92,246,0.4); border-radius: 12px; padding: 2rem; max-width: 400px; width: 90%; text-align: center;">
+        <h2 style="font-family: 'Integral CF', sans-serif; font-size: 1.5rem; margin-bottom: 1rem; color: #fff;">Confirm Action</h2>
+        <p id="confirm-modal-message" style="color: var(--text-muted); margin-bottom: 2rem; font-size: 0.95rem;">Are you sure?</p>
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+          <button id="confirm-btn-cancel" class="btn" style="flex: 1; padding: 0.75rem; background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.1);">Cancel</button>
+          <button id="confirm-btn-accept" class="btn btn-primary" style="flex: 1; padding: 0.75rem;">Confirm</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Push Confirmation & 30-Minute Live Delay Modal -->
+    <div id="exec-push-modal" class="modal-overlay hidden" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 10000;">
+      <div style="background: #111118; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 2rem; max-width: 500px; width: 90%;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+          <h3 style="font-family: var(--font-display); font-size: 1.3rem; color: #fff; margin: 0;">Confirm Live Push</h3>
+          <button id="exec-push-close" style="background: none; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer;">&times;</button>
+        </div>
+
+        <p style="color: #cbd5e1; font-size: 0.9rem; line-height: 1.5; margin: 0 0 1.25rem 0;">
+          Publish changes to "<span id="exec-push-doc-title" style="color: #38bdf8; font-weight: 600;">Document</span>".
+        </p>
+
+        <form id="form-exec-push">
+          <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem;">
+            <label style="display: flex; align-items: flex-start; gap: 0.75rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0.85rem 1rem; cursor: pointer;">
+              <input type="radio" name="push-delay-option" value="30min" checked style="margin-top: 0.2rem;">
+              <div>
+                <strong style="color: #fff; font-size: 0.95rem; display: block;">30-Minute Delay</strong>
+                <span style="font-size: 0.82rem; color: var(--text-muted); display: block; margin-top: 0.2rem;">Staged update with a 30-minute buffer before going live website-wide.</span>
+              </div>
+            </label>
+
+            <label style="display: flex; align-items: flex-start; gap: 0.75rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0.85rem 1rem; cursor: pointer;">
+              <input type="radio" name="push-delay-option" value="instant" style="margin-top: 0.2rem;">
+              <div>
+                <strong style="color: #fff; font-size: 0.95rem; display: block;">Deploy Now</strong>
+                <span style="font-size: 0.82rem; color: var(--text-muted); display: block; margin-top: 0.2rem;">Publish live immediately across the site.</span>
+              </div>
+            </label>
+          </div>
+
+          <div style="display: flex; gap: 0.75rem;">
+            <button type="button" id="exec-push-cancel-btn" class="btn btn-secondary" style="flex: 1;">Cancel</button>
+            <button type="submit" class="btn btn-primary" style="flex: 2;">Confirm Push</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Add Build Release Modal (Changelog) -->
+    <div id="exec-add-build-modal" class="modal-overlay hidden" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 10000;">
+      <div style="background: #111118; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 2rem; max-width: 520px; width: 90%; max-height: 90vh; overflow-y: auto;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+          <h3 style="font-family: var(--font-display); font-size: 1.3rem; color: #fff; margin: 0;">Add Build Release</h3>
+          <button id="exec-add-build-close" style="background: none; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer;">&times;</button>
+        </div>
+
+        <form id="form-exec-add-build">
+          <label style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.35rem;">Target Plugin / System</label>
+          <select id="add-build-plugin-target" style="width: 100%; background: #161622; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 0.65rem 0.85rem; color: #fff; margin-bottom: 1rem; box-sizing: border-box;">
+            <optgroup label="The Core">
+              <option value="smcore">SMCore</option>
+              <option value="smaudit">SMAudit™</option>
+              <option value="smai">SMAi</option>
+            </optgroup>
+            <optgroup label="Player Systems">
+              <option value="smpvp">SMPvP™</option>
+              <option value="smcommands">SMCommands</option>
+              <option value="smauctions">SMAuctions</option>
+              <option value="smorders">SMOrders</option>
+              <option value="smclaims">SMClaims</option>
+              <option value="smskills">SMSkills</option>
+              <option value="smeconomy">SMEconomy</option>
+            </optgroup>
+            <optgroup label="Staff &amp; Operations">
+              <option value="smstaff">SMStaff™</option>
+              <option value="smreports">SMReports</option>
+            </optgroup>
+            <optgroup label="3rd Party Communicators">
+              <option value="smfluxbridge">SMFluxBridge</option>
+            </optgroup>
+            <optgroup label="Server Builds">
+              <option value="server">SpearMace Server Builds</option>
+            </optgroup>
+          </select>
+
+          <label style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.35rem;">Version / Build Tag</label>
+          <input type="text" id="add-build-version" required placeholder="e.g. v1.3.0" style="width: 100%; background: #161622; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 0.65rem 0.85rem; color: #fff; margin-bottom: 1rem; box-sizing: border-box;">
+
+          <label style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.35rem;">Title</label>
+          <input type="text" id="add-build-title" placeholder="e.g. Performance &amp; Fixes" style="width: 100%; background: #161622; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 0.65rem 0.85rem; color: #fff; margin-bottom: 1rem; box-sizing: border-box;">
+
+          <label style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.35rem;">Changelog Notes</label>
+          <textarea id="add-build-notes" rows="6" placeholder="- Note 1&#10;- Note 2" required style="width: 100%; background: #0c0a14; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 0.75rem 1rem; color: #e2e8f0; font-family: monospace; font-size: 0.88rem; margin-bottom: 1.5rem; box-sizing: border-box; resize: vertical;"></textarea>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.85rem;">Add Build</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Add Staff Modal -->
+    <div id="exec-add-staff-modal" class="modal-overlay hidden" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 10000;">
+      <div style="background: #111118; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 2rem; max-width: 460px; width: 90%;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+          <h3 style="font-family: var(--font-display); font-size: 1.3rem; color: #fff; margin: 0;">Add Staff Member</h3>
+          <button id="exec-add-staff-close" style="background: none; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer;">&times;</button>
+        </div>
+
+        <form id="form-exec-add-staff">
+          <label style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.35rem;">Staff Name</label>
+          <input type="text" id="add-staff-name" required placeholder="e.g. JohnDoe" style="width: 100%; background: #161622; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 0.65rem 0.85rem; color: #fff; margin-bottom: 1rem; box-sizing: border-box;">
+
+          <label style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.35rem;">Minecraft Username</label>
+          <input type="text" id="add-staff-ign" placeholder="e.g. JohnDoe" style="width: 100%; background: #161622; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 0.65rem 0.85rem; color: #fff; margin-bottom: 1rem; box-sizing: border-box;">
+
+          <label style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.35rem;">Staff Rank</label>
+          <select id="add-staff-rank" style="width: 100%; background: #161622; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 0.65rem 0.85rem; color: #fff; margin-bottom: 1rem; box-sizing: border-box;">
+            <option value="Owner">Owner</option>
+            <option value="Server Lead">Server Lead</option>
+            <option value="Developer">Developer</option>
+            <option value="Manager">Manager</option>
+            <option value="Promotional Manager">Promotional Manager</option>
+            <option value="Staff Manager">Staff Manager</option>
+            <option value="Ticket Manager">Ticket Manager</option>
+            <option value="Trial Manager">Trial Manager</option>
+            <option value="Builder">Builder</option>
+            <option value="Sr. Admin">Sr. Admin</option>
+            <option value="Admin">Admin</option>
+            <option value="Sr. Mod">Sr. Mod</option>
+            <option value="Mod">Mod</option>
+            <option value="Jr. Mod">Jr. Mod</option>
+            <option value="Helper">Helper</option>
+            <option value="Trainee">Trainee</option>
+          </select>
+
+          <label style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.35rem;">Generated 10-Character Access Code</label>
+          <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem;">
+            <input type="text" id="add-staff-code" readonly style="flex: 1; background: #0b0914; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 0.65rem 0.85rem; color: #22d3ee; font-family: monospace; font-weight: 700; font-size: 0.95rem; box-sizing: border-box;">
+            <button type="button" id="add-staff-regen-btn" class="btn btn-secondary btn-sm">Regen</button>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.75rem;">Create Staff Member</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Universal Site Footer -->
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="footer-brand">
+          <img src="../assets/misc/youtube%20banner.webp" alt="SM SMP" class="footer-banner-img">
+          <p class="footer-tagline">Where Progress Is Earned, Not Bought.</p>
+          <p class="footer-email">Partnerships &amp; inquiries: <a href="mailto:SpearMaceSMP@gmail.com">SpearMaceSMP@gmail.com</a></p>
+        </div>
+
+        <div class="footer-center">
+          <p class="footer-disclaimer">WE DO NOT HAVE AFFILIATION WITH ANY REAL WORLD BRANDS.</p>
+          <p class="footer-copy">&copy; 2026 SM SMP. All Rights Reserved.</p>
+        </div>
+
+        <div class="footer-links">
+          <div class="footer-links-main">
+            <a href="https://discord.gg/qUWUjSndMW" target="_blank" rel="noopener noreferrer">Discord</a>
+            <a href="https://www.youtube.com/@SpearMaceSMP" target="_blank" rel="noopener noreferrer">YouTube</a>
+            <button type="button" class="footer-link soon-trigger" data-soon="TikTok">TikTok</button>
+            <button type="button" class="footer-link soon-trigger" data-soon="Instagram">Instagram</button>
+          </div>
+          <a href="https://discord.gg/93D5Jt8jEr" class="footer-links-support" target="_blank" rel="noopener noreferrer">Support</a>
+        </div>
+      </div>
+
+      <div class="footer-legal">
+        <div class="legal-links">
+          <a href="#" class="legal-text-trigger" data-template="tos-text" data-title="Terms &amp; Conditions">Terms &amp; Conditions</a>
+          <a href="#" class="legal-text-trigger" data-template="privacy-text" data-title="Privacy Policy">Privacy Policy</a>
+          <a href="#" class="legal-text-trigger" data-template="legal-notice-text" data-title="Legal Notice">Legal Notice</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Universal Legal Text Modal -->
+  <div id="legal-text-modal" class="modal hidden" role="dialog" aria-modal="true" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 10000;">
+    <div class="modal-panel" style="background: #111118; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; max-width: 800px; width: 90%; max-height: 90vh; display: flex; flex-direction: column; padding: 2rem;">
+      <h2 id="legal-text-title" style="margin-top: 0; font-family: var(--font-display); color: var(--primary-color);"></h2>
+      <div id="legal-text-content" style="flex: 1; overflow-y: auto; overscroll-behavior: contain; background: var(--surface-1, #0c0a14); padding: 2rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); font-family: var(--font-sans, sans-serif); font-size: 1.05rem; color: #d0d0d0; white-space: pre-wrap; margin-bottom: 1rem; line-height: 1.8;"></div>
+      <div class="modal-actions" style="text-align: right;">
+        <button type="button" class="btn btn-primary" data-close-modal="legal-text-modal">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Staff Portal Direct Access Code Login Modal -->
+  <div id="portal-modal-overlay" class="modal-overlay hidden" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 10000;">
+    <div class="portal-modal" style="background: #111118; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 2.25rem 2rem; max-width: 450px; width: 90%;">
+      <div style="text-align: center; margin-bottom: 1.25rem;">
+        <img src="../assets/smsuite/smstaff.png" alt="SMStaff" style="max-width: 80px; width: 100%; aspect-ratio: 1 / 1; object-fit: contain; border-radius: 50%; background: #080313; border: 1px solid rgba(255,255,255,0.1); display: inline-block;">
+      </div>
+      <div style="text-align: center; margin-bottom: 1.5rem;">
+        <h3 id="modal-title" style="font-family: var(--font-display); font-size: 1.4rem; color: #fff; margin: 0 0 0.4rem 0;">Enter your staff code</h3>
+        <p id="modal-subtitle" style="color: var(--text-muted); font-size: 0.88rem; margin: 0;">Enter your staff code to access the portal</p>
+      </div>
+
+      <!-- Enter Staff Code -->
+      <form id="form-staff-code-login">
+        <input type="text" id="input-staff-code" placeholder="Enter" maxlength="10" required style="width: 100%; background: #0a0814; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 0.85rem 1rem; color: #22d3ee; font-family: var(--font-mono, monospace); font-size: 1.15rem; letter-spacing: 2px; outline: none; margin-bottom: 0.85rem; box-sizing: border-box; text-align: center;">
+        <div id="staff-code-error" style="color: #ef4444; font-size: 0.85rem; margin-bottom: 1rem; display: none; text-align: center;"></div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.85rem; font-size: 1rem;">Authorize &amp; Log In</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/smsuite-data.js?v=3"></script>
+  <script src="../js/staff-auth-data.js"></script>
+  <script src="../js/app.js?v=10" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="../js/staff-portal.js?v=5" defer></script>
+
+<template id="tos-text">
+Terms of Service for SM SMP
+
+Last Updated: August 13, 2026
+
+Welcome to SM SMP (the "Server," "we," "us," or "our"). These Terms of Service ("Terms") govern your access to and use of our Minecraft server located at play.smsmp.net, our website located at smsmp.net, our webstore located at smsmp.fluxstore.net, and our Discord community at discord.smsmp.net (collectively, the "Services").
+
+By connecting to our Server, making a purchase on our webstore, or utilizing any of our Services, you agree to be bound by these Terms in their entirety.
+
+1. AUTOMATIC AGREEMENT
+By connecting to our Server (play.smsmp.net), visiting our website (smsmp.net), making a purchase on our webstore (smsmp.fluxstore.net), or utilizing any of our Services, you automatically agree to be bound by these Terms in their entirety. If you do not agree to these Terms, you must immediately cease using our Services.
+
+2. NON-AFFILIATION DISCLAIMER
+SM SMP is an independently owned and operated community. We are NOT affiliated with, endorsed by, sponsored by, or supported by Mojang Synergies AB, Microsoft Corporation, or any other real-world brand or entity. "Minecraft" is a registered trademark of Mojang Synergies AB. 
+
+3. ELIGIBILITY
+You must be at least 13 years of age to access or use our Services. If you are between the ages of 13 and the age of majority in your jurisdiction (typically 18), you must have the permission of a parent or legal guardian to use our Services, and they must agree to these Terms on your behalf.
+
+4. VIRTUAL GOODS AND WEBSTORE PURCHASES
+We operate a webstore (smsmp.fluxstore.net) where users can purchase virtual items, ranks, and server currency (collectively, "Virtual Goods").
+4.1. Ownership: You do not own the Virtual Goods. You are purchasing a limited, non-transferable, revocable license to access and use these features within our Server. This license may be revoked or terminated at any time without reimbursement, particularly in the event of a server ban or rule violation.
+4.2. No Real-World Value: Virtual Goods have no real-world monetary value and cannot be redeemed, sold, or transferred for real fiat currency.
+4.3. All Sales Are Final: Due to the digital nature of Virtual Goods, ALL SALES ARE FINAL AND NON-REFUNDABLE. We do not offer refunds, exchanges, or returns for any reason, including but not limited to: account bans, server wipes, lag, downtime, or lack of interest.
+4.4. Chargebacks and Disputes: If you initiate a chargeback, dispute, or payment reversal through your bank, credit card company, or PayPal, your account will be immediately and permanently banned from the webstore, and you will receive a 30-day ban from the Server. Your IP address and account details may also be reported to shared community ban lists.
+4.5. Modification of Virtual Goods: We reserve the right to modify, nerf, remove, or replace the perks, items, and features associated with Virtual Goods at any time without prior notice or compensation.
+
+5. USER CONDUCT AND SERVER RULES
+When using our Services, you agree to abide by all server rules as posted in our Discord and in-game. 
+5.1. Prohibited Actions: You agree NOT to engage in cheating, exploiting bugs, using unauthorized modifications (hacked clients, auto-clickers, macros), harassment, hate speech, doxxing, or advertising other servers.
+5.2. Disciplinary Action: Server staff retain the exclusive right to mute, kick, temporarily suspend, or permanently ban any user at their sole discretion. No refunds will be provided if you lose access to the Server due to a rule violation.
+5.3. Loophole Abuse: Attempting to bypass the spirit of the rules using loopholes will be treated as a rule violation. The interpretation of the rules lies entirely with the SM SMP administration team.
+5.4. Screensharing and Inspections: SM SMP is based in the United States and operates on private property. By choosing to connect to our Server, you consent to submitting to a screenshare (SS) or inspection by our staff if there is reasonable suspicion that you are using unauthorized modifications (cheats, clients, macros, etc.). This requirement applies regardless of your geographic location or local data regulations (including the GDPR), as submitting to an inspection is a mandatory condition of accessing our private services. Refusal to comply with a screenshare request will result in an immediate and permanent ban.
+
+6. USER-GENERATED CONTENT
+Anything you build, type, or create on the Server ("User Content") becomes the property of SM SMP. We reserve the right to modify, delete, or utilize your User Content without notification or compensation. We are not responsible or liable for any User Content submitted by you or other players.
+
+7. ACCOUNT SECURITY & PLAYER ISSUES
+You are entirely responsible for maintaining the confidentiality and security of your Minecraft account and Discord account. SM SMP is not responsible for any loss of services caused by player-side issues, including but not limited to lost access to your account, forgotten passwords, or compromised accounts. We will not refund, reimburse, restore, or transfer ranks, items, or stats lost due to any such issues.
+
+8. DISCORD ACCOUNT LINKING & SECURITY
+By playing on SpearMace SMP, you are obligated to link your Minecraft account to our official Discord server. This requirement ensures seamless communication, enables you to receive subscription and role updates, and helps keep our community secure.
+
+8.1. How Our Secure Linking Works (SMFluxBridge): We take your account security very seriously. You may have seen scam servers that claim to link your game to Discord by asking for your email address and then sending you a fake "verification code" to steal your Microsoft/Minecraft account. 
+This is NOT how SpearMace works. Our system will NEVER ask for your email, password, or any personal information. 
+The entire process is handled safely through our custom SMFluxBridge system:
+1. You generate a secure, single-use, short-lived code directly in-game.
+2. You provide that code in Discord using the needed command (/discordlink).
+3. No email, password, or third-party website is ever required or requested.
+This guarantees that your account remains 100% safe and entirely under your control at all times.
+
+9. SERVER AVAILABILITY AND DATA RETENTION
+9.1. Uptime: We strive to provide a continuous and stable experience, but we do not guarantee uninterrupted access. The Server may experience downtime for maintenance, updates, or unforeseen technical failures.
+
+10. DISCLAIMER OF WARRANTIES
+THE SERVICES ARE PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS WITHOUT ANY WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED. WE DISCLAIM ALL WARRANTIES, INCLUDING MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. WE DO NOT WARRANT THAT THE SERVICES WILL BE ERROR-FREE, SECURE, OR FREE FROM VIRUSES OR OTHER HARMFUL COMPONENTS.
+
+11. LIMITATION OF LIABILITY
+TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT SHALL SM SMP, ITS OWNERS, ADMINISTRATORS, OR STAFF BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES (INCLUDING LOSS OF PROFITS, DATA, OR USE) ARISING OUT OF OR IN CONNECTION WITH YOUR USE OF THE SERVICES, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+12. INDEMNIFICATION
+You agree to indemnify, defend, and hold harmless SM SMP and its staff from any claims, liabilities, damages, losses, and expenses (including legal fees) arising from your use of the Services or your violation of these Terms.
+
+13. MODIFICATION OF TERMS
+We reserve the right to modify or replace these Terms at any time. Material changes will be communicated via our Discord announcements or website. Your continued use of the Services after any changes constitutes acceptance of the new Terms.
+
+14. CONTACT INFORMATION
+If you have any questions regarding these Terms, please contact us by creating a support ticket in our Discord (discord.smsmp.net) or by emailing SpearMaceSMP@gmail.com for business inquires.
+</template>
+
+<template id="privacy-text">
+Privacy Policy for SM SMP
+
+Last Updated: July 25, 2026
+
+SM SMP ("we," "our," or "us") respects your privacy and is committed to protecting the personal information you share with us. This Privacy Policy outlines our practices regarding the collection, use, protection, and disclosure of information when you access our Minecraft server (play.smsmp.net), our website (smsmp.net), our webstore (smsmp.fluxstore.net), and our Discord community (discord.smsmp.net) (collectively, the "Services").
+
+Please read this Privacy Policy carefully. By accessing or using our Services, you consent to the data practices described in this document.
+
+1. INFORMATION WE COLLECT
+1.1. In-Game Data: Minecraft username, UUID, IP address, gameplay statistics (kills, deaths, playtime, balances), chat logs, and punishment records.
+1.2. Store & Transaction Data: Transaction IDs, purchased packages, payment status, and gateway-provided identifiers (processed securely through FluxStore; we never store your credit card or financial details).
+1.3. Discord Integration: Discord user ID, username, and account link status when connecting via SMFluxBridge or support tickets.
+
+2. HOW WE USE YOUR INFORMATION
+2.1. Service Delivery: To deliver purchased store items, assign ranks, track leaderboard progress, and maintain your player data across sessions.
+2.2. Enforcement and Security: To monitor server activity, detect fraudulent transactions, track alternate accounts, perform anti-cheat inspections, and enforce our Terms of Service.
+2.3. Community Features: To display competitive leaderboards on our website utilizing your in-game statistics.
+2.4. Customer Support: To respond to your inquiries, support tickets, and purchase disputes.
+
+3. HOW WE SHARE YOUR INFORMATION
+We DO NOT sell, rent, or trade your personal information. We may share data only with:
+3.1. Service Providers: Trusted infrastructure and payment vendors (server hosts, FluxStore, DDoS mitigation) bound by privacy standards.
+3.2. Legal Compliance: When required by law or to protect the rights, property, and safety of Spear & Mace SMP, our staff, or our community.
+
+4. DATA SECURITY
+We implement industry-standard security measures to safeguard your information against unauthorized access, loss, or alteration.
+
+5. CONTACT US
+If you have questions regarding this Privacy Policy, please contact us via Discord: discord.smsmp.net or email: SpearMaceSMP@gmail.com.
+</template>
+
+<template id="legal-notice-text">
+This software, branding, and content are the confidential and proprietary property of G660, Vaporeon, & Spear Mace SMP. 
+
+Unauthorized copying, modification, distribution, decompilation, or reverse engineering of this software or assets, via any medium, is strictly prohibited without explicit written permission from the author. Misuse of our property will result in DMCA takedown and further legal action depending on severity.
+
+Copyright © 2026 G660, Vaporeon, & SMSMP™. All Rights Reserved.
+</template>
+
+</body>
+</html>

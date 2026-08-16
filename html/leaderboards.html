@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Leaderboards — SM SMP</title>
   <meta name="description" content="Spear Mace SMP. Where your work is rewarded on a Minecraft server built around grinding, PvP, and a player-run economy.">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://mc-heads.net https://api.minecraftitems.xyz data:; connect-src 'self' https://mc-heads.net https://api.minecraftitems.xyz https://fluxstore-api.spearmacesmp.workers.dev https://discord.com https://ipinfo.io; base-uri 'self'; form-action 'self';">
+  
   <meta name="theme-color" content="#6d28d9">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Leaderboards — SM SMP">
@@ -84,8 +84,9 @@
                 <img src="" alt="" class="user-profile-head" id="user-profile-head" style="width: 24px; height: 24px; border-radius: 4px;">
                 <span class="user-profile-name" id="user-profile-name" style="font-weight: 600;"></span>
               </button>
-              <div class="user-dropdown hidden" id="user-dropdown" style="position: absolute; top: 100%; right: 0; margin-top: 0.5rem; background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 0.5rem; min-width: 100%; z-index: 100; box-shadow: var(--glow);">
-                <button type="button" class="btn btn-primary btn-sm btn-block" id="logout-btn" style="width: 100%;">Logout</button>
+              <div class="user-dropdown hidden" id="user-dropdown">
+                <a href="staff-portal.html" class="btn btn-primary btn-sm btn-block">Staff Portal</a>
+                <button type="button" class="btn btn-primary btn-sm btn-block" id="logout-btn">Logout</button>
               </div>
             </div>
         </div>
@@ -103,9 +104,8 @@
 
         <div class="hero-brand">
           <div class="hero-brand-ring" aria-hidden="true"></div>
-          <img src="../assets/misc/spearmace.webp" alt="" class="hero-emblem" aria-hidden="true">
-          <img src="../assets/misc/logo.webp" alt="SM SMP — Spear Mace" class="hero-logo-img">
-          <p class="hero-tagline">Play. Grind. Dominate.</p>
+          <img src="../assets/smsuite/leaderboard.png" alt="SM Leaderboards — Top Players" class="hero-logo-img" style="max-width: 220px; width: 100%; aspect-ratio: 1 / 1; object-fit: contain; border-radius: 50%; background: #080313; box-sizing: border-box;">
+          <p class="hero-tagline">Top players across the ecosystem.</p>
         </div>
 
         <a href="https://discord.smsmp.net/" class="info-card discord-card" target="_blank" rel="noopener noreferrer">
@@ -127,7 +127,6 @@
 
       <section class="leaderboards-container" style="max-width: 1200px; margin: 0 auto; padding: 0 2rem 4rem;">
         <div class="leaderboards-grid">
-          
           <!-- Balance -->
           <div class="leaderboard-card">
             <div class="lb-header">

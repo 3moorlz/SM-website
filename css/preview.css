@@ -1,4 +1,4 @@
-  .card-grid {
+.card-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 0.85rem;
@@ -23,10 +23,10 @@
     display: flex; align-items: center; justify-content: center;
     margin-bottom: 0.75rem;
   }
-  .kit-emblem img { 
-    max-width: 90%; 
-    height: 54px; 
-    object-fit: contain; 
+  .kit-emblem img {
+    max-width: 90%;
+    height: 54px;
+    object-fit: contain;
   }
   .kit-emblem img[src*="ascendant_banner"], .kit-emblem img[src*="immortal_banner"] {
     transform: scale(1.3);

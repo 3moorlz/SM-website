@@ -22,7 +22,7 @@ window.openStaffModal = function(rankObj) {
     content.innerHTML = members.map(m => `
       <div style="display: flex; align-items: center; gap: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0.75rem 1rem; width: 100%; justify-content: flex-start; margin-bottom: 0.5rem; overflow: hidden; box-sizing: border-box;">
         <img src="https://mc-heads.net/avatar/${m.head || m.name}/64" alt="${m.name} head" onerror="this.onerror=null; this.src='https://mc-heads.net/avatar/MHF_Steve/64';" style="width: 48px; height: 48px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.5); flex-shrink: 0;">
-        <img src="${(window.ASSET_PREFIX || '')}assets/${m.icon || 'default.webp'}" alt="${m.role} icon" style="height: 32px; object-fit: contain; flex-shrink: 0;">
+        <img src="${(window.ASSET_PREFIX || '')}assets/${m.icon || 'default.webp'}" alt="${m.role} icon" style="height: 32px; object-fit: contain; flex-shrink: 0;" onerror="this.style.display='none';">
         <div style="display: flex; flex-direction: column; overflow: hidden; min-width: 0; flex: 1;">
           <div style="font-family: var(--font-display, sans-serif); font-weight: 700; font-size: 1.1rem; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${m.name}</div>
           ${m.subtitle ? `<div style="font-family: var(--font-sans, sans-serif); font-size: 0.75rem; color: #cbd5e1; margin-top: -2px;">${m.subtitle}</div>` : ''}
