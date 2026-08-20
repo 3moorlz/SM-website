@@ -195,20 +195,52 @@ document.addEventListener("DOMContentLoaded", () => {
           font-family: monospace;
           font-size: 0.85em;
         }
+        @media (max-width: 640px) {
+          .smsuite-modal-panel {
+            padding: 1rem 0.9rem !important;
+            width: 96% !important;
+          }
+          .module-overview-flex {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 1.25rem !important;
+          }
+          .module-overview-img-container {
+            width: 100% !important;
+            align-self: center !important;
+            margin: 0 auto !important;
+            text-align: center !important;
+          }
+          .module-overview-img-container img {
+            width: 100% !important;
+            max-width: 320px !important;
+            margin: 0 auto !important;
+          }
+          .modrinth-version-row {
+            padding: 0.75rem 0.85rem !important;
+            gap: 0.6rem !important;
+          }
+          .modrinth-version-body {
+            padding: 0.9rem !important;
+          }
+        }
       </style>
 
-      <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
-        <div style="flex: 1; min-width: 260px;">
-          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.4rem;">
-            <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: #fff; margin: 0;">${escapeHtml(moduleDisplayName)}</h2>
-            <span style="font-family: var(--font-mono); font-size: 0.78rem; color: #22d3ee; background: rgba(34,211,238,0.12); border: 1px solid rgba(34,211,238,0.35); padding: 0.15rem 0.5rem; border-radius: 4px; font-weight: 700;">v${latestVersion.version}</span>
-          </div>
-          <p style="color: #94a3b8; font-size: 0.95rem; line-height: 1.5; margin: 0 0 1rem 0;">${escapeHtml(tagline)}</p>
-          <div style="color: #cbd5e1; font-size: 0.92rem; line-height: 1.7;">
+      <div style="margin-bottom: 1.5rem;">
+        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.4rem; flex-wrap: wrap;">
+          <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: #fff; margin: 0;">${escapeHtml(moduleDisplayName)}</h2>
+          <span style="font-family: var(--font-mono); font-size: 0.78rem; color: #22d3ee; background: rgba(34,211,238,0.12); border: 1px solid rgba(34,211,238,0.35); padding: 0.15rem 0.5rem; border-radius: 4px; font-weight: 700;">v${latestVersion.version}</span>
+        </div>
+        <p style="color: #94a3b8; font-size: 0.95rem; line-height: 1.5; margin: 0 0 1.2rem 0;">${escapeHtml(tagline)}</p>
+        
+        <div class="module-overview-flex" style="display: flex; justify-content: space-between; align-items: flex-end; gap: 1.5rem; flex-wrap: wrap;">
+          <div style="flex: 1; min-width: 260px; color: #cbd5e1; font-size: 0.92rem; line-height: 1.7;">
             ${content}
           </div>
+          <div class="module-overview-img-container" style="flex-shrink: 0; align-self: flex-end; margin-left: auto; text-align: right;">
+            <img src="${iconSrc}" alt="${escapeHtml(moduleDisplayName)}" style="width: 250px; max-width: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.5); display: block; box-shadow: 0 4px 16px rgba(0,0,0,0.45);">
+          </div>
         </div>
-        <img src="${iconSrc}" alt="" style="width: 110px; height: 110px; object-fit: contain; border-radius: 12px; background: rgba(0,0,0,0.4); padding: 0.5rem; border: 1px solid rgba(255,255,255,0.08);">
       </div>
 
       <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 2rem; margin-bottom: 1rem; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.5rem;">
@@ -228,31 +260,38 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
 
       <div class="modrinth-versions-list" style="display: flex; flex-direction: column; gap: 0.6rem;">
-        ${changelogData.versions.map(v => `
+        ${changelogData.versions.map(v => {
+          const downloadHref = v.downloadUrl || (v.sourceZip ? `../smplugins/${moduleId.toLowerCase()}/${v.sourceZip}` : null);
+          const downloadBtn = downloadHref ? `
+            <a href="${downloadHref}" download="${escapeHtml(v.sourceZip || v.jarFileName.replace('.jar', '.zip'))}" class="btn btn-sm btn-primary" style="padding: 0.4rem 0.85rem; font-size: 0.82rem; text-decoration: none; display: flex; align-items: center; gap: 0.4rem; border-radius: 6px; white-space: nowrap; flex-shrink: 0;" title="Download (${escapeHtml(v.version)})">
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download
+            </a>
+          ` : `
+            <button type="button" class="btn" disabled style="padding: 0.4rem 0.85rem; font-size: 0.82rem; background: rgba(255,255,255,0.05); color: #64748b; border: 1px solid rgba(255,255,255,0.08); cursor: not-allowed; display: flex; align-items: center; gap: 0.4rem; border-radius: 6px; white-space: nowrap; flex-shrink: 0;" title="Verified production build">
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download
+            </button>
+          `;
+
+          return `
           <div class="modrinth-version-card" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; overflow: hidden; transition: all 0.2s ease;">
-            <div class="modrinth-version-row" data-toggle-version="${escapeHtml(v.version)}" style="padding: 0.9rem 1.25rem; display: flex; align-items: center; justify-content: space-between; cursor: pointer; flex-wrap: wrap; gap: 0.75rem; user-select: none;">
-              <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
-                <span class="modrinth-channel-pill" style="font-size: 0.72rem; font-weight: 700; padding: 0.15rem 0.55rem; border-radius: 4px; text-transform: uppercase; background: ${v.channel === 'Release' ? 'rgba(34, 197, 94, 0.15)' : 'rgba(249, 115, 22, 0.15)'}; color: ${v.channel === 'Release' ? '#4ade80' : '#fb923c'}; border: 1px solid ${v.channel === 'Release' ? 'rgba(34, 197, 94, 0.3)' : 'rgba(249, 115, 22, 0.3)'};">${v.channel}</span>
+            <div class="modrinth-version-row" data-toggle-version="${escapeHtml(v.version)}" style="padding: 0.85rem 1.25rem; display: flex; align-items: center; justify-content: space-between; cursor: pointer; gap: 1rem; user-select: none;">
+              <div style="display: flex; align-items: center; gap: 0.75rem; min-width: 0; flex: 1; flex-wrap: wrap;">
+                <span class="modrinth-channel-pill" style="font-size: 0.72rem; font-weight: 700; padding: 0.15rem 0.55rem; border-radius: 4px; text-transform: uppercase; background: ${v.channel === 'Release' ? 'rgba(34, 197, 94, 0.15)' : 'rgba(249, 115, 22, 0.15)'}; color: ${v.channel === 'Release' ? '#4ade80' : '#fb923c'}; border: 1px solid ${v.channel === 'Release' ? 'rgba(34, 197, 94, 0.3)' : 'rgba(249, 115, 22, 0.3)'}; flex-shrink: 0;">${v.channel}</span>
                 
-                <div style="display: flex; align-items: center; gap: 0.4rem;">
+                <div style="display: flex; align-items: center; gap: 0.4rem; flex-shrink: 0;">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
                   <strong style="color: #fff; font-size: 0.92rem; font-family: var(--font-mono);">${escapeHtml(v.jarFileName)}</strong>
                 </div>
 
-                <span style="font-size: 0.75rem; color: #38bdf8; background: rgba(56,189,248,0.1); border: 1px solid rgba(56,189,248,0.25); border-radius: 4px; padding: 0.15rem 0.5rem;">${escapeHtml(v.target)}</span>
-                <span style="font-size: 0.78rem; color: #94a3b8;">${escapeHtml(v.date)}</span>
-                <span style="font-size: 0.75rem; color: #64748b; background: rgba(255,255,255,0.04); padding: 0.15rem 0.45rem; border-radius: 4px;">Size: N/A</span>
+                <span style="font-size: 0.75rem; color: #38bdf8; background: rgba(56,189,248,0.1); border: 1px solid rgba(56,189,248,0.25); border-radius: 4px; padding: 0.15rem 0.5rem; white-space: nowrap; flex-shrink: 0;">${escapeHtml(v.target)}</span>
+                <span style="font-size: 0.78rem; color: #94a3b8; white-space: nowrap; flex-shrink: 0;">${escapeHtml(v.date)}</span>
               </div>
 
-              <div style="display: flex; align-items: center; gap: 0.5rem;">
-                <button type="button" class="btn" disabled style="padding: 0.35rem 0.75rem; font-size: 0.78rem; background: rgba(255,255,255,0.05); color: #64748b; border: 1px solid rgba(255,255,255,0.08); cursor: not-allowed; display: flex; align-items: center; gap: 0.35rem;" title="Download disabled for now">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                  Download
-                </button>
-                <button type="button" class="btn" disabled style="padding: 0.35rem 0.55rem; font-size: 0.78rem; background: rgba(255,255,255,0.03); color: #64748b; border: 1px solid rgba(255,255,255,0.06); cursor: not-allowed;" title="Hash (Disabled)">#</button>
-                <button type="button" class="btn" disabled style="padding: 0.35rem 0.55rem; font-size: 0.78rem; background: rgba(255,255,255,0.03); color: #64748b; border: 1px solid rgba(255,255,255,0.06); cursor: not-allowed;" title="Source (Disabled)">&lt;/&gt;</button>
-                <button type="button" class="btn" disabled style="padding: 0.35rem 0.55rem; font-size: 0.78rem; background: rgba(255,255,255,0.03); color: #64748b; border: 1px solid rgba(255,255,255,0.06); cursor: not-allowed;" title="Info (Disabled)">ⓘ</button>
-                <span class="modrinth-chevron" style="color: #a855f7; font-size: 0.85rem; font-weight: bold; margin-left: 0.25rem; transition: transform 0.2s ease;">▾</span>
+              <div style="display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0;">
+                ${downloadBtn}
+                <span class="modrinth-chevron" style="color: #a855f7; font-size: 0.85rem; font-weight: bold; margin-left: 0.2rem; transition: transform 0.2s ease;">▾</span>
               </div>
             </div>
 
@@ -260,17 +299,25 @@ document.addEventListener("DOMContentLoaded", () => {
               ${typeof marked !== 'undefined' ? marked.parse(v.content) : v.content}
             </div>
           </div>
-        `).join('')}
+          `;
+        }).join('')}
       </div>
     `;
 
     modalContent.querySelectorAll('.modrinth-version-row').forEach(row => {
       row.addEventListener('click', (e) => {
-        if (e.target.closest('button')) return;
+        if (e.target.closest('button') || e.target.closest('a')) return;
         const card = row.closest('.modrinth-version-card');
         const body = card ? card.querySelector('.modrinth-version-body') : null;
         if (card && body) {
           const isHidden = body.classList.contains('hidden');
+          modalContent.querySelectorAll('.modrinth-version-card').forEach(otherCard => {
+            if (otherCard !== card) {
+              const otherBody = otherCard.querySelector('.modrinth-version-body');
+              if (otherBody) otherBody.classList.add('hidden');
+              otherCard.classList.remove('expanded');
+            }
+          });
           body.classList.toggle('hidden', !isHidden);
           card.classList.toggle('expanded', isHidden);
         }

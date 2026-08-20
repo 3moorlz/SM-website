@@ -3131,8 +3131,10 @@ a.support-card:hover {
   .demo-head h3 { font-family: var(--font-display); font-size: 1.05rem; }
   .demo-head span { font-size: 0.78rem; color: var(--text-muted); }
 
-.dash-grid { display: flex !important; flex-wrap: wrap !important; justify-content: center !important; gap: 1rem !important; max-width: 900px; margin: 0 auto; }
-.dash-card { flex: 0 1 200px; background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+.dash-grid { display: flex !important; flex-wrap: wrap !important; justify-content: center !important; gap: 1.25rem !important; max-width: 1050px; margin: 0 auto; }
+.dash-card { flex: 0 1 235px; background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.15rem; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+.dash-card ul li { display: flex !important; justify-content: space-between !important; align-items: center !important; gap: 0.5rem !important; }
+.dash-card ul li span:last-child { white-space: nowrap !important; flex-shrink: 0 !important; }
 
 .legal-modal-overlay {
   position: fixed;
@@ -3338,7 +3340,7 @@ a.support-card:hover {
 
   .dash-card {
     width: 100% !important;
-    max-width: 320px !important;
+    max-width: 100% !important;
     margin: 0 auto;
   }
 }
@@ -3580,6 +3582,41 @@ a.support-card:hover {
   font-size: 0.9em;
   color: var(--purple-glow);
   border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+@media (max-width: 640px) {
+  .plugin-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .smsuite-modal-panel {
+    padding: 1rem 0.9rem !important;
+    width: 95% !important;
+    max-height: 90vh !important;
+  }
+  .module-overview-flex {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 1.25rem !important;
+  }
+  .module-overview-img-container {
+    width: 100% !important;
+    align-self: center !important;
+    margin: 0 auto !important;
+    text-align: center !important;
+  }
+  .module-overview-img-container img {
+    width: 100% !important;
+    max-width: 320px !important;
+    margin: 0 auto !important;
+  }
+  .modrinth-version-row {
+    padding: 0.75rem 0.85rem !important;
+    gap: 0.6rem !important;
+  }
+  .modrinth-version-body {
+    padding: 0.9rem !important;
+  }
 }
 
 .leaderboards-grid {

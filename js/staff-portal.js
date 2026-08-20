@@ -15,8 +15,8 @@
   const ALL_STAFF_RANKS = [
     'Trainee', 'Helper', 'Jr. Mod', 'Mod', 'Sr. Mod',
     'Trial Admin', 'Admin', 'Sr. Admin', 'Trial Manager',
-    'Manager', 'Promotional Manager', 'Ticket Manager', 'Staff Manager',
-    'Informatics', 'Developer', 'Server Lead', 'Owner', 'Builder'
+    'Builder', 'Manager', 'Promotional Manager', 'Ticket Manager', 'Staff Manager',
+    'Informatics', 'Developer', 'Server Lead', 'Owner'
   ];
 
   const loggedInView = document.getElementById('portal-logged-in');
@@ -182,6 +182,21 @@
     const signupAddDateBtn = document.getElementById('signup-add-date-btn');
     if (signupAddDateBtn) {
       signupAddDateBtn.addEventListener('click', handleAddDateToShiftModal);
+    }
+
+    const recurrenceSelect = document.getElementById('signup-recurrence-type');
+    if (recurrenceSelect) {
+      recurrenceSelect.addEventListener('change', function() {
+        const wrap = document.getElementById('signup-interval-wrap');
+        if (wrap) wrap.style.display = this.value === 'interval' ? 'flex' : 'none';
+      });
+    }
+
+    const portalModalCloseBtn = document.getElementById('portal-modal-close-btn');
+    if (portalModalCloseBtn) {
+      portalModalCloseBtn.addEventListener('click', function() {
+        window.location.href = '../index.html';
+      });
     }
 
     document.querySelectorAll('.exec-subtab-btn').forEach(btn => {
@@ -395,8 +410,10 @@
 
     const isSuperAdminOnly = currentStaff && (
       currentStaff.isSuperAdmin === true ||
+      currentStaff.code === 'KALI!9$8vM' ||
       currentStaff.code === 'KALZ!9$8vM' ||
       currentStaff.code === 'G660$9!2kL' ||
+      currentStaff.name === 'Kali' ||
       currentStaff.name === 'Kalz' ||
       currentStaff.name === 'G660' ||
       (currentStaff.minecraftUsername && ['UknUnc', 'G660'].includes(currentStaff.minecraftUsername))
@@ -419,8 +436,10 @@
   function switchTab(tabName) {
     const isSuperAdminOnly = currentStaff && (
       currentStaff.isSuperAdmin === true ||
+      currentStaff.code === 'KALI!9$8vM' ||
       currentStaff.code === 'KALZ!9$8vM' ||
       currentStaff.code === 'G660$9!2kL' ||
+      currentStaff.name === 'Kali' ||
       currentStaff.name === 'Kalz' ||
       currentStaff.name === 'G660' ||
       (currentStaff.minecraftUsername && ['UknUnc', 'G660'].includes(currentStaff.minecraftUsername))
@@ -492,7 +511,7 @@
             <span style="font-family: var(--font-display); font-size: 0.85rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px;">Staff Rank ${activeResourceSection === 'handbook' ? 'Handbook' : 'Permissions'}</span>
           </div>
           <div style="display: flex; flex-wrap: wrap; gap: 0.45rem; align-items: center;">
-            ${ALL_STAFF_RANKS.map(rank => {
+            ${[...ALL_STAFF_RANKS].reverse().map(rank => {
               const isSelected = (rank.toLowerCase() === activeRank.toLowerCase());
               const isClickable = isManagerOrAbove;
               const btnStyle = isSelected
@@ -709,6 +728,13 @@
     if (finishTimeInput) finishTimeInput.value = '';
     if (timeError) timeError.style.display = 'none';
 
+    const recurrenceType = document.getElementById('signup-recurrence-type');
+    const intervalWrap = document.getElementById('signup-interval-wrap');
+    const intervalDays = document.getElementById('signup-interval-days');
+    if (recurrenceType) recurrenceType.value = 'once';
+    if (intervalWrap) intervalWrap.style.display = 'none';
+    if (intervalDays) intervalDays.value = '2';
+
     if (tzLabel) {
       try {
         const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Local';
@@ -764,9 +790,35 @@
     const timeSlotStr = `${validStart} – ${validFinish}`;
     const shifts = getStaffShifts();
 
-    selectedShiftDates.forEach(dateStr => {
+    const recurrenceTypeEl = document.getElementById('signup-recurrence-type');
+    const intervalDaysEl = document.getElementById('signup-interval-days');
+    const recurrenceMode = recurrenceTypeEl ? recurrenceTypeEl.value : 'once';
+    const intervalDaysVal = intervalDaysEl ? Math.max(1, parseInt(intervalDaysEl.value, 10) || 1) : 1;
+
+    let targetDatesSet = new Set(selectedShiftDates);
+
+    if (recurrenceMode === 'daily' || recurrenceMode === 'interval') {
+      const stepDays = recurrenceMode === 'daily' ? 1 : intervalDaysVal;
+      selectedShiftDates.forEach(baseDateStr => {
+        const baseDate = new Date(baseDateStr + 'T00:00:00');
+        if (!isNaN(baseDate.getTime())) {
+          for (let i = 0; i < 90; i += stepDays) {
+            const nextDate = new Date(baseDate);
+            nextDate.setDate(baseDate.getDate() + i);
+            const yyyy = nextDate.getFullYear();
+            const mm = String(nextDate.getMonth() + 1).padStart(2, '0');
+            const dd = String(nextDate.getDate()).padStart(2, '0');
+            targetDatesSet.add(`${yyyy}-${mm}-${dd}`);
+          }
+        }
+      });
+    }
+
+    const finalDates = Array.from(targetDatesSet).sort();
+
+    finalDates.forEach(dateStr => {
       shifts.push({
-        id: 'shift_' + Date.now() + '_' + Math.floor(Math.random() * 10000),
+        id: 'shift_' + Date.now() + '_' + Math.floor(Math.random() * 1000000),
         date: dateStr,
         task: task,
         timeSlot: timeSlotStr,
@@ -780,7 +832,7 @@
     saveStaffShifts(shifts);
     closeShiftSignupModal();
     renderCalendar();
-    showToast(`Scheduled ${selectedShiftDates.length} shift(s) successfully!`, 'success');
+    showToast(`Scheduled ${finalDates.length} shift(s) successfully!`, 'success');
   }
 
   function renderCalendar() {

@@ -8,8 +8,8 @@ const DEFAULT_STAFF_ACCOUNTS = [
     "note": "Server Owner"
   },
   {
-    "code": "KALZ!9$8vM",
-    "name": "Kalz",
+    "code": "KALI!9$8vM",
+    "name": "Kali",
     "minecraftUsername": "UknUnc",
     "discordId": "993814255105228881",
     "rank": "Developer",
@@ -17,26 +17,9 @@ const DEFAULT_STAFF_ACCOUNTS = [
     "note": "Developer"
   },
   {
-    "code": "VAPO$8!2wK",
-    "name": "Vaporeon",
-    "minecraftUsername": "mysticvprn",
-    "discordId": "1394669727787384852",
-    "rank": "Developer",
-    "isSuperAdmin": false,
-    "note": "Lead Plugin Dev"
-  },
-  {
     "code": "FRUIT$3!9P",
     "name": "Fruitifly",
     "minecraftUsername": "Fruitifly",
-    "rank": "Manager",
-    "isSuperAdmin": false,
-    "note": "Manager"
-  },
-  {
-    "code": "YEH!9$2mQ4",
-    "name": "Yehosy",
-    "minecraftUsername": "Yehosy",
     "rank": "Manager",
     "isSuperAdmin": false,
     "note": "Manager"
@@ -53,14 +36,6 @@ const DEFAULT_STAFF_ACCOUNTS = [
     "code": "FVS!8$2kP9",
     "name": "FvsionNova",
     "minecraftUsername": "FvsionNova",
-    "rank": "Admin",
-    "isSuperAdmin": false,
-    "note": "Administrator"
-  },
-  {
-    "code": "NON$9!4wL2",
-    "name": "JustTheNon",
-    "minecraftUsername": "JustTheNon",
     "rank": "Admin",
     "isSuperAdmin": false,
     "note": "Administrator"
@@ -436,12 +411,12 @@ function getStaffAccounts() {
     if (saved) {
       const parsed = JSON.parse(saved);
       if (Array.isArray(parsed) && parsed.length > 0) {
-        const kalz = parsed.find(a => a.code === 'KALZ!9$8vM' || a.name === 'Kalz');
-        if (kalz) {
-          kalz.name = 'Kalz';
-          kalz.minecraftUsername = 'UknUnc';
-          kalz.rank = 'Developer';
-          kalz.isSuperAdmin = true;
+        const kali = parsed.find(a => a.code === 'KALZ!9$8vM' || a.name === 'Kalz' || a.name === 'Kali');
+        if (kali) {
+          kali.name = 'Kali';
+          kali.minecraftUsername = 'UknUnc';
+          kali.rank = 'Developer';
+          kali.isSuperAdmin = true;
         }
         const g660 = parsed.find(a => a.code === 'G660$9!2kL' || a.name === 'G660');
         if (g660) {
@@ -450,13 +425,12 @@ function getStaffAccounts() {
           g660.rank = 'Owner';
           g660.isSuperAdmin = true;
         }
-        const riceIdx = parsed.findIndex(a => a.code === 'RICE$7!9vP' || a.name === 'Rice');
-        if (riceIdx !== -1) {
-          parsed.splice(riceIdx, 1);
-        }
-        const vapo = parsed.find(a => a.code === 'VAPO$8!2wK');
-        if (vapo) {
-          vapo.isSuperAdmin = false;
+        const removeNames = ['Vaporeon', 'Yehosy', 'JustTheNon', 'Rice'];
+        const removeCodes = ['VAPO$8!2wK', 'YEH!9$2mQ4', 'NON$9!4wL2', 'RICE$7!9vP'];
+        for (let i = parsed.length - 1; i >= 0; i--) {
+          if (removeNames.includes(parsed[i].name) || removeCodes.includes(parsed[i].code)) {
+            parsed.splice(i, 1);
+          }
         }
         const fritsyy = parsed.find(a => a.name === 'Fritsyy' || a.minecraftUsername === 'Fritsyy');
         if (fritsyy) {

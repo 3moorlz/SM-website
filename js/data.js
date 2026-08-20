@@ -14,7 +14,7 @@ const RANKS = [
     accent: '#22d3ee',
     accentGlow: 'rgba(34, 211, 238, 0.4)',
     lifetimePrice: 19.99,
-    monthlyPrice: 3.99,
+    monthlyPrice: 3.95,
     lifetimePackageId: '9e918365-e6dd-44de-aa17-262d48ac8dc8',
     monthlyPackageId: '93487ca5-0ea1-4f2d-a778-e02975adbe4c',
     monthlyNote: '$5.99 after first month',
@@ -147,13 +147,11 @@ const RANKS = [
 ];
 const STAFF_MEMBERS = [
   { role: 'Owner', name: 'G660', head: 'G660', icon: 'unused/serverlead.webp', subtitle: 'Server Owner' },
-  { role: 'Developer', name: 'UknUnc', head: 'UknUnc', icon: 'unused/dev.webp', subtitle: 'Web Branch' },
+  { role: 'Developer', name: 'Kali', head: 'UknUnc', icon: 'unused/dev.webp', subtitle: 'Web Branch' },
   { role: 'Developer', name: 'Vaporeon', head: null, icon: 'unused/dev.webp', subtitle: 'Plugin Branch' },
   { role: 'Manager', name: 'Fruitifly', head: 'Fruitifly', icon: 'unused/manager.webp' },
-  { role: 'Manager', name: 'Yehosy', head: 'Yehosy', icon: 'unused/manager.webp' },
   { role: 'Sr. Admin', name: 'Lifes_Tuff', head: 'Lifes_Tuff', icon: 'unused/SrAdmin.webp' },
   { role: 'Admin', name: 'FvsionNova', head: 'FvsionNova', icon: 'unused/Admin.webp' },
-  { role: 'Admin', name: 'JustTheNon', head: 'JustTheNon', icon: 'unused/Admin.webp' },
   { role: 'Admin', name: 'Nixeron_', head: 'Nixeron_', icon: 'unused/Admin.webp' },
   { role: 'Mod', name: 'BilliePotatoe', head: 'BilliePotatoe', icon: 'unused/mod.webp' },
   { role: 'Mod', name: 'AbleSquirrel', head: 'AbleSquirrel', icon: 'unused/mod.webp' },

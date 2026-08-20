@@ -605,22 +605,45 @@ const SMSUITE_DATA = [
   {
     id: "smfluxbridge",
     icon: "assets/smsuite/SMFluxBridge.png",
-    name: "SMFluxBridge",
-    version: "v1.2.2",
+    name: "SMFluxBridge™",
+    version: "v1.2.5",
     isCore: false,
     group: "communicators",
     category: "Store & Discord Bridge",
     tagline: "Seamlessly connects our in-game systems with the web store and Discord.",
     content: `
-      <p><strong>SMFluxBridge</strong> is our reliable third-party bridge between SpearMace SMP and FluxStore. It ensures purchases are delivered safely and subscriptions stay in sync.</p>
-      <p>It includes a robust Discord integration for securely linking your Minecraft account to Discord to receive subscription reminders and roles.</p>
+      <p><strong>SMFluxBridge™</strong> is our server-side bridge connecting SpearMace SMP with FluxStore and Discord. It delivers purchases safely, synchronizes subscriptions, and provides verified Minecraft-to-Discord identity linking.</p>
+      <p>All release source archives and SHA-256 verification hashes are published in the version history below for full transparency.</p>
       <p><strong>Commands:</strong></p>
       <ul>
-        <li><code>/subscription</code> &mdash; View synchronized status and live renewal timer.</li>
+        <li><code>/subscription</code> &mdash; View synchronized status and live renewal countdown.</li>
         <li><code>/discordlink</code> &mdash; Securely link your Minecraft account to Discord.</li>
       </ul>
     `,
     changelog: [
+      {
+        version: "v1.2.5 — Source & Transparency Release",
+        date: "August 2026",
+        notes: [
+          "Public sanitized source archives and SHA-256 hash verification for all versions.",
+          "Relocated SignalR and HTTP client dependency shading.",
+          "RAT-detector heuristic transparency documentation and verification guide."
+        ]
+      },
+      {
+        version: "v1.2.4 — Dependency Shading Update",
+        date: "August 2026",
+        notes: [
+          "Relocated SignalR runtime dependencies under internal namespace."
+        ]
+      },
+      {
+        version: "v1.2.3 — Gateway Lifecycle Polish",
+        date: "August 2026",
+        notes: [
+          "Discord Gateway intent and interaction handling refinement."
+        ]
+      },
       {
         version: "v1.2.2 — SignalR Parity Hotfix",
         date: "August 2026",
@@ -651,6 +674,104 @@ const SMSUITE_DATA = [
         date: "May 2026",
         notes: [
           "Real-time FluxStore purchase delivery protocol with duplicate protection."
+        ]
+      }
+    ]
+  },
+  {
+    id: "smchat",
+    icon: "assets/smsuite/smchat.png",
+    name: "SMChat™",
+    version: "v1.0.2",
+    isCore: false,
+    group: "player",
+    category: "Chat & Communication",
+    tagline: "First-party rank-based chat cooldown handling and communication suite.",
+    content: `
+      <p><strong>SMChat™</strong> is our custom rank-based chat management system, replacing legacy cooldown plugins with clean, permission-driven cooldown tiers and modern Paper/Purpur event linkage.</p>
+      <p><strong>Cooldown Tiers:</strong></p>
+      <ul>
+        <li><strong>Member:</strong> 5 seconds</li>
+        <li><strong>Sentinel:</strong> 3 seconds</li>
+        <li><strong>Crusader:</strong> 2 seconds</li>
+        <li><strong>Champion:</strong> 1 second</li>
+        <li><strong>Ascendant:</strong> No cooldown (Bypass)</li>
+        <li><strong>Immortal:</strong> No cooldown (Bypass)</li>
+      </ul>
+      <p><strong>Commands:</strong></p>
+      <ul>
+        <li><code>/smchat reload</code> &mdash; Reload chat configuration and cooldown tiers.</li>
+      </ul>
+    `,
+    changelog: [
+      {
+        version: "v1.0.2 — Purpur 1.21.11 Fix",
+        date: "August 2026",
+        notes: [
+          "Fixed PluginManager.registerEvents runtime linkage on Purpur 1.21.11.",
+          "Verified Member, Sentinel, Crusader, and Champion cooldown tiers in production.",
+          "Removed legacy dependency on MessageCooldownPRO."
+        ]
+      },
+      {
+        version: "v1.0.1 — Modern Chat Event Test",
+        date: "August 2026",
+        notes: [
+          "Modern Paper/Purpur chat event migration pass."
+        ]
+      },
+      {
+        version: "v1.0.0 — Initial Release",
+        date: "August 2026",
+        notes: [
+          "First-party rank-based chat cooldown handling with permission tiers.",
+          "Preserved EssentialsXChat formatting."
+        ]
+      }
+    ]
+  },
+  {
+    id: "smpoi",
+    icon: "assets/smsuite/smpoi.png",
+    name: "SMPoi™",
+    version: "v1.0.2",
+    isCore: false,
+    group: "player",
+    category: "Points of Interest",
+    tagline: "Custom point-of-interest discovery, navigation, and loot container restocking system.",
+    content: `
+      <p><strong>SMPoi™</strong> is our custom point-of-interest and landmark navigation engine. It manages points of interest, entry notifications, command restrictions, and loot container restocking for chests, trapped chests, barrels, and shulker boxes.</p>
+      <p><strong>Features:</strong></p>
+      <ul>
+        <li>Point of interest registration and player entry notifications.</li>
+        <li>Red border system and area-based command restrictions.</li>
+        <li>Container restocking for Chests, Trapped Chests, Barrels, and Shulker Boxes.</li>
+        <li>WorldGuard integration for protected container loot access.</li>
+      </ul>
+    `,
+    changelog: [
+      {
+        version: "v1.0.2 — Container Restocking Update",
+        date: "August 2026",
+        notes: [
+          "Expanded managed loot containers to chests, trapped chests, barrels, and shulker boxes.",
+          "Preserved automatic and manual loot restocking.",
+          "WorldGuard chest access configuration for protected POI loot."
+        ]
+      },
+      {
+        version: "v1.0.1 — Priority Fix",
+        date: "August 2026",
+        notes: [
+          "Changed POI command interception priority so restricted commands are cancelled before downstream plugins.",
+          "Fixed interoperability with /ec and SMEnderChest."
+        ]
+      },
+      {
+        version: "v1.0.0 — Initial Release",
+        date: "August 2026",
+        notes: [
+          "Point of interest registration, red border system, and entry notifications."
         ]
       }
     ]

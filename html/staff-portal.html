@@ -15,10 +15,11 @@
   <meta name="twitter:image" content="https://smsmp.net/assets/smsuite/spearmace.png">
   <meta property="og:url" content="https://smsmp.net">
   <meta name="thumbnail" content="https://smsmp.net/assets/smsuite/spearmace.png">
-  <link rel="icon" href="../assets/misc/favicon.ico" sizes="32x32">
-  <link rel="icon" href="../assets/misc/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../assets/misc/favicon.ico" sizes="any">
+  <link rel="icon" href="../assets/misc/favicon-48.png" type="image/png" sizes="48x48">
   <link rel="icon" href="../assets/misc/favicon-32.png" type="image/png" sizes="32x32">
-  <link rel="apple-touch-icon" href="../assets/smsuite/spearmace.png">
+  <link rel="icon" href="../assets/misc/favicon-192.png" type="image/png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../assets/misc/apple-touch-icon.png" sizes="180x180">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Russo+One&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -34,7 +35,6 @@
   }
   </script>
   <style>
-    /* Notepad Style Editor */
     .npp-window {
       background: #111118;
       border: 1px solid rgba(255, 255, 255, 0.08);
@@ -313,11 +313,9 @@
 
           <!-- Calendar Grid -->
           <div id="calendar-grid-container" class="calendar-grid" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.75rem;">
-            <!-- Days rendered dynamically -->
           </div>
         </div>
 
-        <!-- Tab 3: Management Panel (Rice, Vaporeon & Kalz only) -->
         <div id="tab-executive" class="portal-tab-content hidden">
           <div style="display: flex; flex-direction: column; gap: 1.5rem;">
             
@@ -513,7 +511,7 @@
 
         <form id="form-shift-signup">
           <label style="display: block; font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.4rem; font-weight: 500;">Enter Task</label>
-          <input type="text" id="signup-task-input" placeholder="e.g. In-Game Moderation, Ticket Support, Discord Chat..." required style="width: 100%; background: var(--surface-1, #181824); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 0.75rem 1rem; color: #fff; font-size: 0.92rem; outline: none; margin-bottom: 1.2rem; box-sizing: border-box;">
+          <input type="text" id="signup-task-input" placeholder="e.g. Ingame-Moderation, Ticket Handling, ETC" required style="width: 100%; background: var(--surface-1, #181824); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 0.75rem 1rem; color: #fff; font-size: 0.92rem; outline: none; margin-bottom: 1.2rem; box-sizing: border-box;">
 
           <label style="display: block; font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.4rem; font-weight: 500;">Select Date(s)</label>
           <div style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
@@ -540,6 +538,20 @@
             </div>
           </div>
           <div id="signup-time-error" style="color: #ef4444; font-size: 0.78rem; margin-bottom: 1.25rem; display: none;">Invalid time format. Use 12-hour (e.g. 2:00 PM) or 24-hour (e.g. 14:00).</div>
+
+          <label style="display: block; font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.4rem; font-weight: 500;">Recurrence</label>
+          <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap;">
+            <select id="signup-recurrence-type" style="flex: 1; min-width: 140px; background: var(--surface-1, #181824); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 0.7rem 0.9rem; color: #fff; font-size: 0.92rem; outline: none; box-sizing: border-box;">
+              <option value="once">One-time</option>
+              <option value="daily">Every day</option>
+              <option value="interval">Every X days</option>
+            </select>
+            <div id="signup-interval-wrap" style="display: none; align-items: center; gap: 0.4rem;">
+              <span style="font-size: 0.82rem; color: var(--text-muted);">Every</span>
+              <input type="number" id="signup-interval-days" min="2" max="30" value="2" style="width: 56px; background: var(--surface-1, #181824); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 0.55rem 0.5rem; color: #fff; font-size: 0.92rem; outline: none; text-align: center; box-sizing: border-box;">
+              <span style="font-size: 0.82rem; color: var(--text-muted);">days</span>
+            </div>
+          </div>
 
           <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.85rem; font-weight: 600;">Confirm &amp; Set Shift</button>
         </form>
@@ -698,7 +710,7 @@
     <footer class="site-footer">
       <div class="container footer-inner">
         <div class="footer-brand">
-          <img src="../assets/misc/youtube%20banner.webp" alt="SM SMP" class="footer-banner-img">
+          <img src="../assets/misc/youtube-banner.webp" alt="SM SMP" class="footer-banner-img">
           <p class="footer-tagline">Where Progress Is Earned, Not Bought.</p>
           <p class="footer-email">Partnerships &amp; inquiries: <a href="mailto:SpearMaceSMP@gmail.com">SpearMaceSMP@gmail.com</a></p>
         </div>
@@ -742,7 +754,8 @@
 
   <!-- Staff Portal Direct Access Code Login Modal -->
   <div id="portal-modal-overlay" class="modal-overlay hidden" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 10000;">
-    <div class="portal-modal" style="background: #111118; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 2.25rem 2rem; max-width: 450px; width: 90%;">
+    <div class="portal-modal" style="background: #111118; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 2.25rem 2rem; max-width: 450px; width: 90%; position: relative;">
+      <button type="button" id="portal-modal-close-btn" style="position: absolute; top: 0.75rem; right: 0.75rem; background: none; border: none; color: #94a3b8; font-size: 1.5rem; cursor: pointer; padding: 0.25rem 0.5rem; line-height: 1; transition: color 0.2s;">&times;</button>
       <div style="text-align: center; margin-bottom: 1.25rem;">
         <img src="../assets/smsuite/smstaff.png" alt="SMStaff" style="max-width: 80px; width: 100%; aspect-ratio: 1 / 1; object-fit: contain; border-radius: 50%; background: #080313; border: 1px solid rgba(255,255,255,0.1); display: inline-block;">
       </div>
